@@ -39,7 +39,7 @@ public class RevivingScheduledExecutorTest {
   @Test
   public void testAppEngineRunnable() throws InterruptedException {
     final Semaphore semaphore = new Semaphore(0);
-    final Set<Long> threadIds = new HashSet<>();
+    final Set<Long> threadIds = new HashSet<Long>();
 
     RevivingScheduledExecutor executor =
         new RevivingScheduledExecutor(THREAD_FACTORY, "testAppEngineRunnable", 0, 100);
@@ -69,7 +69,7 @@ public class RevivingScheduledExecutorTest {
 
   @Test
   public void testAppEnginePeriodicRunnable() throws InterruptedException {
-    final Set<Long> threadIds = new HashSet<>();
+    final Set<Long> threadIds = new HashSet<Long>();
     final Semaphore semaphore = new Semaphore(0);
 
     RevivingScheduledExecutor executor =

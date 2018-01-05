@@ -31,7 +31,7 @@ import java.util.concurrent.Semaphore;
 public class ListenAggregator {
 
   public static List<String> dumpListens(final Repo repo, Path path) throws InterruptedException {
-    final List<PersistentConnection> conns = new ArrayList<>(1);
+    final List<PersistentConnection> conns = new ArrayList<PersistentConnection>(1);
     final Semaphore semaphore = new Semaphore(0);
     // we need to run this through our work queue to make the ordering work out.
     repo.scheduleNow(
@@ -44,12 +44,12 @@ public class ListenAggregator {
         });
     TestHelpers.waitFor(semaphore);
     conns.get(0);
-    List<List<String>> pathList = new ArrayList<>();
-    List<Map<String, Object>> queryParamList = new ArrayList<>();
+    List<List<String>> pathList = new ArrayList<List<String>>();
+    List<Map<String, Object>> queryParamList = new ArrayList<Map<String, Object>>();
     // TODO: Find a way to actually get listens, or not test against internal state?
     //conn.getListens(pathList, queryParamList);
 
-    Map<String, List<String>> pathToQueryParamStrings = new HashMap<>();
+    Map<String, List<String>> pathToQueryParamStrings = new HashMap<String, List<String>>();
     for (int i = 0; i < pathList.size(); i++) {
       Path queryPath = new Path(pathList.get(i));
       QueryParams queryParams = QueryParams.fromQueryObject(queryParamList.get(i));
@@ -57,7 +57,7 @@ public class ListenAggregator {
       if (path.contains(queryPath)) {
         List<String> allParamsStrings = pathToQueryParamStrings.get(queryPath.toString());
         if (allParamsStrings == null) {
-          allParamsStrings = new ArrayList<>();
+          allParamsStrings = new ArrayList<String>();
         }
         String paramsString =
             queryParams.isDefault() ? "default" : queryParams.getWireProtocolParams().toString();
@@ -66,11 +66,11 @@ public class ListenAggregator {
       }
     }
 
-    List<String> paths = new ArrayList<>(pathToQueryParamStrings.keySet());
+    List<String> paths = new ArrayList<String>(pathToQueryParamStrings.keySet());
     Collections.sort(paths);
 
     int prefixLength = path.getFront().asString().length() + 1; // +1 for '/'
-    List<String> results = new ArrayList<>(paths.size());
+    List<String> results = new ArrayList<String>(paths.size());
     for (String listenPath : paths) {
       List<String> allParamsStrings = pathToQueryParamStrings.get(listenPath);
       Collections.sort(allParamsStrings);

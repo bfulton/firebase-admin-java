@@ -35,10 +35,10 @@ public class OnSuccessCompletionListenerTest {
   @Test
   public void testOnComplete_nothingExecutedAfterCancel() {
     OnSuccessCompletionListener<Void> listener =
-        new OnSuccessCompletionListener<>(mockExecutor, new TestOnSuccessListener<>());
+        new OnSuccessCompletionListener<Void>(mockExecutor, new TestOnSuccessListener<Void>());
     listener.cancel();
 
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setResult(null);
     listener.onComplete(task);
 
@@ -48,9 +48,9 @@ public class OnSuccessCompletionListenerTest {
   @Test
   public void testOnComplete_nothingExecutedOnFailure() {
     OnSuccessCompletionListener<Void> listener =
-        new OnSuccessCompletionListener<>(mockExecutor, new TestOnSuccessListener<>());
+        new OnSuccessCompletionListener<Void>(mockExecutor, new TestOnSuccessListener<Void>());
 
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setException(new RemoteException());
     listener.onComplete(task);
 

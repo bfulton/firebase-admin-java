@@ -47,7 +47,7 @@ public class ArraySortedMapTest {
 
   @Test
   public void basicImmutableSortedMapBuilding() {
-    Map<String, Integer> data = new HashMap<>();
+    Map<String, Integer> data = new HashMap<String, Integer>();
     data.put("a", 1);
     data.put("b", 2);
     data.put("c", 3);
@@ -65,7 +65,7 @@ public class ArraySortedMapTest {
 
   @Test
   public void emptyMap() {
-    Map<String, Integer> data = new HashMap<>();
+    Map<String, Integer> data = new HashMap<String, Integer>();
 
     ImmutableSortedMap<String, Integer> map = ArraySortedMap.fromMap(data, StringComparator);
 
@@ -75,7 +75,7 @@ public class ArraySortedMapTest {
 
   @Test
   public void almostEmptyMap() {
-    Map<String, Integer> data = new HashMap<>();
+    Map<String, Integer> data = new HashMap<String, Integer>();
     data.put("a", 1);
     data.put("b", null);
 
@@ -132,7 +132,7 @@ public class ArraySortedMapTest {
 
   @Test
   public void canReplaceExistingItem() {
-    ImmutableSortedMap<Integer, Integer> map = new ArraySortedMap<>(IntComparator);
+    ImmutableSortedMap<Integer, Integer> map = new ArraySortedMap<Integer, Integer>(IntComparator);
 
     map = map.insert(1, 1).insert(1, 2);
 
@@ -141,7 +141,7 @@ public class ArraySortedMapTest {
 
   @Test
   public void replacesExistingKey() {
-    ImmutableSortedMap<String, Integer> map = new ArraySortedMap<>(StringComparator);
+    ImmutableSortedMap<String, Integer> map = new ArraySortedMap<String, Integer>(StringComparator);
 
     String keyOne = new String("1");
     String keyTwo = new String("2");
@@ -153,7 +153,7 @@ public class ArraySortedMapTest {
 
   @Test
   public void replaceExactKeyYieldsSameMap() {
-    ImmutableSortedMap<String, Integer> map = new ArraySortedMap<>(StringComparator);
+    ImmutableSortedMap<String, Integer> map = new ArraySortedMap<String, Integer>(StringComparator);
 
     String key = "1";
     Integer value = 1;
@@ -163,14 +163,14 @@ public class ArraySortedMapTest {
 
   @Test
   public void removingNonExistentKeyYieldsSameMap() {
-    ImmutableSortedMap<String, Integer> map = new ArraySortedMap<>(StringComparator);
+    ImmutableSortedMap<String, Integer> map = new ArraySortedMap<String, Integer>(StringComparator);
     map = map.insert("key", 1);
     Assert.assertSame(map, map.remove("no-key"));
   }
 
   @Test
   public void predecessorKeyThrowsExceptionIfKeyIsNotPresent() {
-    ImmutableSortedMap<String, Integer> map = new ArraySortedMap<>(StringComparator);
+    ImmutableSortedMap<String, Integer> map = new ArraySortedMap<String, Integer>(StringComparator);
     map = map.insert("key", 1);
     Assert.assertEquals(null, map.getPredecessorKey("key"));
     try {
@@ -192,7 +192,8 @@ public class ArraySortedMapTest {
   @Test
   public void addWorks() {
     for (Map<Integer, Integer> any : someMaps(integers(), integers())) {
-      ImmutableSortedMap<Integer, Integer> map = new ArraySortedMap<>(IntComparator);
+      ImmutableSortedMap<Integer, Integer> map =
+              new ArraySortedMap<Integer, Integer>(IntComparator);
       for (Map.Entry<Integer, Integer> entry : any.entrySet()) {
         map = map.insert(entry.getKey(), entry.getValue());
       }
@@ -216,11 +217,11 @@ public class ArraySortedMapTest {
   @Test
   public void iterationIsInOrder() {
     for (Map<Integer, Integer> any : someMaps(integers(), integers())) {
-      List<Integer> expectedKeys = new ArrayList<>(any.keySet());
+      List<Integer> expectedKeys = new ArrayList<Integer>(any.keySet());
       Collections.sort(expectedKeys);
 
       ImmutableSortedMap<Integer, Integer> map = ArraySortedMap.fromMap(any, IntComparator);
-      List<Integer> actualKeys = new ArrayList<>();
+      List<Integer> actualKeys = new ArrayList<Integer>();
       for (Map.Entry<Integer, Integer> entry : map) {
         actualKeys.add(entry.getKey());
       }
@@ -232,7 +233,7 @@ public class ArraySortedMapTest {
   @Test
   public void iterationFromKeyIsInOrder() {
     for (Map<Integer, Integer> any : someMaps(integers(), integers())) {
-      List<Integer> expectedKeys = new ArrayList<>(any.keySet());
+      List<Integer> expectedKeys = new ArrayList<Integer>(any.keySet());
       Integer fromKey =
           (expectedKeys.isEmpty() || booleans().next()) ? integers().next() : expectedKeys.get(0);
       Collections.sort(expectedKeys);
@@ -246,7 +247,7 @@ public class ArraySortedMapTest {
       }
 
       ImmutableSortedMap<Integer, Integer> map = ArraySortedMap.fromMap(any, IntComparator);
-      List<Integer> actualKeys = new ArrayList<>();
+      List<Integer> actualKeys = new ArrayList<Integer>();
       Iterator<Map.Entry<Integer, Integer>> mapIterator = map.iteratorFrom(fromKey);
       while (mapIterator.hasNext()) {
         actualKeys.add(mapIterator.next().getKey());
@@ -259,12 +260,12 @@ public class ArraySortedMapTest {
   @Test
   public void reverseIterationIsInOrder() {
     for (Map<Integer, Integer> any : someMaps(integers(), integers())) {
-      List<Integer> expectedKeys = new ArrayList<>(any.keySet());
+      List<Integer> expectedKeys = new ArrayList<Integer>(any.keySet());
       Collections.sort(expectedKeys);
       Collections.reverse(expectedKeys);
 
       ImmutableSortedMap<Integer, Integer> map = ArraySortedMap.fromMap(any, IntComparator);
-      List<Integer> actualKeys = new ArrayList<>();
+      List<Integer> actualKeys = new ArrayList<Integer>();
       Iterator<Map.Entry<Integer, Integer>> iterator = map.reverseIterator();
       while (iterator.hasNext()) {
         actualKeys.add(iterator.next().getKey());
@@ -277,7 +278,7 @@ public class ArraySortedMapTest {
   @Test
   public void reverseIterationFromKeyIsInOrder() {
     for (Map<Integer, Integer> any : someMaps(integers(), integers())) {
-      List<Integer> expectedKeys = new ArrayList<>(any.keySet());
+      List<Integer> expectedKeys = new ArrayList<Integer>(any.keySet());
       Integer fromKey =
           (expectedKeys.isEmpty() || booleans().next()) ? integers().next() : expectedKeys.get(0);
       Collections.sort(expectedKeys);
@@ -292,7 +293,7 @@ public class ArraySortedMapTest {
       }
 
       ImmutableSortedMap<Integer, Integer> map = ArraySortedMap.fromMap(any, IntComparator);
-      List<Integer> actualKeys = new ArrayList<>();
+      List<Integer> actualKeys = new ArrayList<Integer>();
       Iterator<Map.Entry<Integer, Integer>> mapIterator = map.reverseIteratorFrom(fromKey);
       while (mapIterator.hasNext()) {
         actualKeys.add(mapIterator.next().getKey());
@@ -335,7 +336,7 @@ public class ArraySortedMapTest {
   public void addAboveLimitYieldsRBTree() {
     Map<Integer, Integer> any =
         someMaps(integers(), integers(), fixedValues(100)).iterator().next();
-    ImmutableSortedMap<Integer, Integer> map = new ArraySortedMap<>(IntComparator);
+    ImmutableSortedMap<Integer, Integer> map = new ArraySortedMap<Integer, Integer>(IntComparator);
     for (Map.Entry<Integer, Integer> entry : any.entrySet()) {
       map = map.insert(entry.getKey(), entry.getValue());
     }
@@ -351,11 +352,11 @@ public class ArraySortedMapTest {
     ImmutableSortedMap<Integer, Integer> copy;
     ImmutableSortedMap<Integer, Integer> rbcopy;
     ImmutableSortedMap<Integer, Integer> copyWithDifferentComparator;
-    map = new ArraySortedMap<>(IntComparator);
-    copy = new ArraySortedMap<>(IntComparator);
-    rbcopy = new RBTreeSortedMap<>(IntComparator);
+    map = new ArraySortedMap<Integer, Integer>(IntComparator);
+    copy = new ArraySortedMap<Integer, Integer>(IntComparator);
+    rbcopy = new RBTreeSortedMap<Integer, Integer>(IntComparator);
     copyWithDifferentComparator =
-        new ArraySortedMap<>(new Comparator<Integer>() {
+        new ArraySortedMap<Integer, Integer>(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
               return Utilities.compareInts(o1, o2);
@@ -385,7 +386,7 @@ public class ArraySortedMapTest {
 
   //@Test
   public void perf() {
-    ImmutableSortedMap<Integer, Integer> map = new ArraySortedMap<>(IntComparator);
+    ImmutableSortedMap<Integer, Integer> map = new ArraySortedMap<Integer, Integer>(IntComparator);
 
     for (int j = 0; j < 5; j++) {
       final long startTime = System.currentTimeMillis();

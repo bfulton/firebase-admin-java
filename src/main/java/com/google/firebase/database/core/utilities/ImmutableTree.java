@@ -35,7 +35,7 @@ public class ImmutableTree<T> implements Iterable<Map.Entry<Path, T>> {
       ImmutableSortedMap.Builder.emptyMap(StandardComparator.getComparator(ChildKey.class));
 
   @SuppressWarnings("unchecked")
-  private static final ImmutableTree EMPTY = new ImmutableTree<>(null, EMPTY_CHILDREN);
+  private static final ImmutableTree EMPTY = new ImmutableTree(null, EMPTY_CHILDREN);
 
   private final T value;
   private final ImmutableSortedMap<ChildKey, ImmutableTree<T>> children;
@@ -182,7 +182,7 @@ public class ImmutableTree<T> implements Iterable<Map.Entry<Path, T>> {
 
   public ImmutableTree<T> set(Path relativePath, T value) {
     if (relativePath.isEmpty()) {
-      return new ImmutableTree<>(value, this.children);
+      return new ImmutableTree<T>(value, this.children);
     } else {
       ChildKey front = relativePath.getFront();
       ImmutableTree<T> child = this.children.get(front);
@@ -192,7 +192,7 @@ public class ImmutableTree<T> implements Iterable<Map.Entry<Path, T>> {
       ImmutableTree<T> newChild = child.set(relativePath.popFront(), value);
       ImmutableSortedMap<ChildKey, ImmutableTree<T>> newChildren =
           this.children.insert(front, newChild);
-      return new ImmutableTree<>(this.value, newChildren);
+      return new ImmutableTree<T>(this.value, newChildren);
     }
   }
 
@@ -201,7 +201,7 @@ public class ImmutableTree<T> implements Iterable<Map.Entry<Path, T>> {
       if (this.children.isEmpty()) {
         return emptyInstance();
       } else {
-        return new ImmutableTree<>(null, this.children);
+        return new ImmutableTree<T>(null, this.children);
       }
     } else {
       ChildKey front = relativePath.getFront();
@@ -217,7 +217,7 @@ public class ImmutableTree<T> implements Iterable<Map.Entry<Path, T>> {
         if (this.value == null && newChildren.isEmpty()) {
           return emptyInstance();
         } else {
-          return new ImmutableTree<>(this.value, newChildren);
+          return new ImmutableTree<T>(this.value, newChildren);
         }
       } else {
         return this;
@@ -255,7 +255,7 @@ public class ImmutableTree<T> implements Iterable<Map.Entry<Path, T>> {
       } else {
         newChildren = this.children.insert(front, newChild);
       }
-      return new ImmutableTree<>(this.value, newChildren);
+      return new ImmutableTree<T>(this.value, newChildren);
     }
   }
 
@@ -278,7 +278,7 @@ public class ImmutableTree<T> implements Iterable<Map.Entry<Path, T>> {
   }
 
   public Collection<T> values() {
-    final ArrayList<T> list = new ArrayList<>();
+    final ArrayList<T> list = new ArrayList<T>();
     this.foreach(
         new TreeVisitor<T, Void>() {
           @Override
@@ -299,12 +299,12 @@ public class ImmutableTree<T> implements Iterable<Map.Entry<Path, T>> {
     // are consumed fully in most cases, this should give a fairly efficient implementation
     // in most
     // cases.
-    final List<Map.Entry<Path, T>> list = new ArrayList<>();
+    final List<Map.Entry<Path, T>> list = new ArrayList<Map.Entry<Path, T>>();
     this.foreach(
         new TreeVisitor<T, Void>() {
           @Override
           public Void onNodeValue(Path relativePath, T value, Void accum) {
-            list.add(new AbstractMap.SimpleImmutableEntry<>(relativePath, value));
+            list.add(new AbstractMap.SimpleImmutableEntry<Path, T>(relativePath, value));
             return null;
           }
         });

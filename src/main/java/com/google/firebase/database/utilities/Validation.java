@@ -113,8 +113,10 @@ public class Validation {
       for (Object child : list) {
         validateWritableObject(child);
       }
-    } else if (object instanceof Double || object instanceof Float) {
-      validateDoubleValue((double) object);
+    } else if (object instanceof Double) {
+      validateDoubleValue((Double) object);
+    } else if (object instanceof Float) {
+      validateDoubleValue(((Float) object).doubleValue());
     } else {
       // It's a primitive, should be fine
     }
@@ -135,7 +137,7 @@ public class Validation {
 
   public static Map<Path, Node> parseAndValidateUpdate(Path path, Map<String, Object> update)
       throws DatabaseException {
-    final SortedMap<Path, Node> parsedUpdate = new TreeMap<>();
+    final SortedMap<Path, Node> parsedUpdate = new TreeMap<Path, Node>();
     for (Map.Entry<String, Object> entry : update.entrySet()) {
       Path updatePath = new Path(entry.getKey());
       Object newValue = entry.getValue();

@@ -54,7 +54,7 @@ public class TestUtils {
     // using yet more reflection.
     //
     // This is copied from {#see com.google.apphosting.runtime.NullSandboxPlugin}
-    Map<String, String> allVars = new HashMap<>(System.getenv());
+    Map<String, String> allVars = new HashMap<String, String>(System.getenv());
     allVars.putAll(vars);
     try {
       Class<?> pe = Class.forName("java.lang.ProcessEnvironment", true, null);
@@ -64,7 +64,7 @@ public class TestUtils {
       m.setAccessible(true);
       m.setInt(f, m.getInt(f) & ~Modifier.FINAL);
       f.set(null, Collections.unmodifiableMap(allVars));
-    } catch (ReflectiveOperationException e) {
+    } catch (Exception e) {
       throw new RuntimeException("failed to set the environment variables", e);
     }
   }
@@ -72,10 +72,20 @@ public class TestUtils {
   public static String loadResource(String path) {
     InputStream stream = TestUtils.class.getClassLoader().getResourceAsStream(path);
     checkNotNull(stream, "Failed to load resource: %s", path);
-    try (InputStreamReader reader = new InputStreamReader(stream)) {
+    InputStreamReader reader = null;
+    try {
+      reader = new InputStreamReader(stream);
       return CharStreams.toString(reader);
     } catch (IOException e) {
       throw new RuntimeException(e);
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          /* ignore */
+        }
+      }
     }
   }
 

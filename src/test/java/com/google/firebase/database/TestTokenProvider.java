@@ -27,7 +27,8 @@ public class TestTokenProvider implements AuthTokenProvider {
 
   private String token;
   private String nextToken;
-  private Set<AuthTokenProvider.TokenChangeListener> listeners = new HashSet<>();
+  private Set<AuthTokenProvider.TokenChangeListener> listeners =
+          new HashSet<AuthTokenProvider.TokenChangeListener>();
   private ScheduledExecutorService executorService;
 
   public TestTokenProvider(ScheduledExecutorService executorService) {

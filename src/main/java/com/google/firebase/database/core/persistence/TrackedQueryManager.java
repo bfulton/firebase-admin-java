@@ -86,7 +86,7 @@ public class TrackedQueryManager {
     this.storageLayer = storageLayer;
     this.logger = logger;
     this.clock = clock;
-    this.trackedQueryTree = new ImmutableTree<>(null);
+    this.trackedQueryTree = new ImmutableTree<Map<QueryParams, TrackedQuery>>(null);
 
     resetPreviouslyActiveTrackedQueries();
 
@@ -276,7 +276,7 @@ public class TrackedQueryManager {
   public Set<ChildKey> getKnownCompleteChildren(Path path) {
     assert !this.isQueryComplete(QuerySpec.defaultQueryAtPath(path)) : "Path is fully complete.";
 
-    Set<ChildKey> completeChildren = new HashSet<>();
+    Set<ChildKey> completeChildren = new HashSet<ChildKey>();
     // First, get complete children from any queries at this location.
     Set<Long> queryIds = filteredQueryIdsAtPath(path);
     if (!queryIds.isEmpty()) {
@@ -333,7 +333,7 @@ public class TrackedQueryManager {
   void verifyCache() {
     List<TrackedQuery> storedTrackedQueries = this.storageLayer.loadTrackedQueries();
 
-    final List<TrackedQuery> trackedQueries = new ArrayList<>();
+    final List<TrackedQuery> trackedQueries = new ArrayList<TrackedQuery>();
     this.trackedQueryTree.foreach(
         new ImmutableTree.TreeVisitor<Map<QueryParams, TrackedQuery>, Void>() {
           @Override
@@ -368,7 +368,7 @@ public class TrackedQueryManager {
   }
 
   private Set<Long> filteredQueryIdsAtPath(Path path) {
-    final Set<Long> ids = new HashSet<>();
+    final Set<Long> ids = new HashSet<Long>();
 
     Map<QueryParams, TrackedQuery> queries = this.trackedQueryTree.get(path);
     if (queries != null) {
@@ -387,7 +387,7 @@ public class TrackedQueryManager {
     Map<QueryParams, TrackedQuery> trackedSet =
         this.trackedQueryTree.get(query.querySpec.getPath());
     if (trackedSet == null) {
-      trackedSet = new HashMap<>();
+      trackedSet = new HashMap<QueryParams, TrackedQuery>();
       this.trackedQueryTree = this.trackedQueryTree.set(query.querySpec.getPath(), trackedSet);
     }
 
@@ -404,7 +404,7 @@ public class TrackedQueryManager {
   }
 
   private List<TrackedQuery> getQueriesMatching(Predicate<TrackedQuery> predicate) {
-    List<TrackedQuery> matching = new ArrayList<>();
+    List<TrackedQuery> matching = new ArrayList<TrackedQuery>();
     for (Map.Entry<Path, Map<QueryParams, TrackedQuery>> entry : this.trackedQueryTree) {
       for (TrackedQuery query : entry.getValue().values()) {
         if (predicate.evaluate(query)) {

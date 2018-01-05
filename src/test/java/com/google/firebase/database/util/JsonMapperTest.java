@@ -96,10 +96,10 @@ public class JsonMapperTest {
   @Ignore
   // TODO: Stop ignoring this test once JSON parsing has been fixed.
   public void canNest33LevelsDeep() throws IOException {
-    Map<String, Object> root = new HashMap<>();
+    Map<String, Object> root = new HashMap<String, Object>();
     Map<String, Object> currentMap = root;
     for (int i = 0; i < 33 - 1; i++) {
-      Map<String, Object> newMap = new HashMap<>();
+      Map<String, Object> newMap = new HashMap<String, Object>();
       currentMap.put("key", newMap);
       currentMap = newMap;
     }

@@ -31,7 +31,7 @@ public class TreeTest {
      * At one point, we had a concurrent modification exception in the Tree code, so just make sure
      * this doesn't throw a ConcurrentModification exception
      */
-    Tree<String> root = new Tree<>();
+    Tree<String> root = new Tree<String>();
     Path path = new Path("foo/bar");
     root.subTree(path).setValue("bar");
     root.subTree(path.getParent().child(ChildKey.fromString("baz"))).setValue("baz");

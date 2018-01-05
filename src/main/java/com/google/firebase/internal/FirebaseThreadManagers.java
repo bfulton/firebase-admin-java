@@ -54,7 +54,7 @@ public class FirebaseThreadManagers {
   abstract static class GlobalThreadManager extends ThreadManager {
 
     private final Object lock = new Object();
-    private final Set<String> apps = new HashSet<>();
+    private final Set<String> apps = new HashSet<String>();
     private ExecutorService executorService;
 
     @Override

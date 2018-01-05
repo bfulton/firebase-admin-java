@@ -44,7 +44,9 @@ public final class FirebaseCredentialsAdapter extends GoogleCredentials {
     try {
       GoogleOAuthAccessToken token = Tasks.await(credential.getAccessToken());
       return new AccessToken(token.getAccessToken(), new Date(token.getExpiryTime()));
-    } catch (ExecutionException | InterruptedException e) {
+    } catch (ExecutionException e) {
+      throw new IOException("Error while obtaining OAuth2 token", e);
+    } catch (InterruptedException e) {
       throw new IOException("Error while obtaining OAuth2 token", e);
     }
   }

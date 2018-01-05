@@ -115,7 +115,7 @@ public class OrderByTestIT {
 
     TestHelpers.waitFor(semaphore, 3);
 
-    final List<String> names = new ArrayList<>();
+    final List<String> names = new ArrayList<String>();
 
     final ChildEventListener testListener =
         ref.orderByChild("nuggets")
@@ -153,7 +153,7 @@ public class OrderByTestIT {
 
     new WriteFuture(writer, foo1).timedGet();
 
-    final List<DataSnapshot> snapshots = new ArrayList<>();
+    final List<DataSnapshot> snapshots = new ArrayList<DataSnapshot>();
     final Semaphore semaphore = new Semaphore(0);
     Query query = reader.orderByChild("order").limitToLast(2);
     final ValueEventListener listener =
@@ -227,9 +227,9 @@ public class OrderByTestIT {
 
     Query query = ref.orderByChild("nuggets");
 
-    final List<String> valueOrder = new ArrayList<>();
-    final List<String> childOrder = new ArrayList<>();
-    final List<String> childPrevNames = new ArrayList<>();
+    final List<String> valueOrder = new ArrayList<String>();
+    final List<String> childOrder = new ArrayList<String>();
+    final List<String> childPrevNames = new ArrayList<String>();
     final ValueEventListener valueListener =
         query.addValueEventListener(
             new ValueEventListener() {
@@ -289,9 +289,9 @@ public class OrderByTestIT {
 
     Query query = ref.orderByChild("deep/nuggets").limitToFirst(3);
 
-    final List<String> valueOrder = new ArrayList<>();
-    final List<String> childOrder = new ArrayList<>();
-    final List<String> childPrevNames = new ArrayList<>();
+    final List<String> valueOrder = new ArrayList<String>();
+    final List<String> childOrder = new ArrayList<String>();
+    final List<String> childPrevNames = new ArrayList<String>();
     final ValueEventListener valueListener =
         query.addValueEventListener(
             new ValueEventListener() {
@@ -348,9 +348,9 @@ public class OrderByTestIT {
 
     Query query = ref.orderByValue();
 
-    final List<String> valueOrder = new ArrayList<>();
-    final List<String> childOrder = new ArrayList<>();
-    final List<String> childPrevNames = new ArrayList<>();
+    final List<String> valueOrder = new ArrayList<String>();
+    final List<String> childOrder = new ArrayList<String>();
+    final List<String> childPrevNames = new ArrayList<String>();
     final ValueEventListener valueListener =
         query.addValueEventListener(
             new ValueEventListener() {
@@ -464,8 +464,8 @@ public class OrderByTestIT {
 
     Query fooQuery = reader.orderByChild("foo");
     Query orderQuery = reader.orderByChild("order");
-    final List<DataSnapshot> fooSnaps = new ArrayList<>();
-    final List<DataSnapshot> orderSnaps = new ArrayList<>();
+    final List<DataSnapshot> fooSnaps = new ArrayList<DataSnapshot>();
+    final List<DataSnapshot> orderSnaps = new ArrayList<DataSnapshot>();
     final Semaphore semaphore = new Semaphore(0);
 
     final ValueEventListener fooListener =
@@ -505,11 +505,11 @@ public class OrderByTestIT {
 
     TestHelpers.waitFor(semaphore, 2);
 
-    Map<String, Object> fooExpected = new HashMap<>();
+    Map<String, Object> fooExpected = new HashMap<String, Object>();
     fooExpected.put("b", MapBuilder.of("order", 0L));
     fooExpected.put("c", MapBuilder.of("order", 1L, "foo", false));
 
-    Map<String, Object> orderExpected = new HashMap<>();
+    Map<String, Object> orderExpected = new HashMap<String, Object>();
     orderExpected.put("d", MapBuilder.of("order", 3L, "foo", "hello"));
     orderExpected.put("a", MapBuilder.of("order", 2L, "foo", 2L));
 
@@ -520,12 +520,12 @@ public class OrderByTestIT {
 
     new WriteFuture(writer.child("a"), MapBuilder.of("order", -1L, "foo", 1L)).timedGet();
 
-    fooExpected = new HashMap<>();
+    fooExpected = new HashMap<String, Object>();
     fooExpected.put("a", MapBuilder.of("order", -1L, "foo", 1L));
     fooExpected.put("b", MapBuilder.of("order", 0L));
     fooExpected.put("c", MapBuilder.of("order", 1L, "foo", false));
 
-    orderExpected = new HashMap<>();
+    orderExpected = new HashMap<String, Object>();
     orderExpected.put("d", MapBuilder.of("order", 3L, "foo", "hello"));
     orderExpected.put("c", MapBuilder.of("order", 1L, "foo", false));
 
@@ -657,8 +657,8 @@ public class OrderByTestIT {
             .put("c", MapBuilder.of("value", 3L))
             .build();
 
-    final List<String> snapshotNames = new ArrayList<>();
-    final List<String> prevNames = new ArrayList<>();
+    final List<String> snapshotNames = new ArrayList<String>();
+    final List<String> prevNames = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     final ChildEventListener testListener =
         ref.orderByChild("value")
@@ -677,7 +677,7 @@ public class OrderByTestIT {
     Assert.assertEquals(Arrays.asList("c", "a"), snapshotNames);
     Assert.assertEquals(Arrays.asList(null, "c"), prevNames);
 
-    Map<String, Object> updates = new HashMap<>();
+    Map<String, Object> updates = new HashMap<String, Object>();
     updates.put("b", MapBuilder.of("value", 4));
     updates.put("d", MapBuilder.of("value", 2));
     ref.updateChildrenAsync(updates);
@@ -695,9 +695,9 @@ public class OrderByTestIT {
     final DatabaseReference reader = refs.get(0);
     final DatabaseReference writer = refs.get(1);
 
-    final List<DataSnapshot> snapshots = new ArrayList<>();
+    final List<DataSnapshot> snapshots = new ArrayList<DataSnapshot>();
 
-    Map<String, Object> value = new HashMap<>();
+    Map<String, Object> value = new HashMap<String, Object>();
     value.put("one", new MapBuilder().put("index", 1).put("value", "one").build());
     value.put("two", new MapBuilder().put("index", 2).put("value", "two").build());
     value.put("three", new MapBuilder().put("index", 3).put("value", "three").build());
@@ -726,7 +726,7 @@ public class OrderByTestIT {
 
     Assert.assertEquals(1, snapshots.size());
 
-    Map<String, Object> expected1 = new HashMap<>();
+    Map<String, Object> expected1 = new HashMap<String, Object>();
     expected1.put("two", new MapBuilder().put("index", 2L).put("value", "two").build());
     expected1.put("three", new MapBuilder().put("index", 3L).put("value", "three").build());
     Assert.assertEquals(expected1, snapshots.get(0).getValue());
@@ -736,7 +736,7 @@ public class OrderByTestIT {
     TestHelpers.waitFor(semaphore);
 
     Assert.assertEquals(2, snapshots.size());
-    Map<String, Object> expected2 = new HashMap<>();
+    Map<String, Object> expected2 = new HashMap<String, Object>();
     expected2.put("three", new MapBuilder().put("index", 3L).put("value", "three").build());
     expected2.put("one", new MapBuilder().put("index", 4L).put("value", "one").build());
     Assert.assertEquals(expected2, snapshots.get(1).getValue());
@@ -753,7 +753,7 @@ public class OrderByTestIT {
     final Semaphore semaphore = new Semaphore(0);
     new WriteFuture(ref, "leaf-node").timedGet();
 
-    final List<DataSnapshot> snapshots = new ArrayList<>();
+    final List<DataSnapshot> snapshots = new ArrayList<DataSnapshot>();
     Query query = ref.orderByChild("foo").limitToLast(1);
     final ValueEventListener listener =
         query.addValueEventListener(
@@ -794,7 +794,7 @@ public class OrderByTestIT {
 
     new WriteFuture(writer, initial).timedGet();
 
-    final List<String> actualChildren = new ArrayList<>();
+    final List<String> actualChildren = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     ValueEventListener valueListener =
         query.addValueEventListener(
@@ -839,7 +839,7 @@ public class OrderByTestIT {
 
     new WriteFuture(writer, initial).timedGet();
 
-    final List<String> actualChildren = new ArrayList<>();
+    final List<String> actualChildren = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     ValueEventListener valueListener =
         query.addValueEventListener(
@@ -936,9 +936,9 @@ public class OrderByTestIT {
 
     Query query = ref.orderByValue().startAt(52, "tony").endAt(56);
 
-    final List<String> valueOrder = new ArrayList<>();
-    final List<String> childOrder = new ArrayList<>();
-    final List<String> childPrevNames = new ArrayList<>();
+    final List<String> valueOrder = new ArrayList<String>();
+    final List<String> childOrder = new ArrayList<String>();
+    final List<String> childPrevNames = new ArrayList<String>();
     final ValueEventListener valueListener =
         query.addValueEventListener(
             new ValueEventListener() {

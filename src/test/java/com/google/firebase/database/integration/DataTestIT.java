@@ -118,8 +118,8 @@ public class DataTestIT {
   @Test
   public void testValueReturnsJsonForNodesWithChildren()
       throws TimeoutException, InterruptedException, TestFailure {
-    Map<String, Object> expected = new HashMap<>();
-    Map<String, Object> innerExpected = new HashMap<>();
+    Map<String, Object> expected = new HashMap<String, Object>();
+    Map<String, Object> innerExpected = new HashMap<String, Object>();
     innerExpected.put("bar", 5L);
     expected.put("foo", innerExpected);
 
@@ -1132,7 +1132,7 @@ public class DataTestIT {
     List<String> badKeys = ImmutableList.of(".test", "test.", "fo$o", "[what", "ever]", "ha#sh",
         "/thing", "thi/ing", "thing/", "");
 
-    List<Object> badObjects = new ArrayList<>();
+    List<Object> badObjects = new ArrayList<Object>();
     for (String key : badKeys) {
       badObjects.add(MapBuilder.of(key, "test"));
       badObjects.add(MapBuilder.of("deeper", MapBuilder.of(key, "test")));
@@ -2539,7 +2539,7 @@ public class DataTestIT {
         .build();
 
     final Semaphore gotData = new Semaphore(0);
-    final AtomicReference<Map> result = new AtomicReference<>();
+    final AtomicReference<Map> result = new AtomicReference<Map>();
     ref.setValue(data, new DatabaseReference.CompletionListener() {
       @Override
       public void onComplete(DatabaseError error, DatabaseReference ref) {
@@ -2616,7 +2616,7 @@ public class DataTestIT {
     final Semaphore gotData = new Semaphore(0);
 
     final AtomicInteger updateCount = new AtomicInteger(0);
-    final AtomicReference<Map> result = new AtomicReference<>();
+    final AtomicReference<Map> result = new AtomicReference<Map>();
     ref.setValue(data, new DatabaseReference.CompletionListener() {
       @Override
       public void onComplete(DatabaseError error, DatabaseReference ref) {
@@ -2680,7 +2680,7 @@ public class DataTestIT {
     DatabaseReference readRef = refs.get(1);
 
     // List must be large enough to trigger delta sync.
-    Map<String, Object> longList = new HashMap<>();
+    Map<String, Object> longList = new HashMap<String, Object>();
     for (long i = 0; i < 50; i++) {
       String key = writeRef.push().getKey();
       longList.put(key,
@@ -2690,7 +2690,7 @@ public class DataTestIT {
     new WriteFuture(writeRef, longList).timedGet();
 
     // start listening.
-    final List<DataSnapshot> readSnapshots = new ArrayList<>();
+    final List<DataSnapshot> readSnapshots = new ArrayList<DataSnapshot>();
     final Semaphore readSemaphore = new Semaphore(0);
     readRef.orderByChild("order").addValueEventListener(new ValueEventListener() {
       @Override
@@ -2747,8 +2747,8 @@ public class DataTestIT {
     DatabaseReference reader = refs.get(1);
 
     final Semaphore completionSemaphore = new Semaphore(0);
-    final List<DataSnapshot> readSnaps = new ArrayList<>();
-    final List<DataSnapshot> writeSnaps = new ArrayList<>();
+    final List<DataSnapshot> readSnaps = new ArrayList<DataSnapshot>();
+    final List<DataSnapshot> writeSnaps = new ArrayList<DataSnapshot>();
 
     reader.addValueEventListener(new ValueEventListener() {
       @Override

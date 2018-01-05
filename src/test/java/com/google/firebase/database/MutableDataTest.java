@@ -90,20 +90,20 @@ public class MutableDataTest {
             .build();
 
     MutableData data = dataFor(obj);
-    List<String> names = new ArrayList<>();
-    List<Long> values = new ArrayList<>();
-    List<String> priorities = new ArrayList<>();
+    List<String> names = new ArrayList<String>();
+    List<Long> values = new ArrayList<Long>();
+    List<String> priorities = new ArrayList<String>();
     for (MutableData child : data.getChildren()) {
       names.add(child.getKey());
       values.add((Long) child.getValue());
       priorities.add((String) child.getPriority());
     }
 
-    List<String> expectedNames = new ArrayList<>();
+    List<String> expectedNames = new ArrayList<String>();
     expectedNames.addAll(Arrays.asList("c", "a", "n", "z", "e", "b", "m"));
-    List<Long> expectedValues = new ArrayList<>();
+    List<Long> expectedValues = new ArrayList<Long>();
     expectedValues.addAll(Arrays.asList(3L, 1L, 14L, 26L, 5L, 2L, 13L));
-    List<String> expectedPriorities = new ArrayList<>();
+    List<String> expectedPriorities = new ArrayList<String>();
     expectedPriorities.addAll(
         Arrays.asList("fifth", "first", "fourth", "second", "seventh", "sixth", "third"));
 

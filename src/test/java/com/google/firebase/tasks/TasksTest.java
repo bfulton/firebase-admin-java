@@ -125,7 +125,7 @@ public class TasksTest {
 
   @Test
   public void testAwait() throws Exception {
-    TaskCompletionSource<Object> completionSource = new TaskCompletionSource<>();
+    TaskCompletionSource<Object> completionSource = new TaskCompletionSource<Object>();
     scheduleResult(completionSource);
     assertEquals(
         RESULT, Tasks.await(completionSource.getTask(), TIMEOUT_MS, TimeUnit.MILLISECONDS));
@@ -133,14 +133,14 @@ public class TasksTest {
 
   @Test
   public void testAwait_noTimeout() throws Exception {
-    TaskCompletionSource<Object> completionSource = new TaskCompletionSource<>();
+    TaskCompletionSource<Object> completionSource = new TaskCompletionSource<Object>();
     scheduleResult(completionSource);
     assertEquals(RESULT, Tasks.await(completionSource.getTask()));
   }
 
   @Test
   public void testAwait_exception() throws Exception {
-    TaskCompletionSource<Void> completionSource = new TaskCompletionSource<>();
+    TaskCompletionSource<Void> completionSource = new TaskCompletionSource<Void>();
     scheduleException(completionSource);
 
     try {
@@ -153,7 +153,7 @@ public class TasksTest {
 
   @Test
   public void testAwait_noTimeoutException() throws Exception {
-    TaskCompletionSource<Void> completionSource = new TaskCompletionSource<>();
+    TaskCompletionSource<Void> completionSource = new TaskCompletionSource<Void>();
     scheduleException(completionSource);
 
     try {
@@ -202,28 +202,28 @@ public class TasksTest {
 
   @Test(expected = InterruptedException.class)
   public void testAwait_interrupted() throws Exception {
-    Task<Void> task = new TaskImpl<>();
+    Task<Void> task = new TaskImpl<Void>();
     scheduleInterrupt();
     Tasks.await(task, TIMEOUT_MS, TimeUnit.MILLISECONDS);
   }
 
   @Test(expected = InterruptedException.class)
   public void testAwait_noTimeoutInterrupted() throws Exception {
-    Task<Void> task = new TaskImpl<>();
+    Task<Void> task = new TaskImpl<Void>();
     scheduleInterrupt();
     Tasks.await(task);
   }
 
   @Test(expected = TimeoutException.class)
   public void testAwait_timeout() throws Exception {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     Tasks.await(task, TIMEOUT_MS, TimeUnit.MILLISECONDS);
   }
 
   @Test(expected = TimeoutException.class)
   public void testWhenAll_notCompleted() throws Exception {
-    Task<Void> task1 = new TaskImpl<>();
-    Task<Void> task2 = new TaskImpl<>();
+    Task<Void> task1 = new TaskImpl<Void>();
+    Task<Void> task2 = new TaskImpl<Void>();
     Task<Void> task = Tasks.whenAll(task1, task2);
     Tasks.await(task, TIMEOUT_MS, TimeUnit.MILLISECONDS);
   }
@@ -231,7 +231,7 @@ public class TasksTest {
   @Test(expected = TimeoutException.class)
   public void testWhenAll_partiallyCompleted() throws Exception {
     Task<Object> task1 = Tasks.forResult(RESULT);
-    Task<Void> task2 = new TaskImpl<>();
+    Task<Void> task2 = new TaskImpl<Void>();
     Task<Void> task = Tasks.whenAll(task1, task2);
     Tasks.await(task, TIMEOUT_MS, TimeUnit.MILLISECONDS);
   }

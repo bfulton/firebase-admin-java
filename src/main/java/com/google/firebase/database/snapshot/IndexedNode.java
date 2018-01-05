@@ -36,7 +36,7 @@ public class IndexedNode implements Iterable<NamedNode> {
    * invoked.
    */
   private static final ImmutableSortedSet<NamedNode> FALLBACK_INDEX =
-      new ImmutableSortedSet<>(Collections.<NamedNode>emptyList(), null);
+      new ImmutableSortedSet<NamedNode>(Collections.<NamedNode>emptyList(), null);
 
   private final Node node;
   private final Index index;
@@ -73,7 +73,7 @@ public class IndexedNode implements Iterable<NamedNode> {
       if (this.index.equals(KeyIndex.getInstance())) {
         this.indexed = FALLBACK_INDEX;
       } else {
-        List<NamedNode> children = new ArrayList<>();
+        List<NamedNode> children = new ArrayList<NamedNode>();
         boolean sawIndexedValue = false;
         for (NamedNode entry : node) {
           sawIndexedValue = sawIndexedValue || index.isDefinedOn(entry.getNode());
@@ -81,7 +81,7 @@ public class IndexedNode implements Iterable<NamedNode> {
           children.add(namedNode);
         }
         if (sawIndexedValue) {
-          this.indexed = new ImmutableSortedSet<>(children, index);
+          this.indexed = new ImmutableSortedSet<NamedNode>(children, index);
         } else {
           this.indexed = FALLBACK_INDEX;
         }

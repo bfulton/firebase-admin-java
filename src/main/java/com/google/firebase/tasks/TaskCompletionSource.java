@@ -24,7 +24,7 @@ import com.google.firebase.internal.NonNull;
  */
 public class TaskCompletionSource<T> {
 
-  private final TaskImpl<T> task = new TaskImpl<>();
+  private final TaskImpl<T> task = new TaskImpl<T>();
 
   /**
    * Completes the Task with the specified result.

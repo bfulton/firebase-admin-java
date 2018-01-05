@@ -72,7 +72,7 @@ public class ZombieVerifier {
           public void run() {
             ZombieEventManager manager = ZombieEventManager.getInstance();
 
-            HashMap<InstanceHashKey, Long> zombieCount = new HashMap<>();
+            HashMap<InstanceHashKey, Long> zombieCount = new HashMap<InstanceHashKey, Long>();
 
             for (List<EventRegistration> list : manager.globalEventRegistrations.values()) {
               for (EventRegistration eventRegistration : list) {
@@ -86,7 +86,7 @@ public class ZombieVerifier {
               }
             }
 
-            HashMap<InstanceHashKey, Long> viewCount = new HashMap<>();
+            HashMap<InstanceHashKey, Long> viewCount = new HashMap<InstanceHashKey, Long>();
             //now enumerate views in the repo.
             for (SyncPoint point : repo.getServerSyncTree().getSyncPointTree().values()) {
               scanRegistrations(repo, point, viewCount);

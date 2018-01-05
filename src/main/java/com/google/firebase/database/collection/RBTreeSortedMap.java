@@ -53,7 +53,7 @@ public class RBTreeSortedMap<K, V> extends ImmutableSortedMap<K, V> {
 
   public static <A, B> RBTreeSortedMap<A, B> fromMap(Map<A, B> values, Comparator<A> comparator) {
     return Builder.buildFrom(
-        new ArrayList<>(values.keySet()),
+        new ArrayList<A>(values.keySet()),
         values,
         ImmutableSortedMap.Builder.<A>identityTranslator(),
         comparator);
@@ -97,7 +97,7 @@ public class RBTreeSortedMap<K, V> extends ImmutableSortedMap<K, V> {
     } else {
       LLRBNode<K, V> newRoot =
           root.remove(key, this.comparator).copy(null, null, LLRBNode.Color.BLACK, null, null);
-      return new RBTreeSortedMap<>(newRoot, this.comparator);
+      return new RBTreeSortedMap<K, V>(newRoot, this.comparator);
     }
   }
 
@@ -105,7 +105,7 @@ public class RBTreeSortedMap<K, V> extends ImmutableSortedMap<K, V> {
   public ImmutableSortedMap<K, V> insert(K key, V value) {
     LLRBNode<K, V> newRoot =
         root.insert(key, value, this.comparator).copy(null, null, LLRBNode.Color.BLACK, null, null);
-    return new RBTreeSortedMap<>(newRoot, this.comparator);
+    return new RBTreeSortedMap<K, V>(newRoot, this.comparator);
   }
 
   @Override
@@ -135,22 +135,22 @@ public class RBTreeSortedMap<K, V> extends ImmutableSortedMap<K, V> {
 
   @Override
   public Iterator<Map.Entry<K, V>> iterator() {
-    return new ImmutableSortedMapIterator<>(root, null, this.comparator, false);
+    return new ImmutableSortedMapIterator<K, V>(root, null, this.comparator, false);
   }
 
   @Override
   public Iterator<Map.Entry<K, V>> iteratorFrom(K key) {
-    return new ImmutableSortedMapIterator<>(root, key, this.comparator, false);
+    return new ImmutableSortedMapIterator<K, V>(root, key, this.comparator, false);
   }
 
   @Override
   public Iterator<Map.Entry<K, V>> reverseIteratorFrom(K key) {
-    return new ImmutableSortedMapIterator<>(root, key, this.comparator, true);
+    return new ImmutableSortedMapIterator<K, V>(root, key, this.comparator, true);
   }
 
   @Override
   public Iterator<Map.Entry<K, V>> reverseIterator() {
-    return new ImmutableSortedMapIterator<>(root, null, this.comparator, true);
+    return new ImmutableSortedMapIterator<K, V>(root, null, this.comparator, true);
   }
 
   @Override
@@ -234,7 +234,7 @@ public class RBTreeSortedMap<K, V> extends ImmutableSortedMap<K, V> {
         Map<B, C> values,
         ImmutableSortedMap.Builder.KeyTranslator<A, B> translator,
         Comparator<A> comparator) {
-      Builder<A, B, C> builder = new Builder<>(keys, values, translator);
+      Builder<A, B, C> builder = new Builder<A, B, C>(keys, values, translator);
       Collections.sort(keys, comparator);
       Iterator<BooleanChunk> iter = (new Base1_2(keys.size())).iterator();
       int index = keys.size();
@@ -249,7 +249,7 @@ public class RBTreeSortedMap<K, V> extends ImmutableSortedMap<K, V> {
           builder.buildPennant(LLRBNode.Color.RED, next.chunkSize, index);
         }
       }
-      return new RBTreeSortedMap<>(
+      return new RBTreeSortedMap<A, C>(
           builder.root == null ? LLRBEmptyNode.<A, C>getInstance() : builder.root, comparator);
     }
 
@@ -262,14 +262,14 @@ public class RBTreeSortedMap<K, V> extends ImmutableSortedMap<K, V> {
         return LLRBEmptyNode.getInstance();
       } else if (size == 1) {
         A key = this.keys.get(start);
-        return new LLRBBlackValueNode<>(key, getValue(key), null, null);
+        return new LLRBBlackValueNode<A, C>(key, getValue(key), null, null);
       } else {
         int half = size / 2;
         int middle = start + half;
         LLRBNode<A, C> left = buildBalancedTree(start, half);
         LLRBNode<A, C> right = buildBalancedTree(middle + 1, half);
         A key = this.keys.get(middle);
-        return new LLRBBlackValueNode<>(key, getValue(key), left, right);
+        return new LLRBBlackValueNode<A, C>(key, getValue(key), left, right);
       }
     }
 
@@ -278,9 +278,9 @@ public class RBTreeSortedMap<K, V> extends ImmutableSortedMap<K, V> {
       A key = this.keys.get(start);
       LLRBValueNode<A, C> node;
       if (color == LLRBNode.Color.RED) {
-        node = new LLRBRedValueNode<>(key, getValue(key), null, treeRoot);
+        node = new LLRBRedValueNode<A, C>(key, getValue(key), null, treeRoot);
       } else {
-        node = new LLRBBlackValueNode<>(key, getValue(key), null, treeRoot);
+        node = new LLRBBlackValueNode<A, C>(key, getValue(key), null, treeRoot);
       }
       if (root == null) {
         root = node;

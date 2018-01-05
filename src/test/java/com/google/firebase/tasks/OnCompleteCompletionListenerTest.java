@@ -34,10 +34,10 @@ public class OnCompleteCompletionListenerTest {
   @Test
   public void testOnComplete_nothingExecutedAfterCancel() {
     OnCompleteCompletionListener<Void> listener =
-        new OnCompleteCompletionListener<>(mockExecutor, new TestOnCompleteListener<Void>());
+        new OnCompleteCompletionListener<Void>(mockExecutor, new TestOnCompleteListener<Void>());
     listener.cancel();
 
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setResult(null);
     listener.onComplete(task);
 

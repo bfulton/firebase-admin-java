@@ -47,7 +47,7 @@ class TaskCompletionListenerQueue<T> {
   public void add(@NonNull TaskCompletionListener<T> listener) {
     synchronized (lock) {
       if (queue == null) {
-        queue = new ArrayDeque<>();
+        queue = new ArrayDeque<TaskCompletionListener<T>>();
       }
       queue.add(listener);
     }

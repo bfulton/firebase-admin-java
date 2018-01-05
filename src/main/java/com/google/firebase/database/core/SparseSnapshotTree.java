@@ -41,7 +41,7 @@ class SparseSnapshotTree {
       value = value.updateChild(path, data);
     } else {
       if (children == null) {
-        children = new HashMap<>();
+        children = new HashMap<ChildKey, SparseSnapshotTree>();
       }
 
       ChildKey childKey = path.getFront();

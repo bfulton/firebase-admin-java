@@ -40,13 +40,22 @@ public class SdkUtils {
   }
 
   private static String loadSdkVersion() {
-    try (InputStream in = SdkUtils.class.getClassLoader()
-        .getResourceAsStream(ADMIN_SDK_PROPERTIES)) {
+    InputStream in = null;
+    try {
+      in = SdkUtils.class.getClassLoader().getResourceAsStream(ADMIN_SDK_PROPERTIES);
       Properties properties = new Properties();
       properties.load(checkNotNull(in, "Failed to load: " + ADMIN_SDK_PROPERTIES));
       return properties.getProperty("sdk.version");
     } catch (IOException e) {
       throw new RuntimeException(e);
+    } finally {
+      if (in != null) {
+        try {
+          in.close();
+        } catch (IOException e) {
+          /* ignore */
+        }
+      }
     }
   }
 

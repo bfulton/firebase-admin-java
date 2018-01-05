@@ -45,7 +45,7 @@ public class RBTreeSortedMapTest {
 
   @Test
   public void basicImmutableSortedMapBuilding() {
-    Map<String, Integer> data = new HashMap<>();
+    Map<String, Integer> data = new HashMap<String, Integer>();
     data.put("a", 1);
     data.put("b", 2);
     data.put("c", 3);
@@ -63,7 +63,7 @@ public class RBTreeSortedMapTest {
 
   @Test
   public void emptyMap() {
-    Map<String, Integer> data = new HashMap<>();
+    Map<String, Integer> data = new HashMap<String, Integer>();
 
     ImmutableSortedMap<String, Integer> map = RBTreeSortedMap.fromMap(data, StringComparator);
 
@@ -72,7 +72,7 @@ public class RBTreeSortedMapTest {
 
   @Test
   public void almostEmptyMap() {
-    Map<String, Integer> data = new HashMap<>();
+    Map<String, Integer> data = new HashMap<String, Integer>();
     data.put("a", 1);
     data.put("b", null);
 
@@ -83,7 +83,8 @@ public class RBTreeSortedMapTest {
 
   @Test
   public void createNode() {
-    ImmutableSortedMap<String, Integer> map = new RBTreeSortedMap<>(StringComparator);
+    ImmutableSortedMap<String, Integer> map =
+            new RBTreeSortedMap<String, Integer>(StringComparator);
     map = map.insert("a", 1);
 
     RBTreeSortedMap<String, Integer> rbMap = (RBTreeSortedMap<String, Integer>) map;
@@ -152,11 +153,11 @@ public class RBTreeSortedMapTest {
   @Test
   public void iterationIsInOrder() {
     for (Map<Integer, Integer> any : someMaps(integers(), integers())) {
-      List<Integer> expectedKeys = new ArrayList<>(any.keySet());
+      List<Integer> expectedKeys = new ArrayList<Integer>(any.keySet());
       Collections.sort(expectedKeys);
 
       ImmutableSortedMap<Integer, Integer> map = RBTreeSortedMap.fromMap(any, IntComparator);
-      List<Integer> actualKeys = new ArrayList<>();
+      List<Integer> actualKeys = new ArrayList<Integer>();
       for (Map.Entry<Integer, Integer> entry : map) {
         actualKeys.add(entry.getKey());
       }
@@ -168,7 +169,7 @@ public class RBTreeSortedMapTest {
   @Test
   public void iterationFromKeyIsInOrder() {
     for (Map<Integer, Integer> any : someMaps(integers(), integers())) {
-      List<Integer> expectedKeys = new ArrayList<>(any.keySet());
+      List<Integer> expectedKeys = new ArrayList<Integer>(any.keySet());
       Integer fromKey =
           (expectedKeys.isEmpty() || booleans().next()) ? integers().next() : expectedKeys.get(0);
       Collections.sort(expectedKeys);
@@ -182,7 +183,7 @@ public class RBTreeSortedMapTest {
       }
 
       ImmutableSortedMap<Integer, Integer> map = RBTreeSortedMap.fromMap(any, IntComparator);
-      List<Integer> actualKeys = new ArrayList<>();
+      List<Integer> actualKeys = new ArrayList<Integer>();
       Iterator<Map.Entry<Integer, Integer>> mapIterator = map.iteratorFrom(fromKey);
       while (mapIterator.hasNext()) {
         actualKeys.add(mapIterator.next().getKey());
@@ -195,12 +196,12 @@ public class RBTreeSortedMapTest {
   @Test
   public void reverseIterationIsInOrder() {
     for (Map<Integer, Integer> any : someMaps(integers(), integers())) {
-      List<Integer> expectedKeys = new ArrayList<>(any.keySet());
+      List<Integer> expectedKeys = new ArrayList<Integer>(any.keySet());
       Collections.sort(expectedKeys);
       Collections.reverse(expectedKeys);
 
       ImmutableSortedMap<Integer, Integer> map = RBTreeSortedMap.fromMap(any, IntComparator);
-      List<Integer> actualKeys = new ArrayList<>();
+      List<Integer> actualKeys = new ArrayList<Integer>();
       Iterator<Map.Entry<Integer, Integer>> iterator = map.reverseIterator();
       while (iterator.hasNext()) {
         actualKeys.add(iterator.next().getKey());
@@ -213,7 +214,7 @@ public class RBTreeSortedMapTest {
   @Test
   public void reverseIterationFromKeyIsInOrder() {
     for (Map<Integer, Integer> any : someMaps(integers(), integers())) {
-      List<Integer> expectedKeys = new ArrayList<>(any.keySet());
+      List<Integer> expectedKeys = new ArrayList<Integer>(any.keySet());
       Integer fromKey =
           (expectedKeys.isEmpty() || booleans().next()) ? integers().next() : expectedKeys.get(0);
       Collections.sort(expectedKeys);
@@ -228,7 +229,7 @@ public class RBTreeSortedMapTest {
       }
 
       ImmutableSortedMap<Integer, Integer> map = RBTreeSortedMap.fromMap(any, IntComparator);
-      List<Integer> actualKeys = new ArrayList<>();
+      List<Integer> actualKeys = new ArrayList<Integer>();
       Iterator<Map.Entry<Integer, Integer>> mapIterator = map.reverseIteratorFrom(fromKey);
       while (mapIterator.hasNext()) {
         actualKeys.add(mapIterator.next().getKey());
@@ -273,11 +274,11 @@ public class RBTreeSortedMapTest {
     ImmutableSortedMap<Integer, Integer> copy;
     ImmutableSortedMap<Integer, Integer> arraycopy;
     ImmutableSortedMap<Integer, Integer> copyWithDifferentComparator;
-    map = new RBTreeSortedMap<>(IntComparator);
-    copy = new RBTreeSortedMap<>(IntComparator);
-    arraycopy = new ArraySortedMap<>(IntComparator);
+    map = new RBTreeSortedMap<Integer, Integer>(IntComparator);
+    copy = new RBTreeSortedMap<Integer, Integer>(IntComparator);
+    arraycopy = new ArraySortedMap<Integer, Integer>(IntComparator);
     copyWithDifferentComparator =
-        new ArraySortedMap<>(new Comparator<Integer>() {
+        new ArraySortedMap<Integer, Integer>(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
               return Utilities.compareInts(o1, o2);

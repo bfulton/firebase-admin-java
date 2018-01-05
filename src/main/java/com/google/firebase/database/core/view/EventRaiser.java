@@ -46,7 +46,7 @@ public class EventRaiser {
       logger.debug("Raising " + events.size() + " event(s)");
     }
     // TODO: Use an immutable data structure for events so we don't have to clone to be safe.
-    final ArrayList<Event> eventsClone = new ArrayList<>(events);
+    final ArrayList<Event> eventsClone = new ArrayList<Event>(events);
     eventTarget.postEvent(
         new Runnable() {
           @Override

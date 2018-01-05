@@ -66,7 +66,7 @@ public class SyncPoint {
   private final PersistenceManager persistenceManager;
 
   public SyncPoint(PersistenceManager persistenceManager) {
-    this.views = new HashMap<>();
+    this.views = new HashMap<QueryParams, View>();
     this.persistenceManager = persistenceManager;
   }
 
@@ -79,8 +79,8 @@ public class SyncPoint {
     View.OperationResult result = view.applyOperation(operation, writes, optCompleteServerCache);
     // Not a default query, track active children
     if (!view.getQuery().loadsAllData()) {
-      Set<ChildKey> removed = new HashSet<>();
-      Set<ChildKey> added = new HashSet<>();
+      Set<ChildKey> removed = new HashSet<ChildKey>();
+      Set<ChildKey> added = new HashSet<ChildKey>();
       for (Change change : result.changes) {
         Event.EventType type = change.getEventType();
         if (type == Event.EventType.CHILD_ADDED) {
@@ -104,7 +104,7 @@ public class SyncPoint {
       assert view != null;
       return applyOperationToView(view, operation, writesCache, optCompleteServerCache);
     } else {
-      List<DataEvent> events = new ArrayList<>();
+      List<DataEvent> events = new ArrayList<DataEvent>();
       for (Map.Entry<QueryParams, View> entry : this.views.entrySet()) {
         View view = entry.getValue();
         events.addAll(applyOperationToView(view, operation, writesCache, optCompleteServerCache));
@@ -139,7 +139,7 @@ public class SyncPoint {
       // If this is a non-default query we need to tell persistence our current view of the
       // data
       if (!query.loadsAllData()) {
-        Set<ChildKey> allChildren = new HashSet<>();
+        Set<ChildKey> allChildren = new HashSet<ChildKey>();
         for (NamedNode node : view.getEventCache()) {
           allChildren.add(node.getName());
         }
@@ -168,8 +168,8 @@ public class SyncPoint {
       @NotNull QuerySpec query,
       @Nullable EventRegistration eventRegistration,
       @Nullable DatabaseError cancelError) {
-    List<QuerySpec> removed = new ArrayList<>();
-    List<Event> cancelEvents = new ArrayList<>();
+    List<QuerySpec> removed = new ArrayList<QuerySpec>();
+    List<Event> cancelEvents = new ArrayList<Event>();
     boolean hadCompleteView = this.hasCompleteView();
     if (query.isDefault()) {
       // When you do ref.off(...), we search all views for the registration to remove.
@@ -207,11 +207,11 @@ public class SyncPoint {
       // We removed our last complete view.
       removed.add(QuerySpec.defaultQueryAtPath(query.getPath()));
     }
-    return new Pair<>(removed, cancelEvents);
+    return new Pair<List<QuerySpec>, List<Event>>(removed, cancelEvents);
   }
 
   public List<View> getQueryViews() {
-    List<View> views = new ArrayList<>();
+    List<View> views = new ArrayList<View>();
     for (Map.Entry<QueryParams, View> entry : this.views.entrySet()) {
       View view = entry.getValue();
       if (!view.getQuery().loadsAllData()) {

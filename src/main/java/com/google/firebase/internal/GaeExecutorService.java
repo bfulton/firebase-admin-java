@@ -44,7 +44,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 class GaeExecutorService implements ExecutorService {
 
-  private final AtomicReference<ExecutorService> executor = new AtomicReference<>();
+  private final AtomicReference<ExecutorService> executor = new AtomicReference<ExecutorService>();
   private final String threadName;
   private final ThreadFactory threadFactory;
   private boolean shutdown;

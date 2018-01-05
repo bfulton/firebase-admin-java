@@ -148,7 +148,7 @@ public class Repo implements PersistentConnection.Delegate {
     infoData = new SnapshotHolder();
     onDisconnect = new SparseSnapshotTree();
 
-    transactionQueueTree = new Tree<>();
+    transactionQueueTree = new Tree<List<TransactionData>>();
 
     infoSyncTree = new SyncTree(ctx, new NoopPersistenceManager(),
         new SyncTree.ListenProvider() {
@@ -275,7 +275,7 @@ public class Repo implements PersistentConnection.Delegate {
       if (optTag != null) {
         Tag tag = new Tag(optTag);
         if (isMerge) {
-          Map<Path, Node> taggedChildren = new HashMap<>();
+          Map<Path, Node> taggedChildren = new HashMap<Path, Node>();
           Map<String, Object> rawMergeData = (Map<String, Object>) message;
           for (Map.Entry<String, Object> entry : rawMergeData.entrySet()) {
             Node newChildNode = NodeUtilities.NodeFromJSON(entry.getValue());
@@ -287,7 +287,7 @@ public class Repo implements PersistentConnection.Delegate {
           events = this.serverSyncTree.applyTaggedQueryOverwrite(path, taggedSnap, tag);
         }
       } else if (isMerge) {
-        Map<Path, Node> changedChildren = new HashMap<>();
+        Map<Path, Node> changedChildren = new HashMap<Path, Node>();
         Map<String, Object> rawMergeData = (Map<String, Object>) message;
         for (Map.Entry<String, Object> entry : rawMergeData.entrySet()) {
           Node newChildNode = NodeUtilities.NodeFromJSON(entry.getValue());
@@ -323,7 +323,7 @@ public class Repo implements PersistentConnection.Delegate {
       operationLogger.debug("onRangeMergeUpdate: " + path + " " + merges);
     }
 
-    List<RangeMerge> parsedMerges = new ArrayList<>(merges.size());
+    List<RangeMerge> parsedMerges = new ArrayList<RangeMerge>(merges.size());
     for (com.google.firebase.database.connection.RangeMerge merge : merges) {
       parsedMerges.add(new RangeMerge(merge));
     }
@@ -631,7 +631,7 @@ public class Repo implements PersistentConnection.Delegate {
     Map<String, Object> serverValues = ServerValues.generateServerValues(serverClock);
     SparseSnapshotTree resolvedTree =
         ServerValues.resolveDeferredValueTree(this.onDisconnect, serverValues);
-    final List<Event> events = new ArrayList<>();
+    final List<Event> events = new ArrayList<Event>();
 
     resolvedTree.forEachTree(
         Path.getEmptyPath(),
@@ -739,7 +739,7 @@ public class Repo implements PersistentConnection.Delegate {
       Tree<List<TransactionData>> queueNode = transactionQueueTree.subTree(path);
       List<TransactionData> nodeQueue = queueNode.getValue();
       if (nodeQueue == null) {
-        nodeQueue = new ArrayList<>();
+        nodeQueue = new ArrayList<TransactionData>();
       }
       nodeQueue.add(transaction);
       queueNode.setValue(nodeQueue);
@@ -818,7 +818,7 @@ public class Repo implements PersistentConnection.Delegate {
 
   private void sendTransactionQueue(final List<TransactionData> queue, final Path path) {
     // Mark transactions as sent and increment retry count!
-    List<Long> setsToIgnore = new ArrayList<>();
+    List<Long> setsToIgnore = new ArrayList<Long>();
     for (TransactionData txn : queue) {
       setsToIgnore.add(txn.currentWriteId);
     }
@@ -854,10 +854,10 @@ public class Repo implements PersistentConnection.Delegate {
           public void onRequestResult(String optErrorCode, String optErrorMessage) {
             DatabaseError error = fromErrorCode(optErrorCode, optErrorMessage);
             warnIfWriteFailed("Transaction", path, error);
-            List<Event> events = new ArrayList<>();
+            List<Event> events = new ArrayList<Event>();
 
             if (error == null) {
-              List<Runnable> callbacks = new ArrayList<>();
+              List<Runnable> callbacks = new ArrayList<Runnable>();
               for (final TransactionData txn : queue) {
                 txn.status = TransactionStatus.COMPLETED;
                 events.addAll(
@@ -972,12 +972,12 @@ public class Repo implements PersistentConnection.Delegate {
 
     // Queue up the callbacks and fire them after cleaning up all of our transaction state, since
     // the callback could trigger more transactions or sets
-    List<Runnable> callbacks = new ArrayList<>();
+    List<Runnable> callbacks = new ArrayList<Runnable>();
 
     // Ignore, by default, all of the sets in this queue, since we're re-running all of them.
     // However, we want to include the results of new sets triggered as part of this re-run, so we
     // don't want to ignore a range, just these specific sets.
-    List<Long> setsToIgnore = new ArrayList<>();
+    List<Long> setsToIgnore = new ArrayList<Long>();
     for (TransactionData transaction : queue) {
       setsToIgnore.add(transaction.currentWriteId);
     }
@@ -986,7 +986,7 @@ public class Repo implements PersistentConnection.Delegate {
       Path relativePath = Path.getRelative(path, transaction.path);
       boolean abortTransaction = false;
       DatabaseError abortReason = null;
-      List<Event> events = new ArrayList<>();
+      List<Event> events = new ArrayList<Event>();
 
       assert relativePath != null; // rerunTransactionQueue: relativePath should not be null.
 
@@ -1116,7 +1116,7 @@ public class Repo implements PersistentConnection.Delegate {
   }
 
   private List<TransactionData> buildTransactionQueue(Tree<List<TransactionData>> transactionNode) {
-    List<TransactionData> queue = new ArrayList<>();
+    List<TransactionData> queue = new ArrayList<TransactionData>();
     aggregateTransactionQueues(queue, transactionNode);
 
     Collections.sort(queue);
@@ -1173,10 +1173,10 @@ public class Repo implements PersistentConnection.Delegate {
 
   private void abortTransactionsAtNode(Tree<List<TransactionData>> node, int reason) {
     List<TransactionData> queue = node.getValue();
-    List<Event> events = new ArrayList<>();
+    List<Event> events = new ArrayList<Event>();
 
     if (queue != null) {
-      List<Runnable> callbacks = new ArrayList<>();
+      List<Runnable> callbacks = new ArrayList<Runnable>();
       final DatabaseError abortError;
       if (reason == DatabaseError.OVERRIDDEN_BY_SET) {
         abortError = DatabaseError.fromStatus(TRANSACTION_OVERRIDE_BY_SET);
@@ -1318,7 +1318,15 @@ public class Repo implements PersistentConnection.Delegate {
 
     @Override
     public int compareTo(TransactionData o) {
-      return Long.compare(order, o.order);
+      long a = order;
+      long b = o.order;
+      if (a < b) {
+        return -1;
+      }
+      if (a == b) {
+        return 0;
+      }
+      return 1;
     }
   }
 }

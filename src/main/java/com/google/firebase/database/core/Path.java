@@ -138,7 +138,7 @@ public class Path implements Iterable<ChildKey>, Comparable<Path> {
   }
 
   public List<String> asList() {
-    List<String> result = new ArrayList<>(this.size());
+    List<String> result = new ArrayList<String>(this.size());
     for (ChildKey key : this) {
       result.add(key.asString());
     }

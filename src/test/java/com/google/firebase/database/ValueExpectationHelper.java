@@ -28,7 +28,7 @@ public class ValueExpectationHelper {
 
   private Semaphore semaphore = new Semaphore(0);
   private int count = 0;
-  private List<QueryAndListener> expectations = new ArrayList<>();
+  private List<QueryAndListener> expectations = new ArrayList<QueryAndListener>();
 
   public void add(final Query query, final Object expected) {
     count++;

@@ -136,7 +136,7 @@ public abstract class ImmutableSortedMap<K, V> implements Iterable<Map.Entry<K, 
         };
 
     public static <K, V> ImmutableSortedMap<K, V> emptyMap(Comparator<K> comparator) {
-      return new ArraySortedMap<>(comparator);
+      return new ArraySortedMap<K, V>(comparator);
     }
 
     @SuppressWarnings("unchecked")

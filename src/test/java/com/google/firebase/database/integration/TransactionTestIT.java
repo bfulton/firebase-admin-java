@@ -460,7 +460,7 @@ public class TransactionTestIT {
     final DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
     final Semaphore semaphore = new Semaphore(0);
-    final List<DataSnapshot> nodeSnaps = new ArrayList<>();
+    final List<DataSnapshot> nodeSnaps = new ArrayList<DataSnapshot>();
     final AtomicBoolean firstDone = new AtomicBoolean(false);
     final AtomicBoolean secondDone = new AtomicBoolean(false);
     final AtomicInteger thirdRunCount = new AtomicInteger(0);
@@ -604,7 +604,7 @@ public class TransactionTestIT {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
     final Semaphore semaphore = new Semaphore(0);
 
-    final List<DataSnapshot> snaps = new ArrayList<>();
+    final List<DataSnapshot> snaps = new ArrayList<DataSnapshot>();
     ref.addValueEventListener(new ValueEventListener() {
       @Override
       public void onDataChange(DataSnapshot snapshot) {
@@ -933,7 +933,7 @@ public class TransactionTestIT {
       public void onComplete(DatabaseError error, boolean committed, DataSnapshot currentData) {
         assertNull(error);
         assertTrue(committed);
-        ArrayList<String> expected = new ArrayList<>(3);
+        ArrayList<String> expected = new ArrayList<String>(3);
         expected.addAll(Arrays.asList("cat", "horse", "dog"));
         Object result = currentData.getValue();
         TestHelpers.assertDeepEquals(expected, result);
@@ -1037,7 +1037,7 @@ public class TransactionTestIT {
   public void testTransactionWithLocalEvents1() throws InterruptedException {
     final Semaphore semaphore = new Semaphore(0);
     final Semaphore completeSemaphore = new Semaphore(0);
-    final List<DataSnapshot> results = new ArrayList<>();
+    final List<DataSnapshot> results = new ArrayList<DataSnapshot>();
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
     ref.addValueEventListener(new ValueEventListener() {
@@ -1097,7 +1097,7 @@ public class TransactionTestIT {
     DatabaseReference ref2 = refs.get(1);
 
     final Semaphore done = new Semaphore(0);
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     TestHelpers.setHijackHash(ref1, true);
     ref1.setValue(0, new DatabaseReference.CompletionListener() {
       @Override
@@ -1207,7 +1207,7 @@ public class TransactionTestIT {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
     final Semaphore done = new Semaphore(0);
-    final List<DataSnapshot> values = new ArrayList<>();
+    final List<DataSnapshot> values = new ArrayList<DataSnapshot>();
     ref.addValueEventListener(new ValueEventListener() {
       @Override
       public void onDataChange(DataSnapshot snapshot) {
@@ -1479,8 +1479,8 @@ public class TransactionTestIT {
     DatabaseReference reader = refs.get(1);
 
     final Semaphore completionSemaphore = new Semaphore(0);
-    final List<DataSnapshot> readSnaps = new ArrayList<>();
-    final List<DataSnapshot> writeSnaps = new ArrayList<>();
+    final List<DataSnapshot> readSnaps = new ArrayList<DataSnapshot>();
+    final List<DataSnapshot> writeSnaps = new ArrayList<DataSnapshot>();
 
     reader.addValueEventListener(new ValueEventListener() {
       @Override
@@ -1773,7 +1773,7 @@ public class TransactionTestIT {
         .put("foo", new MapBuilder().put("value", 1).build()).build();
     new WriteFuture(ref, value).timedGet();
 
-    final List<DataSnapshot> snapshots = new ArrayList<>();
+    final List<DataSnapshot> snapshots = new ArrayList<DataSnapshot>();
 
     ChildEventListener listener = new TestChildEventListener() {
       @Override

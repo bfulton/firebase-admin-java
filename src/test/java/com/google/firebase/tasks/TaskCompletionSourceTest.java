@@ -33,7 +33,7 @@ public class TaskCompletionSourceTest {
 
   @Test
   public void testSetResult() throws Exception {
-    TaskCompletionSource<String> source = new TaskCompletionSource<>();
+    TaskCompletionSource<String> source = new TaskCompletionSource<String>();
     Task<String> task = source.getTask();
 
     assertNotNull(task);
@@ -48,7 +48,7 @@ public class TaskCompletionSourceTest {
 
   @Test
   public void testTrySetResult() throws Exception {
-    TaskCompletionSource<String> source = new TaskCompletionSource<>();
+    TaskCompletionSource<String> source = new TaskCompletionSource<String>();
     Task<String> task = source.getTask();
 
     assertTrue(source.trySetResult(RESULT));
@@ -57,7 +57,7 @@ public class TaskCompletionSourceTest {
 
   @Test
   public void testTrySetResult_alreadySet() throws Exception {
-    TaskCompletionSource<String> source = new TaskCompletionSource<>();
+    TaskCompletionSource<String> source = new TaskCompletionSource<String>();
     Task<String> task = source.getTask();
 
     source.setResult(RESULT);
@@ -68,7 +68,7 @@ public class TaskCompletionSourceTest {
 
   @Test
   public void testSetException() {
-    TaskCompletionSource<String> source = new TaskCompletionSource<>();
+    TaskCompletionSource<String> source = new TaskCompletionSource<String>();
     Task<String> task = source.getTask();
 
     assertNotNull(task);
@@ -83,7 +83,7 @@ public class TaskCompletionSourceTest {
 
   @Test
   public void testTrySetException() {
-    TaskCompletionSource<String> source = new TaskCompletionSource<>();
+    TaskCompletionSource<String> source = new TaskCompletionSource<String>();
     Task<String> task = source.getTask();
 
     assertTrue(source.trySetException(EXCEPTION));
@@ -92,7 +92,7 @@ public class TaskCompletionSourceTest {
 
   @Test
   public void testTrySetException_alreadySet() {
-    TaskCompletionSource<String> source = new TaskCompletionSource<>();
+    TaskCompletionSource<String> source = new TaskCompletionSource<String>();
     Task<String> task = source.getTask();
 
     source.setException(EXCEPTION);

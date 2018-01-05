@@ -64,7 +64,7 @@ public class WriteTree {
    */
   public WriteTree() {
     this.visibleWrites = CompoundWrite.emptyWrite();
-    this.allWrites = new ArrayList<>();
+    this.allWrites = new ArrayList<UserWriteRecord>();
     this.lastWriteId = -1L;
   }
 
@@ -155,10 +155,10 @@ public class WriteTree {
   }
 
   public List<UserWriteRecord> purgeAllWrites() {
-    List<UserWriteRecord> purgedWrites = new ArrayList<>(this.allWrites);
+    List<UserWriteRecord> purgedWrites = new ArrayList<UserWriteRecord>(this.allWrites);
     // Reset everything
     this.visibleWrites = CompoundWrite.emptyWrite();
-    this.allWrites = new ArrayList<>();
+    this.allWrites = new ArrayList<UserWriteRecord>();
     return purgedWrites;
   }
 

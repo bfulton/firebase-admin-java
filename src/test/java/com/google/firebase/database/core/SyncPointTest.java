@@ -81,7 +81,7 @@ public class SyncPointTest {
 
   private static SyncTree.ListenProvider getNewListenProvider(final LogWrapper logger) {
     return new SyncTree.ListenProvider() {
-      private final HashSet<QuerySpec> listens = new HashSet<>();
+      private final HashSet<QuerySpec> listens = new HashSet<QuerySpec>();
 
       @Override
       public void startListening(
@@ -140,8 +140,8 @@ public class SyncPointTest {
 
   private static void assertEventSetsMatch(
       List<TestEvent> expectedList, List<TestEvent> actualList) {
-    List<TestEvent> currentExpected = new ArrayList<>(expectedList);
-    List<TestEvent> currentActual = new ArrayList<>(actualList);
+    List<TestEvent> currentExpected = new ArrayList<TestEvent>(expectedList);
+    List<TestEvent> currentActual = new ArrayList<TestEvent>(actualList);
     for (TestEvent actual : currentActual) {
       Iterator<TestEvent> expectedIterator = currentExpected.iterator();
       boolean found = false;
@@ -159,12 +159,13 @@ public class SyncPointTest {
     }
     Assert.assertTrue("Missing expected events: " + currentExpected, currentExpected.isEmpty());
     Path currentPath = null;
-    Map<Object, List<TestEvent>> currentPathRegistrationMap = new HashMap<>();
-    List<TestEvent> allHandled = new ArrayList<>();
+    Map<Object, List<TestEvent>> currentPathRegistrationMap =
+            new HashMap<Object, List<TestEvent>>();
+    List<TestEvent> allHandled = new ArrayList<TestEvent>();
     for (TestEvent currentEvent : actualList) {
       if (!currentEvent.getPath().equals(currentPath)) {
         checkOrder(currentPathRegistrationMap);
-        currentPathRegistrationMap = new HashMap<>();
+        currentPathRegistrationMap = new HashMap<Object, List<TestEvent>>();
         currentPath = currentEvent.getPath();
       }
       if (!currentPathRegistrationMap.containsKey(currentEvent.eventRegistration)) {
@@ -187,7 +188,7 @@ public class SyncPointTest {
     if (!querySpec.containsKey("tag")) {
       throw new RuntimeException("Non-default queries must have a tag");
     }
-    Map<String, Object> remaining = new HashMap<>(querySpec);
+    Map<String, Object> remaining = new HashMap<String, Object>(querySpec);
     if (remaining.containsKey("orderBy")) {
       String key = (String) remaining.get("orderBy");
       query = query.orderByChild(key);
@@ -305,7 +306,7 @@ public class SyncPointTest {
   }
 
   private static Map<Path, Node> parseMergePaths(Map<String, Object> merges) {
-    Map<Path, Node> newMerges = new HashMap<>();
+    Map<Path, Node> newMerges = new HashMap<Path, Node>();
     for (Map.Entry<String, Object> merge : merges.entrySet()) {
       newMerges.put(new Path(merge.getKey()), NodeUtilities.NodeFromJSON(merge.getValue()));
     }
@@ -324,7 +325,7 @@ public class SyncPointTest {
     int currentWriteId = 0;
 
     List<Map<String, Object>> steps = (List<Map<String, Object>>) testSpec.get("steps");
-    Map<Integer, EventRegistration> registrations = new HashMap<>();
+    Map<Integer, EventRegistration> registrations = new HashMap<Integer, EventRegistration>();
     for (Map<String, Object> spec : steps) {
       String pathStr = (String) spec.get("path");
       Path path =
@@ -334,7 +335,7 @@ public class SyncPointTest {
       DatabaseReference reference = InternalHelpers.createReference(null, path);
       String type = (String) spec.get("type");
       List<Map<String, Object>> eventSpecs = (List<Map<String, Object>>) spec.get("events");
-      List<TestEvent> expected = new ArrayList<>();
+      List<TestEvent> expected = new ArrayList<TestEvent>();
       for (Map<String, Object> eventSpec : eventSpecs) {
         expected.add(parseEvent(reference, eventSpec, basePath));
       }
@@ -423,10 +424,20 @@ public class SyncPointTest {
     if (stream == null) {
       throw new RuntimeException("Failed to find syncPointSpec.json resource.");
     }
-    try (InputStreamReader reader = new InputStreamReader(stream)) {
+    InputStreamReader reader = null;
+    try {
+      reader = new InputStreamReader(stream);
       return (List) JsonMapper.parseJsonValue(CharStreams.toString(reader));
     } catch (IOException e) {
       throw new RuntimeException(e);
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          /* ignore */
+        }
+      }
     }
   }
 

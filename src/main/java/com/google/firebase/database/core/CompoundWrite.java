@@ -51,7 +51,8 @@ public class CompoundWrite implements Iterable<Map.Entry<Path, Node>> {
   public static CompoundWrite fromValue(Map<String, Object> merge) {
     ImmutableTree<Node> writeTree = ImmutableTree.emptyInstance();
     for (Map.Entry<String, Object> entry : merge.entrySet()) {
-      ImmutableTree<Node> tree = new ImmutableTree<>(NodeUtilities.NodeFromJSON(entry.getValue()));
+      ImmutableTree<Node> tree =
+              new ImmutableTree<Node>(NodeUtilities.NodeFromJSON(entry.getValue()));
       writeTree = writeTree.setTree(new Path(entry.getKey()), tree);
     }
     return new CompoundWrite(writeTree);
@@ -60,7 +61,7 @@ public class CompoundWrite implements Iterable<Map.Entry<Path, Node>> {
   public static CompoundWrite fromChildMerge(Map<ChildKey, Node> merge) {
     ImmutableTree<Node> writeTree = ImmutableTree.emptyInstance();
     for (Map.Entry<ChildKey, Node> entry : merge.entrySet()) {
-      ImmutableTree<Node> tree = new ImmutableTree<>(entry.getValue());
+      ImmutableTree<Node> tree = new ImmutableTree<Node>(entry.getValue());
       writeTree = writeTree.setTree(new Path(entry.getKey()), tree);
     }
     return new CompoundWrite(writeTree);
@@ -69,7 +70,7 @@ public class CompoundWrite implements Iterable<Map.Entry<Path, Node>> {
   public static CompoundWrite fromPathMerge(Map<Path, Node> merge) {
     ImmutableTree<Node> writeTree = ImmutableTree.emptyInstance();
     for (Map.Entry<Path, Node> entry : merge.entrySet()) {
-      ImmutableTree<Node> tree = new ImmutableTree<>(entry.getValue());
+      ImmutableTree<Node> tree = new ImmutableTree<Node>(entry.getValue());
       writeTree = writeTree.setTree(entry.getKey(), tree);
     }
     return new CompoundWrite(writeTree);
@@ -77,7 +78,7 @@ public class CompoundWrite implements Iterable<Map.Entry<Path, Node>> {
 
   public CompoundWrite addWrite(Path path, Node node) {
     if (path.isEmpty()) {
-      return new CompoundWrite(new ImmutableTree<>(node));
+      return new CompoundWrite(new ImmutableTree<Node>(node));
     } else {
       Path rootMostPath = this.writeTree.findRootMostPathWithValue(path);
       if (rootMostPath != null) {
@@ -94,7 +95,7 @@ public class CompoundWrite implements Iterable<Map.Entry<Path, Node>> {
           return new CompoundWrite(this.writeTree.set(rootMostPath, value));
         }
       } else {
-        ImmutableTree<Node> subtree = new ImmutableTree<>(node);
+        ImmutableTree<Node> subtree = new ImmutableTree<Node>(node);
         ImmutableTree<Node> newWriteTree = this.writeTree.setTree(path, subtree);
         return new CompoundWrite(newWriteTree);
       }
@@ -171,7 +172,7 @@ public class CompoundWrite implements Iterable<Map.Entry<Path, Node>> {
    * @return A list of all complete children.
    */
   public List<NamedNode> getCompleteChildren() {
-    List<NamedNode> children = new ArrayList<>();
+    List<NamedNode> children = new ArrayList<NamedNode>();
     if (this.writeTree.getValue() != null) {
       for (NamedNode entry : this.writeTree.getValue()) {
         children.add(new NamedNode(entry.getName(), entry.getNode()));
@@ -193,7 +194,7 @@ public class CompoundWrite implements Iterable<Map.Entry<Path, Node>> {
     } else {
       Node shadowingNode = this.getCompleteNode(path);
       if (shadowingNode != null) {
-        return new CompoundWrite(new ImmutableTree<>(shadowingNode));
+        return new CompoundWrite(new ImmutableTree<Node>(shadowingNode));
       } else {
         // let the constructor extract the priority update
         return new CompoundWrite(this.writeTree.subtree(path));
@@ -202,7 +203,7 @@ public class CompoundWrite implements Iterable<Map.Entry<Path, Node>> {
   }
 
   public Map<ChildKey, CompoundWrite> childCompoundWrites() {
-    Map<ChildKey, CompoundWrite> children = new HashMap<>();
+    Map<ChildKey, CompoundWrite> children = new HashMap<ChildKey, CompoundWrite>();
     for (Map.Entry<ChildKey, ImmutableTree<Node>> entries : this.writeTree.getChildren()) {
       children.put(entries.getKey(), new CompoundWrite(entries.getValue()));
     }
@@ -263,7 +264,7 @@ public class CompoundWrite implements Iterable<Map.Entry<Path, Node>> {
    * @return The map representing this CompoundWrite
    */
   public Map<String, Object> getValue(final boolean exportFormat) {
-    final Map<String, Object> writes = new HashMap<>();
+    final Map<String, Object> writes = new HashMap<String, Object>();
     this.writeTree.foreach(
         new ImmutableTree.TreeVisitor<Node, Void>() {
           @Override

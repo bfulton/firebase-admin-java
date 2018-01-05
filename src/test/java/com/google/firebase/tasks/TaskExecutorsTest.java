@@ -27,7 +27,7 @@ public class TaskExecutorsTest {
 
   @Test
   public void testDefaultThreadPool() throws InterruptedException {
-    final ArrayBlockingQueue<Thread> sync = new ArrayBlockingQueue<>(1);
+    final ArrayBlockingQueue<Thread> sync = new ArrayBlockingQueue<Thread>(1);
     TaskExecutors.DEFAULT_THREAD_POOL.execute(
         new Runnable() {
           @Override
@@ -41,7 +41,7 @@ public class TaskExecutorsTest {
 
   @Test
   public void testDirect() throws InterruptedException {
-    final ArrayBlockingQueue<Thread> sync = new ArrayBlockingQueue<>(1);
+    final ArrayBlockingQueue<Thread> sync = new ArrayBlockingQueue<Thread>(1);
     TaskExecutors.DIRECT.execute(
         new Runnable() {
           @Override

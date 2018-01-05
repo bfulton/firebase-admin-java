@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class MapBuilder {
 
-  private Map<String, Object> map = new HashMap<>();
+  private Map<String, Object> map = new HashMap<String, Object>();
 
   public MapBuilder put(String key, Object value) {
     map.put(key, value);

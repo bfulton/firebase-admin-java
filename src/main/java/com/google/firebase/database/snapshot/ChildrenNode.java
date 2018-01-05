@@ -93,7 +93,7 @@ public class ChildrenNode implements Node {
     int numKeys = 0;
     int maxKey = 0;
     boolean allIntegerKeys = true;
-    Map<String, Object> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<String, Object>();
     for (Map.Entry<ChildKey, Node> entry : children) {
       String key = entry.getKey().asString();
       result.put(key, entry.getValue().getValue(useExportFormat));
@@ -117,7 +117,7 @@ public class ChildrenNode implements Node {
 
     if (!useExportFormat && allIntegerKeys && maxKey < 2 * numKeys) {
       // convert to an array
-      List<Object> arrayResult = new ArrayList<>(maxKey + 1);
+      List<Object> arrayResult = new ArrayList<Object>(maxKey + 1);
       for (int i = 0; i <= maxKey; ++i) {
         // Map.get will return null for non-existent values, so we don't have to worry about
         // filling them in manually
@@ -153,7 +153,7 @@ public class ChildrenNode implements Node {
       toHash.append(priority.getHashRepresentation(HashVersion.V1));
       toHash.append(":");
     }
-    List<NamedNode> nodes = new ArrayList<>();
+    List<NamedNode> nodes = new ArrayList<NamedNode>();
     boolean sawPriority = false;
     for (NamedNode node : this) {
       nodes.add(node);

@@ -26,17 +26,17 @@ public class PairTest {
 
   @Test
   public void testPair() {
-    Pair<String, Integer> pair1 = new Pair<>("foo", 99);
+    Pair<String, Integer> pair1 = new Pair<String, Integer>("foo", 99);
     assertEquals("foo", pair1.getFirst());
     assertEquals(99, (int) pair1.getSecond());
     assertEquals("Pair(foo,99)", pair1.toString());
 
-    Pair<String, Integer> pair2 = new Pair<>("foo", 99);
+    Pair<String, Integer> pair2 = new Pair<String, Integer>("foo", 99);
     assertEquals("foo", pair2.getFirst());
     assertEquals(99, (int) pair2.getSecond());
     assertEquals("Pair(foo,99)", pair2.toString());
 
-    Pair<String, Integer> pair3 = new Pair<>("foo", 100);
+    Pair<String, Integer> pair3 = new Pair<String, Integer>("foo", 100);
     assertEquals("foo", pair3.getFirst());
     assertEquals(100, (int) pair3.getSecond());
     assertEquals("Pair(foo,100)", pair3.toString());
@@ -50,26 +50,26 @@ public class PairTest {
 
   @Test
   public void testPairWithNull() {
-    Pair<String, String> pair1 = new Pair<>("foo", null);
+    Pair<String, String> pair1 = new Pair<String, String>("foo", null);
     assertEquals("foo", pair1.getFirst());
     assertNull(pair1.getSecond());
     assertEquals("Pair(foo,null)", pair1.toString());
 
-    Pair<String, String> pair2 = new Pair<>(null, "bar");
+    Pair<String, String> pair2 = new Pair<String, String>(null, "bar");
     assertNull(pair2.getFirst());
     assertEquals("bar", pair2.getSecond());
     assertEquals("Pair(null,bar)", pair2.toString());
 
-    Pair<String, String> pair3 = new Pair<>(null, null);
+    Pair<String, String> pair3 = new Pair<String, String>(null, null);
     assertNull(pair3.getFirst());
     assertNull(pair3.getSecond());
     assertEquals("Pair(null,null)", pair3.toString());
 
-    Pair<String, String> pair4 = new Pair<>("foo", null);
+    Pair<String, String> pair4 = new Pair<String, String>("foo", null);
     assertEquals(pair1, pair4);
     assertEquals(pair1.hashCode(), pair4.hashCode());
 
-    Pair<String, String> pair5 = new Pair<>(null, null);
+    Pair<String, String> pair5 = new Pair<String, String>(null, null);
     assertEquals(pair3, pair5);
     assertEquals(pair3.hashCode(), pair5.hashCode());
   }

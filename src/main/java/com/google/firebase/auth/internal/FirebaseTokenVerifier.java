@@ -148,7 +148,10 @@ public final class FirebaseTokenVerifier extends IdTokenVerifier {
             ERROR_INVALID_CREDENTIAL,
             "Firebase ID token isn't signed by a valid public key." + VERIFY_ID_TOKEN_DOCS_MESSAGE);
       }
-    } catch (IOException | GeneralSecurityException e) {
+    } catch (IOException e) {
+      throw new FirebaseAuthException(
+          ERROR_RUNTIME_EXCEPTION, "Error while verifying token signature.", e);
+    } catch (GeneralSecurityException e) {
       throw new FirebaseAuthException(
           ERROR_RUNTIME_EXCEPTION, "Error while verifying token signature.", e);
     }

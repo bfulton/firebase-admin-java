@@ -87,14 +87,14 @@ public class RangeMerge {
     } else if (startInNode || endInNode) {
       // There is a partial update we need to do
       // Collect all relevant children
-      Set<ChildKey> allChildren = new HashSet<>();
+      Set<ChildKey> allChildren = new HashSet<ChildKey>();
       for (NamedNode child : node) {
         allChildren.add(child.getName());
       }
       for (NamedNode child : updateNode) {
         allChildren.add(child.getName());
       }
-      List<ChildKey> inOrder = new ArrayList<>(allChildren.size() + 1);
+      List<ChildKey> inOrder = new ArrayList<ChildKey>(allChildren.size() + 1);
       inOrder.addAll(allChildren);
       // Add priority last, so the node is not empty when applying
       if (!updateNode.getPriority().isEmpty() || !node.getPriority().isEmpty()) {

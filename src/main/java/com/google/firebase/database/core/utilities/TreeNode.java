@@ -28,7 +28,7 @@ public class TreeNode<T> {
   public T value;
 
   public TreeNode() {
-    children = new HashMap<>();
+    children = new HashMap<ChildKey, TreeNode<T>>();
   }
 
   String toString(String prefix) {

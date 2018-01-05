@@ -60,7 +60,7 @@ public class GAuthToken {
   }
 
   public String serializeToString() {
-    Map<String, Object> tokenMap = new HashMap<>();
+    Map<String, Object> tokenMap = new HashMap<String, Object>();
     tokenMap.put(TOKEN_KEY, token);
     tokenMap.put(AUTH_KEY, auth);
     try {

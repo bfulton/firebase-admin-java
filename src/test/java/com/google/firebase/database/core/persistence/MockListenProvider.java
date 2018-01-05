@@ -25,7 +25,7 @@ import java.util.Set;
 
 public class MockListenProvider implements SyncTree.ListenProvider {
 
-  private Set<QuerySpec> listens = new HashSet<>();
+  private Set<QuerySpec> listens = new HashSet<QuerySpec>();
 
   @Override
   public void startListening(

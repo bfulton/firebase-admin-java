@@ -329,7 +329,7 @@ public class ListUsersPageTest {
   private static class TestUserSource implements ListUsersPage.UserSource {
 
     private ListUsersResult result;
-    private List<String> calls = new ArrayList<>();
+    private List<String> calls = new ArrayList<String>();
 
     TestUserSource(int userCount) throws IOException {
       ImmutableList.Builder<ExportedUserRecord> users = ImmutableList.builder();

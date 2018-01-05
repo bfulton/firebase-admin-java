@@ -177,7 +177,7 @@ public class DatabaseReference extends Query {
    * @return The ApiFuture for this operation.
    */
   public ApiFuture<Void> setValueAsync(Object value) {
-    return new TaskToApiFuture<>(setValue(value));
+    return new TaskToApiFuture<Void>(setValue(value));
   }
 
   /**
@@ -215,7 +215,7 @@ public class DatabaseReference extends Query {
    * @return The ApiFuture for this operation.
    */
   public ApiFuture<Void> setValueAsync(Object value, Object priority) {
-    return new TaskToApiFuture<>(setValue(value, priority));
+    return new TaskToApiFuture<Void>(setValue(value, priority));
   }
 
   /**
@@ -364,7 +364,7 @@ public class DatabaseReference extends Query {
    * @return The ApiFuture for this operation.
    */
   public ApiFuture<Void> setPriorityAsync(Object priority) {
-    return new TaskToApiFuture<>(setPriority(priority));
+    return new TaskToApiFuture<Void>(setPriority(priority));
   }
 
   /**
@@ -438,7 +438,7 @@ public class DatabaseReference extends Query {
    * @return The ApiFuture for this operation.
    */
   public ApiFuture<Void> updateChildrenAsync(Map<String, Object> update) {
-    return new TaskToApiFuture<>(updateChildren(update));
+    return new TaskToApiFuture<Void>(updateChildren(update));
   }
 
   /**
@@ -494,7 +494,7 @@ public class DatabaseReference extends Query {
    * @return The ApiFuture for this operation.
    */
   public ApiFuture<Void> removeValueAsync() {
-    return new TaskToApiFuture<>(removeValue());
+    return new TaskToApiFuture<Void>(removeValue());
   }
 
   /**

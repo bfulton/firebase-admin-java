@@ -117,8 +117,8 @@ public class CompoundHash {
 
   static class CompoundHashBuilder {
 
-    private final List<Path> currentPaths = new ArrayList<>();
-    private final List<String> currentHashes = new ArrayList<>();
+    private final List<Path> currentPaths = new ArrayList<Path>();
+    private final List<String> currentHashes = new ArrayList<String>();
     private final SplitStrategy splitStrategy;
     // NOTE: We use the existence of this to know if we've started building a range (i.e.
     // encountered a leaf node).
@@ -130,7 +130,7 @@ public class CompoundHash {
     // are left unchanged for ascending the path will also contain the path of the last
     // visited leaf
     // node (using lastLeafDepth elements)
-    private Stack<ChildKey> currentPath = new Stack<>();
+    private Stack<ChildKey> currentPath = new Stack<ChildKey>();
     private int lastLeafDepth = -1;
     private int currentPathDepth;
     private boolean needsComma = true;

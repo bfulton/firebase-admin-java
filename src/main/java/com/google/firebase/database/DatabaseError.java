@@ -68,8 +68,8 @@ public class DatabaseError {
    */
   public static final int UNKNOWN_ERROR = -999;
 
-  private static final Map<Integer, String> errorReasons = new HashMap<>();
-  private static final Map<String, Integer> errorCodes = new HashMap<>();
+  private static final Map<Integer, String> errorReasons = new HashMap<Integer, String>();
+  private static final Map<String, Integer> errorCodes = new HashMap<String, Integer>();
 
   static {
     // Firebase Database error codes

@@ -65,7 +65,7 @@ public class View {
 
     this.viewCache = new ViewCache(newEventCache, newServerCache);
 
-    this.eventRegistrations = new ArrayList<>();
+    this.eventRegistrations = new ArrayList<EventRegistration>();
 
     this.eventGenerator = new EventGenerator(query);
   }
@@ -111,7 +111,7 @@ public class View {
       @Nullable EventRegistration registration, DatabaseError cancelError) {
     List<Event> cancelEvents;
     if (cancelError != null) {
-      cancelEvents = new ArrayList<>();
+      cancelEvents = new ArrayList<Event>();
       assert registration == null : "A cancel should cancel all event registrations";
       Path path = this.query.getPath();
       for (EventRegistration eventRegistration : this.eventRegistrations) {
@@ -173,7 +173,7 @@ public class View {
 
   public List<DataEvent> getInitialEvents(EventRegistration registration) {
     CacheNode eventSnap = this.viewCache.getEventCache();
-    List<Change> initialChanges = new ArrayList<>();
+    List<Change> initialChanges = new ArrayList<Change>();
     for (NamedNode child : eventSnap.getNode()) {
       initialChanges.add(Change.childAddedChange(child.getName(), child.getNode()));
     }

@@ -32,7 +32,7 @@ public class ServerValues {
   public static final String NAME_SUBKEY_SERVERVALUE = ".sv";
 
   public static Map<String, Object> generateServerValues(Clock clock) {
-    Map<String, Object> values = new HashMap<>();
+    Map<String, Object> values = new HashMap<String, Object>();
     values.put("timestamp", clock.millis());
     return values;
   }

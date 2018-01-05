@@ -152,7 +152,7 @@ public class JvmAuthTokenProviderTest {
 
     // Disable proactive token refresh, so only explicit refresh events are in play.
     JvmAuthTokenProvider provider = new JvmAuthTokenProvider(app, DIRECT_EXECUTOR, false);
-    final List<String> tokens = new ArrayList<>();
+    final List<String> tokens = new ArrayList<String>();
     provider.addTokenChangeListener(new AuthTokenProvider.TokenChangeListener() {
       @Override
       public void onTokenChange(String token) {
@@ -186,7 +186,7 @@ public class JvmAuthTokenProviderTest {
     try {
       JvmAuthTokenProvider provider = new JvmAuthTokenProvider(app, executor, false);
 
-      final AtomicReference<String> result = new AtomicReference<>();
+      final AtomicReference<String> result = new AtomicReference<String>();
       final Semaphore semaphore = new Semaphore(0);
       provider.addTokenChangeListener(new AuthTokenProvider.TokenChangeListener() {
         @Override
@@ -240,7 +240,7 @@ public class JvmAuthTokenProviderTest {
       implements AuthTokenProvider.GetTokenCompletionListener {
 
     private final Semaphore semaphore = new Semaphore(0);
-    private final AtomicReference<String> result = new AtomicReference<>(null);
+    private final AtomicReference<String> result = new AtomicReference<String>(null);
 
     @Override
     public void onSuccess(String token) {

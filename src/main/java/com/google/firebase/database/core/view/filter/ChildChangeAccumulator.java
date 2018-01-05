@@ -30,7 +30,7 @@ public class ChildChangeAccumulator {
   private final Map<ChildKey, Change> changeMap;
 
   public ChildChangeAccumulator() {
-    this.changeMap = new HashMap<>();
+    this.changeMap = new HashMap<ChildKey, Change>();
   }
 
   public void trackChildChange(Change change) {
@@ -72,6 +72,6 @@ public class ChildChangeAccumulator {
   }
 
   public List<Change> getChanges() {
-    return new ArrayList<>(this.changeMap.values());
+    return new ArrayList<Change>(this.changeMap.values());
   }
 }

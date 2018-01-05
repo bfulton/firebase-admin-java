@@ -31,7 +31,7 @@ import java.util.concurrent.Executor;
 final class TaskImpl<T> extends Task<T> {
 
   private final Object lock = new Object();
-  private final TaskCompletionListenerQueue<T> listenerQueue = new TaskCompletionListenerQueue<>();
+  private final TaskCompletionListenerQueue<T> listenerQueue = new TaskCompletionListenerQueue<T>();
 
   @GuardedBy("lock")
   private boolean complete;
@@ -125,7 +125,7 @@ final class TaskImpl<T> extends Task<T> {
   @Override
   public Task<T> addOnSuccessListener(
       @NonNull Executor executor, @NonNull OnSuccessListener<? super T> listener) {
-    listenerQueue.add(new OnSuccessCompletionListener<>(executor, listener));
+    listenerQueue.add(new OnSuccessCompletionListener<T>(executor, listener));
     flushIfComplete();
     return this;
   }
@@ -155,7 +155,7 @@ final class TaskImpl<T> extends Task<T> {
   @Override
   public Task<T> addOnCompleteListener(
       @NonNull Executor executor, @NonNull OnCompleteListener<T> listener) {
-    listenerQueue.add(new OnCompleteCompletionListener<>(executor, listener));
+    listenerQueue.add(new OnCompleteCompletionListener<T>(executor, listener));
     flushIfComplete();
     return this;
   }
@@ -170,9 +170,9 @@ final class TaskImpl<T> extends Task<T> {
   @Override
   public <R> Task<R> continueWith(
       @NonNull Executor executor, @NonNull Continuation<T, R> continuation) {
-    TaskImpl<R> continuationTask = new TaskImpl<>();
+    TaskImpl<R> continuationTask = new TaskImpl<R>();
     listenerQueue.add(
-        new ContinueWithCompletionListener<>(executor, continuation, continuationTask));
+        new ContinueWithCompletionListener<T, R>(executor, continuation, continuationTask));
     flushIfComplete();
     return continuationTask;
   }
@@ -187,9 +187,9 @@ final class TaskImpl<T> extends Task<T> {
   @Override
   public <R> Task<R> continueWithTask(
       @NonNull Executor executor, @NonNull Continuation<T, Task<R>> continuation) {
-    TaskImpl<R> continuationTask = new TaskImpl<>();
+    TaskImpl<R> continuationTask = new TaskImpl<R>();
     listenerQueue.add(
-        new ContinueWithTaskCompletionListener<>(executor, continuation, continuationTask));
+        new ContinueWithTaskCompletionListener<T, R>(executor, continuation, continuationTask));
     flushIfComplete();
     return continuationTask;
   }

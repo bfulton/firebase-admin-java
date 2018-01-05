@@ -43,8 +43,10 @@ public class CodeCoverageReporter {
     System.out.println(" Jacoco Coverage Report");
     System.out.println("-------------------------------------------------------------------------");
 
-    Map<String, CoverageInfo> coverageData = new TreeMap<>();
-    try (BufferedReader reader = new BufferedReader(new FileReader(args[0]))) {
+    Map<String, CoverageInfo> coverageData = new TreeMap<String, CoverageInfo>();
+    BufferedReader reader = null;
+    try {
+      reader = new BufferedReader(new FileReader(args[0]));
       String line;
       while ((line = reader.readLine()) != null) {
         if (line.startsWith("GROUP")) {
@@ -63,6 +65,14 @@ public class CodeCoverageReporter {
       printStats(coverageData);
     } catch (IOException e) {
       e.printStackTrace();
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          /* ignore */
+        }
+      }
     }
   }
 

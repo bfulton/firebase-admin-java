@@ -69,7 +69,7 @@ public class NodeUtilities {
             Node node = new DeferredValueNode(mapValue, priority);
             return node;
           } else {
-            childData = new HashMap<>(mapValue.size());
+            childData = new HashMap<ChildKey, Node>(mapValue.size());
             @SuppressWarnings("unchecked")
             Iterator<String> keyIter = mapValue.keySet().iterator();
             while (keyIter.hasNext()) {
@@ -85,7 +85,7 @@ public class NodeUtilities {
           }
         } else { // List
           List listValue = (List) value;
-          childData = new HashMap<>(listValue.size());
+          childData = new HashMap<ChildKey, Node>(listValue.size());
           for (int i = 0; i < listValue.size(); ++i) {
             String key = "" + i;
             Node childNode = NodeFromJSON(listValue.get(i));

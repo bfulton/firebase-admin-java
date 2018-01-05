@@ -16,7 +16,6 @@
 
 package com.google.firebase.auth;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
@@ -35,6 +34,7 @@ import com.google.auth.http.HttpTransportFactory;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.auth.oauth2.UserCredentials;
+import com.google.common.base.Charsets;
 import com.google.common.base.Defaults;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
@@ -46,15 +46,17 @@ import com.google.firebase.auth.internal.FirebaseCustomAuthToken;
 import com.google.firebase.database.MapBuilder;
 import com.google.firebase.testing.ServiceAccount;
 import com.google.firebase.testing.TestUtils;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -132,7 +134,14 @@ public class FirebaseAuthTest {
     // credentials. This requires us to write the credentials to the location specified by the
     // environment variable.
     File credentialsFile = File.createTempFile("google-test-credentials", "json");
-    PrintWriter writer = new PrintWriter(Files.newBufferedWriter(credentialsFile.toPath(), UTF_8));
+    PrintWriter writer = new PrintWriter(
+            new BufferedWriter(
+                    new OutputStreamWriter(
+                            new FileOutputStream(credentialsFile),
+                            Charsets.UTF_8
+                    )
+            )
+    );
     writer.print(ServiceAccount.EDITOR.asString());
     writer.close();
     Map<String, String> environmentVariables =
@@ -156,7 +165,7 @@ public class FirebaseAuthTest {
     transport.addClient(CLIENT_ID, CLIENT_SECRET);
     transport.addRefreshToken(REFRESH_TOKEN, ACCESS_TOKEN);
 
-    Map<String, Object> secretJson = new HashMap<>();
+    Map<String, Object> secretJson = new HashMap<String, Object>();
     secretJson.put("client_id", CLIENT_ID);
     secretJson.put("client_secret", CLIENT_SECRET);
     secretJson.put("refresh_token", REFRESH_TOKEN);
@@ -179,7 +188,7 @@ public class FirebaseAuthTest {
     transport.addClient(CLIENT_ID, CLIENT_SECRET);
     transport.addRefreshToken(REFRESH_TOKEN, ACCESS_TOKEN);
 
-    Map<String, Object> secretJson = new HashMap<>();
+    Map<String, Object> secretJson = new HashMap<String, Object>();
     secretJson.put("client_id", CLIENT_ID);
     secretJson.put("client_secret", CLIENT_SECRET);
     secretJson.put("refresh_token", REFRESH_TOKEN);
@@ -265,7 +274,7 @@ public class FirebaseAuthTest {
         continue;
       }
 
-      List<Object> parameters = new ArrayList<>(method.getParameterTypes().length);
+      List<Object> parameters = new ArrayList<Object>(method.getParameterTypes().length);
       for (Class<?> parameterType : method.getParameterTypes()) {
         parameters.add(Defaults.defaultValue(parameterType));
       }

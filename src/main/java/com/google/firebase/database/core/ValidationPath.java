@@ -35,7 +35,7 @@ public class ValidationPath {
 
   public static final int MAX_PATH_LENGTH_BYTES = 768;
   public static final int MAX_PATH_DEPTH = 32;
-  private final List<String> parts = new ArrayList<>();
+  private final List<String> parts = new ArrayList<String>();
   private int byteLength = 0;
 
   private ValidationPath(Path path) throws DatabaseException {

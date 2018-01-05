@@ -100,9 +100,9 @@ public class SyncTree {
       Context context, PersistenceManager persistenceManager, ListenProvider listenProvider) {
     this.syncPointTree = ImmutableTree.emptyInstance();
     this.pendingWriteTree = new WriteTree();
-    this.tagToQueryMap = new HashMap<>();
-    this.queryToTagMap = new HashMap<>();
-    this.keepSyncedQueries = new HashSet<>();
+    this.tagToQueryMap = new HashMap<Tag, QuerySpec>();
+    this.queryToTagMap = new HashMap<QuerySpec, Tag>();
+    this.keepSyncedQueries = new HashSet<QuerySpec>();
     this.listenProvider = listenProvider;
     this.persistenceManager = persistenceManager;
     this.logger = context.getLogger(SyncTree.class);
@@ -219,7 +219,7 @@ public class SyncTree {
             if (purgedWrites.isEmpty()) {
               return Collections.emptyList();
             } else {
-              ImmutableTree<Boolean> affectedTree = new ImmutableTree<>(true);
+              ImmutableTree<Boolean> affectedTree = new ImmutableTree<Boolean>(true);
               return applyOperationToSyncPoints(
                   new AckUserWrite(Path.getEmptyPath(), affectedTree, /*revert=*/ true));
             }
@@ -525,7 +525,7 @@ public class SyncTree {
             // Find the syncPoint first. Then deal with whether or not it has matching listeners
             Path path = query.getPath();
             SyncPoint maybeSyncPoint = syncPointTree.get(path);
-            List<Event> cancelEvents = new ArrayList<>();
+            List<Event> cancelEvents = new ArrayList<Event>();
             // A removal on a default query affects all queries at that location. A removal on an
             // indexed query, even one without other query constraints, does *not* affect all
             // queries at that location. So this check must be for 'default', and not
@@ -630,7 +630,7 @@ public class SyncTree {
    * listener for them.
    */
   private List<View> collectDistinctViewsForSubTree(ImmutableTree<SyncPoint> subtree) {
-    ArrayList<View> accumulator = new ArrayList<>();
+    ArrayList<View> accumulator = new ArrayList<View>();
     collectDistinctViewsForSubTree(subtree, accumulator);
     return accumulator;
   }
@@ -788,7 +788,7 @@ public class SyncTree {
         serverCache = syncPoint.getCompleteServerCache(Path.getEmptyPath());
       }
 
-      List<Event> events = new ArrayList<>();
+      List<Event> events = new ArrayList<Event>();
       ChildKey childKey = operation.getPath().getFront();
       Operation childOperation = operation.operationForChild(childKey);
       ImmutableTree<SyncPoint> childTree = syncPointTree.getChildren().get(childKey);
@@ -825,7 +825,7 @@ public class SyncTree {
       resolvedServerCache = serverCache;
     }
 
-    final List<Event> events = new ArrayList<>();
+    final List<Event> events = new ArrayList<Event>();
     syncPointTree
         .getChildren()
         .inOrderTraversal(
@@ -940,7 +940,7 @@ public class SyncTree {
     public com.google.firebase.database.connection.CompoundHash getCompoundHash() {
       CompoundHash hash = CompoundHash.fromNode(view.getServerCache());
       List<Path> pathPosts = hash.getPosts();
-      List<List<String>> posts = new ArrayList<>(pathPosts.size());
+      List<List<String>> posts = new ArrayList<List<String>>(pathPosts.size());
       for (Path path : pathPosts) {
         posts.add(path.asList());
       }

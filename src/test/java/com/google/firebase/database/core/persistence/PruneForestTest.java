@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 
 import com.google.firebase.database.core.Path;
 import com.google.firebase.database.core.utilities.ImmutableTree;
+import com.google.firebase.database.snapshot.ChildKey;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -67,8 +68,10 @@ public class PruneForestTest {
     PruneForest forest = new PruneForest();
     forest = forest.prune(new Path("foo/bar"));
     forest = forest.keep(new Path("foo/bar/baz"));
-    forest =
-        forest.keepAll(new Path("foo/bar"), new HashSet<>(Arrays.asList(ck("qux"), ck("quu"))));
+    forest = forest.keepAll(
+            new Path("foo/bar"),
+            new HashSet<ChildKey>(Arrays.asList(ck("qux"), ck("quu")))
+    );
   }
 
   @Test
@@ -83,8 +86,10 @@ public class PruneForestTest {
       //
     }
     try {
-      forest =
-          forest.pruneAll(new Path("foo/bar"), new HashSet<>(Arrays.asList(ck("qux"), ck("quu"))));
+      forest = forest.pruneAll(
+              new Path("foo/bar"),
+              new HashSet<ChildKey>(Arrays.asList(ck("qux"), ck("quu")))
+      );
       fail("Didn't throw!");
     } catch (Exception ignore) {
       //
@@ -122,11 +127,13 @@ public class PruneForestTest {
   public void foldKeepVisitsAllKeptNodes() {
     PruneForest forest = new PruneForest();
     forest = forest.prune(new Path("foo"));
-    forest =
-        forest.keepAll(new Path("foo/bar"), new HashSet<>(Arrays.asList(ck("qux"), ck("quu"))));
+    forest = forest.keepAll(
+            new Path("foo/bar"),
+            new HashSet<ChildKey>(Arrays.asList(ck("qux"), ck("quu")))
+    );
     forest = forest.keep(new Path("foo/baz"));
     forest = forest.keep(new Path("bar"));
-    final HashSet<Path> actualPaths = new HashSet<>();
+    final HashSet<Path> actualPaths = new HashSet<Path>();
     forest.foldKeptNodes(
         null,
         new ImmutableTree.TreeVisitor<Void, Object>() {
@@ -137,7 +144,7 @@ public class PruneForestTest {
           }
         });
     Set<Path> expected =
-        new HashSet<>(
+        new HashSet<Path>(
             Arrays.asList(
                 new Path("foo/bar/qux"),
                 new Path("foo/bar/quu"),

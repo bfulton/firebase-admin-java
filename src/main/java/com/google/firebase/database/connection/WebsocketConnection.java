@@ -351,7 +351,7 @@ class WebsocketConnection {
 
     StringList(int capacity) {
       checkArgument(capacity > 0);
-      this.buffer = new ArrayList<>(capacity);
+      this.buffer = new ArrayList<String>(capacity);
       this.remaining = capacity;
     }
 

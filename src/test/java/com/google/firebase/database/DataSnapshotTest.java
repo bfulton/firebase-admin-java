@@ -102,7 +102,7 @@ public class DataSnapshotTest {
   public void testExists() {
     DataSnapshot snap;
 
-    snap = snapFor(new HashMap<>());
+    snap = snapFor(new HashMap());
     assertFalse(snap.exists());
 
     snap = snapFor(MapBuilder.of(".priority", 1));

@@ -33,7 +33,7 @@ public class RepoManager {
     instance = new RepoManager();
   }
 
-  private final Map<Context, Map<String, Repo>> repos = new HashMap<>();
+  private final Map<Context, Map<String, Repo>> repos = new HashMap<Context, Map<String, Repo>>();
 
   public RepoManager() {}
 
@@ -108,7 +108,7 @@ public class RepoManager {
     String repoHash = "https://" + info.host + "/" + info.namespace;
     synchronized (repos) {
       if (!repos.containsKey(ctx)) {
-        Map<String, Repo> innerMap = new HashMap<>();
+        Map<String, Repo> innerMap = new HashMap<String, Repo>();
         repos.put(ctx, innerMap);
       }
       Map<String, Repo> innerMap = repos.get(ctx);

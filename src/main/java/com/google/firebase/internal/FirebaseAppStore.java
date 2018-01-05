@@ -27,7 +27,8 @@ import java.util.concurrent.atomic.AtomicReference;
 /** No-op base class of FirebaseAppStore. */
 public class FirebaseAppStore {
 
-  private static final AtomicReference<FirebaseAppStore> sInstance = new AtomicReference<>();
+  private static final AtomicReference<FirebaseAppStore> sInstance =
+          new AtomicReference<FirebaseAppStore>();
 
   FirebaseAppStore() {}
 

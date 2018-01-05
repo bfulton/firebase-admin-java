@@ -172,7 +172,7 @@ public class ViewProcessor {
         throw new AssertionError("Unknown operation: " + operation.getType());
       }
     }
-    List<Change> changes = new ArrayList<>(accumulator.getChanges());
+    List<Change> changes = new ArrayList<Change>(accumulator.getChanges());
     maybeAddValueEvent(oldViewCache, newViewCache, changes);
     return new ProcessorResult(newViewCache, changes);
   }

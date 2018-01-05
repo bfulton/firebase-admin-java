@@ -22,7 +22,7 @@ import java.util.List;
 public class ConnectionUtils {
 
   public static List<String> stringToPath(String string) {
-    List<String> path = new ArrayList<>();
+    List<String> path = new ArrayList<String>();
     // OMG, why does Java not have filter ?!? !121111!~
     String[] segments = string.split("/");
     for (int i = 0; i < segments.length; i++) {

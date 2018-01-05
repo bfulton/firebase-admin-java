@@ -54,7 +54,7 @@ public class PushIdGeneratorTest {
 
   @Test
   public void testCharRecycle() {
-    List<String> ids = new ArrayList<>();
+    List<String> ids = new ArrayList<String>();
     for (int i = 0; i < 100; i++) {
       // Characters will recycle after 64
       ids.add(PushIdGenerator.generatePushChildName(i));

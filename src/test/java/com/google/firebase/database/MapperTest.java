@@ -907,24 +907,24 @@ public class MapperTest {
 
   @Test
   public void serializingGenericBeansSupported() {
-    GenericBean<String> stringBean = new GenericBean<>();
+    GenericBean<String> stringBean = new GenericBean<String>();
     stringBean.value = "foo";
     assertJson("{'value': 'foo'}", serialize(stringBean));
 
-    GenericBean<Map<String, String>> mapBean = new GenericBean<>();
+    GenericBean<Map<String, String>> mapBean = new GenericBean<Map<String, String>>();
     mapBean.value = Collections.singletonMap("foo", "bar");
     assertJson("{'value': {'foo': 'bar'}}", serialize(mapBean));
 
-    GenericBean<List<String>> listBean = new GenericBean<>();
+    GenericBean<List<String>> listBean = new GenericBean<List<String>>();
     listBean.value = Collections.singletonList("foo");
     assertJson("{'value': ['foo']}", serialize(listBean));
 
-    GenericBean<GenericBean<String>> recursiveBean = new GenericBean<>();
-    recursiveBean.value = new GenericBean<>();
+    GenericBean<GenericBean<String>> recursiveBean = new GenericBean<GenericBean<String>>();
+    recursiveBean.value = new GenericBean<String>();
     recursiveBean.value.value = "foo";
     assertJson("{'value': {'value': 'foo'}}", serialize(recursiveBean));
 
-    DoubleGenericBean<String, Integer> doubleBean = new DoubleGenericBean<>();
+    DoubleGenericBean<String, Integer> doubleBean = new DoubleGenericBean<String, Integer>();
     doubleBean.valueA = "foo";
     doubleBean.valueB = 1;
     assertJson("{'valueA': 'foo', 'valueB': 1}", serialize(doubleBean));
@@ -1177,7 +1177,7 @@ public class MapperTest {
 
   @Test(expected = DatabaseException.class)
   public void genericSettersFromSubclassConflictsWithBaseClass() {
-    ConflictingGenericSetterSubBean<String> bean = new ConflictingGenericSetterSubBean<>();
+    ConflictingGenericSetterSubBean<String> bean = new ConflictingGenericSetterSubBean<String>();
     bean.value = "hello";
     serialize(bean);
   }

@@ -110,7 +110,7 @@ public class RepoTest {
   @Test
   public void testDataUpdate() throws InterruptedException {
     final Repo repo = newRepo();
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     QuerySpec spec = new QuerySpec(new Path("/foo"), QueryParams.DEFAULT_PARAMS);
     addCallback(
         repo, new ValueEventRegistration(repo, newValueEventListener(events), spec));
@@ -145,7 +145,7 @@ public class RepoTest {
   @Test
   public void testDataUpdateForQuery() throws InterruptedException {
     final Repo repo = newRepo();
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     QuerySpec spec = new QuerySpec(new Path("/bar"),
         QueryParams.DEFAULT_PARAMS.orderBy(ValueIndex.getInstance()).limitToFirst(10));
     addCallback(repo, new ValueEventRegistration(repo, newValueEventListener(events), spec));
@@ -181,7 +181,7 @@ public class RepoTest {
   @Test
   public void testRangeMergeUpdate() throws InterruptedException {
     final Repo repo = newRepo();
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     QuerySpec spec = new QuerySpec(new Path("/rangeMerge"), QueryParams.DEFAULT_PARAMS);
     addCallback(repo, new ValueEventRegistration(repo, newValueEventListener(events), spec));
 
@@ -205,7 +205,7 @@ public class RepoTest {
   @Test
   public void testRemoveCallback() throws InterruptedException {
     final Repo repo = newRepo();
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     QuerySpec spec = new QuerySpec(new Path("/foo"), QueryParams.DEFAULT_PARAMS);
     final ValueEventRegistration callback = new ValueEventRegistration(repo,
         newValueEventListener(events), spec);
@@ -247,7 +247,7 @@ public class RepoTest {
   @Test
   public void testSetValue() throws InterruptedException {
     final Repo repo = newRepo();
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     final Path path = new Path("/foo");
     QuerySpec spec = new QuerySpec(path, QueryParams.DEFAULT_PARAMS);
     addCallback(repo, new ValueEventRegistration(repo, newValueEventListener(events), spec));
@@ -269,7 +269,7 @@ public class RepoTest {
   @Test
   public void testUpdateChildren() throws InterruptedException {
     final Repo repo = newRepo();
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     final Path path = new Path("/child");
     QuerySpec spec = new QuerySpec(path, QueryParams.DEFAULT_PARAMS);
     ChildEventRegistration callback = new ChildEventRegistration(repo, new ChildEventListener() {
@@ -330,7 +330,7 @@ public class RepoTest {
   @Test
   public void testTransaction() throws InterruptedException {
     final Repo repo = newRepo();
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     final Path path = new Path("/txn");
     QuerySpec spec = new QuerySpec(path, QueryParams.DEFAULT_PARAMS);
     addCallback(repo, new ValueEventRegistration(repo, newValueEventListener(events), spec));
@@ -377,7 +377,7 @@ public class RepoTest {
         Mockito.any(RequestResultCallback.class));
 
     final Repo repo = newRepo();
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     final Path path = new Path("/txn_error");
     QuerySpec spec = new QuerySpec(path, QueryParams.DEFAULT_PARAMS);
     addCallback(repo, new ValueEventRegistration(repo, newValueEventListener(events), spec));
@@ -429,7 +429,7 @@ public class RepoTest {
         Mockito.any(RequestResultCallback.class));
 
     final Repo repo = newRepo();
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     final Path path = new Path("/txn_stale_error");
     QuerySpec spec = new QuerySpec(path, QueryParams.DEFAULT_PARAMS);
     addCallback(repo, new ValueEventRegistration(repo, newValueEventListener(events), spec));
@@ -467,7 +467,7 @@ public class RepoTest {
   @Test
   public void testTransactionAbort() throws InterruptedException {
     final Repo repo = newRepo();
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     final Path path = new Path("/txn_abort");
     QuerySpec spec = new QuerySpec(path, QueryParams.DEFAULT_PARAMS);
     addCallback(repo, new ValueEventRegistration(repo, newValueEventListener(events), spec));
@@ -496,7 +496,7 @@ public class RepoTest {
   @Test
   public void testInfoNodeUpdates() throws InterruptedException {
     final Repo repo = newRepo();
-    final List<DataSnapshot> events = new ArrayList<>();
+    final List<DataSnapshot> events = new ArrayList<DataSnapshot>();
     QuerySpec spec = new QuerySpec(new Path(".info"), QueryParams.DEFAULT_PARAMS);
 
     final Semaphore semaphore = new Semaphore(0);
@@ -581,8 +581,8 @@ public class RepoTest {
   @Test
   public void testCallOnComplete() {
     final Repo repo = newRepo();
-    final AtomicReference<DatabaseError> errorResult = new AtomicReference<>();
-    final AtomicReference<DatabaseReference> refResult = new AtomicReference<>();
+    final AtomicReference<DatabaseError> errorResult = new AtomicReference<DatabaseError>();
+    final AtomicReference<DatabaseReference> refResult = new AtomicReference<DatabaseReference>();
     DatabaseReference.CompletionListener listener = new DatabaseReference.CompletionListener() {
       @Override
       public void onComplete(DatabaseError error, DatabaseReference ref) {
@@ -603,8 +603,8 @@ public class RepoTest {
   @Test
   public void testOnDisconnectSetValue() throws InterruptedException {
     final Repo repo = newRepo();
-    final AtomicReference<DatabaseError> errorResult = new AtomicReference<>();
-    final AtomicReference<DatabaseReference> refResult = new AtomicReference<>();
+    final AtomicReference<DatabaseError> errorResult = new AtomicReference<DatabaseError>();
+    final AtomicReference<DatabaseReference> refResult = new AtomicReference<DatabaseReference>();
     final Semaphore semaphore = new Semaphore(0);
     final DatabaseReference.CompletionListener listener = newCompletionListener(
         errorResult, refResult);
@@ -636,8 +636,8 @@ public class RepoTest {
   @Test
   public void testOnDisconnectUpdate() throws InterruptedException {
     final Repo repo = newRepo();
-    final AtomicReference<DatabaseError> errorResult = new AtomicReference<>();
-    final AtomicReference<DatabaseReference> refResult = new AtomicReference<>();
+    final AtomicReference<DatabaseError> errorResult = new AtomicReference<DatabaseError>();
+    final AtomicReference<DatabaseReference> refResult = new AtomicReference<DatabaseReference>();
     final Semaphore semaphore = new Semaphore(0);
     final DatabaseReference.CompletionListener listener = newCompletionListener(
         errorResult, refResult);
@@ -673,8 +673,8 @@ public class RepoTest {
   @Test
   public void testOnDisconnectCancel() throws InterruptedException {
     final Repo repo = newRepo();
-    final AtomicReference<DatabaseError> errorResult = new AtomicReference<>();
-    final AtomicReference<DatabaseReference> refResult = new AtomicReference<>();
+    final AtomicReference<DatabaseError> errorResult = new AtomicReference<DatabaseError>();
+    final AtomicReference<DatabaseReference> refResult = new AtomicReference<DatabaseReference>();
     final Semaphore semaphore = new Semaphore(0);
     final DatabaseReference.CompletionListener listener = newCompletionListener(
         errorResult, refResult);

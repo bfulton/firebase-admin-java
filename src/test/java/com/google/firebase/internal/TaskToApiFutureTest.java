@@ -33,7 +33,7 @@ public class TaskToApiFutureTest {
   @Test
   public void testGetResult() throws Exception {
     Task<String> task = Tasks.forResult("test");
-    ApiFuture<String> future = new TaskToApiFuture<>(task);
+    ApiFuture<String> future = new TaskToApiFuture<String>(task);
     assertEquals("test", future.get());
     assertFalse(future.isCancelled());
     assertTrue(future.isDone());
@@ -42,7 +42,7 @@ public class TaskToApiFutureTest {
   @Test
   public void testGetError() throws Exception {
     Task<String> task = Tasks.forException(new RuntimeException("test"));
-    ApiFuture<String> future = new TaskToApiFuture<>(task);
+    ApiFuture<String> future = new TaskToApiFuture<String>(task);
     try {
       future.get();
     } catch (ExecutionException e) {
@@ -55,7 +55,7 @@ public class TaskToApiFutureTest {
   @Test
   public void testAddListener() throws Exception {
     Task<String> task = Tasks.forResult("test");
-    ApiFuture<String> future = new TaskToApiFuture<>(task);
+    ApiFuture<String> future = new TaskToApiFuture<String>(task);
     final AtomicBoolean result = new AtomicBoolean(false);
     future.addListener(new Runnable() {
       @Override
@@ -72,7 +72,7 @@ public class TaskToApiFutureTest {
   @Test
   public void testCancel() throws Exception {
     Task<String> task = Tasks.forResult("test");
-    ApiFuture<String> future = new TaskToApiFuture<>(task);
+    ApiFuture<String> future = new TaskToApiFuture<String>(task);
     assertFalse(future.cancel(true));
     assertEquals("test", future.get());
     assertFalse(future.isCancelled());

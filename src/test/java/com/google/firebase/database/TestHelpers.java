@@ -119,7 +119,7 @@ public class TestHelpers {
     final Semaphore semaphore = new Semaphore(0);
 
     // Hack to get around final reference issue
-    final List<DataSnapshot> snapshotList = new ArrayList<>(1);
+    final List<DataSnapshot> snapshotList = new ArrayList<DataSnapshot>(1);
 
     ref.addListenerForSingleValueEvent(
         new ValueEventListener() {
@@ -188,13 +188,13 @@ public class TestHelpers {
   // Create a (test) object which places a test value at the end of the
   // object path (e.g., a/b/c would yield {a: {b: {c: "test_value"}}}
   public static Map<String, Object> buildObjFromPath(Path path, Object testValue) {
-    final HashMap<String, Object> result = new HashMap<>();
+    final HashMap<String, Object> result = new HashMap<String, Object>();
 
     HashMap<String, Object> parent = result;
     for (Iterator<ChildKey> i = path.iterator(); i.hasNext(); ) {
       ChildKey key = i.next();
       if (i.hasNext()) {
-        HashMap<String, Object> child = new HashMap<>();
+        HashMap<String, Object> child = new HashMap<String, Object>();
         parent.put(key.asString(), child);
         parent = child;
       } else {
@@ -230,7 +230,7 @@ public class TestHelpers {
   }
 
   public static Set<ChildKey> childKeySet(String... stringKeys) {
-    Set<ChildKey> childKeys = new HashSet<>();
+    Set<ChildKey> childKeys = new HashSet<ChildKey>();
     for (String k : stringKeys) {
       childKeys.add(ChildKey.fromString(k));
     }
@@ -338,7 +338,7 @@ public class TestHelpers {
 
   private static class TestExceptionHandler implements UncaughtExceptionHandler {
 
-    private final AtomicReference<Throwable> throwable = new AtomicReference<>();
+    private final AtomicReference<Throwable> throwable = new AtomicReference<Throwable>();
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {

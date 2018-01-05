@@ -233,7 +233,7 @@ public class QueryParams {
 
   // NOTE: Don't change this unless you're changing the wire protocol!
   public Map<String, Object> getWireProtocolParams() {
-    Map<String, Object> queryObject = new HashMap<>();
+    Map<String, Object> queryObject = new HashMap<String, Object>();
     if (hasStart()) {
       queryObject.put(INDEX_START_VALUE, indexStartValue.getValue());
       if (indexStartName != null) {

@@ -96,7 +96,7 @@ public class Utilities {
     if (src.length() <= maxFrameSize) {
       return new String[] {src};
     } else {
-      ArrayList<String> segs = new ArrayList<>();
+      ArrayList<String> segs = new ArrayList<String>();
       for (int i = 0; i < src.length(); i += maxFrameSize) {
         int end = Math.min(i + maxFrameSize, src.length());
         String seg = src.substring(i, end);
@@ -240,7 +240,7 @@ public class Utilities {
   public static Pair<Task<Void>, DatabaseReference.CompletionListener> wrapOnComplete(
       DatabaseReference.CompletionListener optListener) {
     if (optListener == null) {
-      final TaskCompletionSource<Void> source = new TaskCompletionSource<>();
+      final TaskCompletionSource<Void> source = new TaskCompletionSource<Void>();
       DatabaseReference.CompletionListener listener =
           new DatabaseReference.CompletionListener() {
             @Override
@@ -252,10 +252,10 @@ public class Utilities {
               }
             }
           };
-      return new Pair<>(source.getTask(), listener);
+      return new Pair<Task<Void>, DatabaseReference.CompletionListener>(source.getTask(), listener);
     } else {
       // If a listener is supplied we do not want to create a Task
-      return new Pair<>(null, optListener);
+      return new Pair<Task<Void>, DatabaseReference.CompletionListener>(null, optListener);
     }
   }
 }

@@ -332,7 +332,7 @@ public class CompoundWriteTest {
     CompoundWrite compoundWrite = CompoundWrite.emptyWrite();
     final Map<String, Object> base =
         new MapBuilder().put("child-1", "value-1").put("child-2", "value-2").build();
-    Map<ChildKey, Node> updates = new HashMap<>();
+    Map<ChildKey, Node> updates = new HashMap<ChildKey, Node>();
     updates.put(ChildKey.fromString("foo"), NodeUtilities.NodeFromJSON("foo-value"));
     updates.put(ChildKey.fromString("bar"), NodeUtilities.NodeFromJSON("bar-value"));
     compoundWrite =
@@ -351,7 +351,7 @@ public class CompoundWriteTest {
   public void addingUpdatesAtRootWorks() {    
     final Map<String, Object> base =
         new MapBuilder().put("child-1", "value-1").put("child-2", "value-2").build();
-    Map<ChildKey, Node> updates = new HashMap<>();
+    Map<ChildKey, Node> updates = new HashMap<ChildKey, Node>();
     updates.put(ChildKey.fromString("child-1"), NodeUtilities.NodeFromJSON("new-value-1"));
     updates.put(ChildKey.fromString("child-2"), EmptyNode.Empty());
     updates.put(ChildKey.fromString("child-3"), NodeUtilities.NodeFromJSON("value-3"));
@@ -405,10 +405,10 @@ public class CompoundWriteTest {
     compoundWrite = compoundWrite.addWrite(new Path("child-1/deep/path"), LEAF_NODE);
     compoundWrite = compoundWrite.addWrite(new Path("child-2"), LEAF_NODE);
     compoundWrite = compoundWrite.addWrite(new Path("child-3"), EmptyNode.Empty());
-    Map<ChildKey, Node> expected = new HashMap<>();
+    Map<ChildKey, Node> expected = new HashMap<ChildKey, Node>();
     expected.put(ChildKey.fromString("child-2"), LEAF_NODE);
     expected.put(ChildKey.fromString("child-3"), EmptyNode.Empty());
-    Map<ChildKey, Node> actual = new HashMap<>();
+    Map<ChildKey, Node> actual = new HashMap<ChildKey, Node>();
     for (NamedNode node : compoundWrite.getCompleteChildren()) {
       actual.put(node.getName(), node.getNode());
     }
@@ -423,11 +423,11 @@ public class CompoundWriteTest {
     Node baseNode = NodeUtilities.NodeFromJSON(base);
     compoundWrite = compoundWrite.addWrite(Path.getEmptyPath(), baseNode);
 
-    Map<ChildKey, Node> expected = new HashMap<>();
+    Map<ChildKey, Node> expected = new HashMap<ChildKey, Node>();
     expected.put(ChildKey.fromString("child-1"), NodeUtilities.NodeFromJSON("value-1"));
     expected.put(ChildKey.fromString("child-2"), NodeUtilities.NodeFromJSON("value-2"));
 
-    Map<ChildKey, Node> actual = new HashMap<>();
+    Map<ChildKey, Node> actual = new HashMap<ChildKey, Node>();
     for (NamedNode node : compoundWrite.getCompleteChildren()) {
       actual.put(node.getName(), node.getNode());
     }
@@ -552,7 +552,7 @@ public class CompoundWriteTest {
   public void removingOnlyAffectsRemovedPath() {    
     final Map<String, Object> base =
         new MapBuilder().put("child-1", "value-1").put("child-2", "value-2").build();
-    Map<ChildKey, Node> updates = new HashMap<>();
+    Map<ChildKey, Node> updates = new HashMap<ChildKey, Node>();
     updates.put(ChildKey.fromString("child-1"), NodeUtilities.NodeFromJSON("new-value-1"));
     updates.put(ChildKey.fromString("child-2"), EmptyNode.Empty());
     updates.put(ChildKey.fromString("child-3"), NodeUtilities.NodeFromJSON("value-3"));

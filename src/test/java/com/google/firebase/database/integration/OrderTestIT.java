@@ -95,7 +95,7 @@ public class OrderTestIT {
       throws TestFailure, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    List<DatabaseReference> paths = new ArrayList<>(20);
+    List<DatabaseReference> paths = new ArrayList<DatabaseReference>(20);
     // Generate children quickly to try to get a few in the same millisecond
     for (int i = 0; i < 20; ++i) {
       paths.add(ref.push());
@@ -342,7 +342,7 @@ public class OrderTestIT {
             "alpha41",
             "alpha42").build();
 
-    List<String> actual = new ArrayList<>(expected.size());
+    List<String> actual = new ArrayList<String>(expected.size());
     DataSnapshot snap = TestHelpers.getSnap(writer);
     for (DataSnapshot child : snap.getChildren()) {
       actual.add(child.getKey());
@@ -376,7 +376,7 @@ public class OrderTestIT {
 
     List<String> expected = ImmutableList.of(
         "0", "3", "03", "003", "5", "9", "20", "100", "bar", "foo");
-    List<String> actual = new ArrayList<>(expected.size());
+    List<String> actual = new ArrayList<String>(expected.size());
     DataSnapshot snap = TestHelpers.getSnap(writer);
     for (DataSnapshot child : snap.getChildren()) {
       actual.add(child.getKey());
@@ -394,7 +394,7 @@ public class OrderTestIT {
     new WriteFuture(writer.child("-2000000000"), 0).timedGet();
 
     List<String> expected = ImmutableList.of("-2000000000", "2000000000");
-    List<String> actual = new ArrayList<>(expected.size());
+    List<String> actual = new ArrayList<String>(expected.size());
     DataSnapshot snap = TestHelpers.getSnap(writer);
     for (DataSnapshot child : snap.getChildren()) {
       actual.add(child.getKey());
@@ -406,7 +406,7 @@ public class OrderTestIT {
   public void testPrevNameOnChildAddedEvent() throws InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> results = new ArrayList<>();
+    final List<String> results = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     final ChildEventListener listener =
         ref.addChildEventListener(
@@ -449,7 +449,7 @@ public class OrderTestIT {
   public void testPrevNameOnAddingNewNodes() throws InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> results = new ArrayList<>();
+    final List<String> results = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     final ChildEventListener listener =
         ref.addChildEventListener(
@@ -495,7 +495,7 @@ public class OrderTestIT {
   public void testPrevNameOnAddingNewNodesWithJSON() throws InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> results = new ArrayList<>();
+    final List<String> results = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     final ChildEventListener listener =
         ref.addChildEventListener(
@@ -541,7 +541,7 @@ public class OrderTestIT {
   public void testPrevNameIOnMovingNodes() throws InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> results = new ArrayList<>();
+    final List<String> results = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     final ChildEventListener listener =
         ref.addChildEventListener(
@@ -595,7 +595,7 @@ public class OrderTestIT {
   public void testPrevNameOnWhenMovingNodesBySettingJson() throws InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> results = new ArrayList<>();
+    final List<String> results = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     final ChildEventListener listener =
         ref.addChildEventListener(
@@ -736,7 +736,7 @@ public class OrderTestIT {
   public void testCase2003ChildMovedForPriorityChange1() throws InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> results = new ArrayList<>();
+    final List<String> results = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     final ChildEventListener listener =
         ref.addChildEventListener(
@@ -787,7 +787,7 @@ public class OrderTestIT {
   public void testCase2003ChildMovedForPriorityChange2() throws InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> results = new ArrayList<>();
+    final List<String> results = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     final ChildEventListener listener =
         ref.addChildEventListener(

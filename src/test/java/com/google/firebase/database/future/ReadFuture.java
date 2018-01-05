@@ -36,7 +36,7 @@ import java.util.concurrent.TimeoutException;
 public class ReadFuture implements Future<List<EventRecord>> {
 
   private final ValueEventListener valueEventListener;
-  private List<EventRecord> events = new ArrayList<>();
+  private List<EventRecord> events = new ArrayList<EventRecord>();
   private Semaphore semaphore;
   private boolean wasCancelled = false;
   private boolean done = false;

@@ -39,7 +39,8 @@ public class GaeThreadFactory implements ThreadFactory {
       new GaeExecutorService("LegacyFirebaseDefault");
   private static final String GAE_THREAD_MANAGER_CLASS = "com.google.appengine.api.ThreadManager";
   private static final GaeThreadFactory instance = new GaeThreadFactory();
-  private final AtomicReference<ThreadFactoryWrapper> threadFactory = new AtomicReference<>(null);
+  private final AtomicReference<ThreadFactoryWrapper> threadFactory =
+          new AtomicReference<ThreadFactoryWrapper>(null);
 
   private GaeThreadFactory() {}
 
@@ -123,10 +124,7 @@ public class GaeThreadFactory implements ThreadFactory {
         threadFactory = createRequestScopedFactory();
         thread = threadFactory.newThread(r);
       }
-    } catch (ClassNotFoundException
-        | InvocationTargetException
-        | NoSuchMethodException
-        | IllegalAccessException e) {
+    } catch (Exception e) {
       threadFactory =
           new ThreadFactory() {
             @Override

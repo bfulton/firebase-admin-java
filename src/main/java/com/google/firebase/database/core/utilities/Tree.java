@@ -59,7 +59,7 @@ public class Tree<T> {
     while (next != null) {
       TreeNode<T> childNode =
           child.node.children.containsKey(next) ? child.node.children.get(next) : new TreeNode<T>();
-      child = new Tree<>(next, child, childNode);
+      child = new Tree<T>(next, child, childNode);
       path = path.popFront();
       next = path.getFront();
     }
@@ -148,7 +148,7 @@ public class Tree<T> {
     for (int i = 0; i < entries.length; ++i) {
       @SuppressWarnings("unchecked")
       Map.Entry<ChildKey, TreeNode<T>> entry = (Map.Entry<ChildKey, TreeNode<T>>) entries[i];
-      Tree<T> subTree = new Tree<>(entry.getKey(), this, entry.getValue());
+      Tree<T> subTree = new Tree<T>(entry.getKey(), this, entry.getValue());
       visitor.visitTree(subTree);
     }
   }

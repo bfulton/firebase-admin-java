@@ -102,7 +102,7 @@ class Connection implements WebsocketConnection.Delegate {
   public void sendRequest(Map<String, Object> message, boolean isSensitive) {
     // This came from the persistent connection. Wrap it in an envelope and send it
 
-    Map<String, Object> request = new HashMap<>();
+    Map<String, Object> request = new HashMap<String, Object>();
     request.put(REQUEST_TYPE, REQUEST_TYPE_DATA);
     request.put(REQUEST_PAYLOAD, message);
 

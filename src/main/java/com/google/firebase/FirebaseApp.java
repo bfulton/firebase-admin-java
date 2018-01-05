@@ -19,7 +19,6 @@ package com.google.firebase;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -27,6 +26,7 @@ import com.google.auth.oauth2.OAuth2Credentials;
 import com.google.auth.oauth2.OAuth2Credentials.CredentialsChangedListener;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -76,7 +76,7 @@ public class FirebaseApp {
   private static final Logger logger = LoggerFactory.getLogger(FirebaseApp.class);
 
   /** A map of (name, FirebaseApp) instances. */
-  private static final Map<String, FirebaseApp> instances = new HashMap<>();
+  private static final Map<String, FirebaseApp> instances = new HashMap<String, FirebaseApp>();
 
   public static final String DEFAULT_APP_NAME = "[DEFAULT]";
 
@@ -96,7 +96,7 @@ public class FirebaseApp {
   private final ThreadManager.FirebaseExecutors executors;
 
   private final AtomicBoolean deleted = new AtomicBoolean();
-  private final Map<String, FirebaseService> services = new HashMap<>();
+  private final Map<String, FirebaseService> services = new HashMap<String, FirebaseService>();
 
   private volatile ScheduledExecutorService scheduledExecutor;
 
@@ -224,7 +224,7 @@ public class FirebaseApp {
    * the app has been deleted.
    */
   static String getPersistenceKey(String name, FirebaseOptions options) {
-    return BaseEncoding.base64Url().omitPadding().encode(name.getBytes(UTF_8));
+    return BaseEncoding.base64Url().omitPadding().encode(name.getBytes(Charsets.UTF_8));
   }
 
   /** Use this key to store data per FirebaseApp. */
@@ -233,7 +233,7 @@ public class FirebaseApp {
   }
 
   private static List<String> getAllAppNames() {
-    Set<String> allAppNames = new HashSet<>();
+    Set<String> allAppNames = new HashSet<String>();
     synchronized (appsLock) {
       for (FirebaseApp app : instances.values()) {
         allAppNames.add(app.getName());
@@ -243,7 +243,7 @@ public class FirebaseApp {
         allAppNames.addAll(appStore.getAllPersistedAppNames());
       }
     }
-    List<String> sortedNameList = new ArrayList<>(allAppNames);
+    List<String> sortedNameList = new ArrayList<String>(allAppNames);
     Collections.sort(sortedNameList);
     return sortedNameList;
   }
@@ -432,7 +432,7 @@ public class FirebaseApp {
     TokenRefresher(FirebaseApp firebaseApp) {
       this.firebaseApp = checkNotNull(firebaseApp);
       this.credentials = firebaseApp.getOptions().getCredentials();
-      this.state = new AtomicReference<>(State.READY);
+      this.state = new AtomicReference<State>(State.READY);
     }
 
     @Override

@@ -88,7 +88,7 @@ public class UserRecord implements UserInfo {
       return ImmutableMap.of();
     }
     try {
-      Map<String, Object> parsed = new HashMap<>();
+      Map<String, Object> parsed = new HashMap<String, Object>();
       jsonFactory.createJsonParser(customClaims).parseAndClose(parsed);
       return ImmutableMap.copyOf(parsed);
     } catch (IOException e) {
@@ -268,7 +268,7 @@ public class UserRecord implements UserInfo {
    */
   public static class CreateRequest {
 
-    private final Map<String,Object> properties = new HashMap<>();
+    private final Map<String,Object> properties = new HashMap<String, Object>();
 
     /**
      * Creates a new {@link CreateRequest}, which can be used to create a new user. The returned
@@ -383,7 +383,7 @@ public class UserRecord implements UserInfo {
    */
   public static class UpdateRequest {
 
-    private final Map<String,Object> properties = new HashMap<>();
+    private final Map<String,Object> properties = new HashMap<String, Object>();
 
     /**
      * Creates a new {@link UpdateRequest}, which can be used to update the attributes
@@ -500,8 +500,8 @@ public class UserRecord implements UserInfo {
     }
 
     Map<String, Object> getProperties(JsonFactory jsonFactory) {
-      Map<String, Object> copy = new HashMap<>(properties);
-      List<String> remove = new ArrayList<>();
+      Map<String, Object> copy = new HashMap<String, Object>(properties);
+      List<String> remove = new ArrayList<String>();
       for (Map.Entry<String, String> entry : REMOVABLE_FIELDS.entrySet()) {
         if (copy.containsKey(entry.getKey()) && copy.get(entry.getKey()) == null) {
           remove.add(entry.getValue());

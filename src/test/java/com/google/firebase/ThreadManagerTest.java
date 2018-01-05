@@ -169,7 +169,9 @@ public class ThreadManagerTest {
     // Calling an async method on auth should not re-initialize threading resources.
     try {
       auth.verifyIdTokenAsync("foo").get();
-    } catch (InterruptedException | ExecutionException ignored) {
+    } catch (InterruptedException ignored) {
+      // ignored
+    } catch (ExecutionException ignored) {
       // ignored
     }
     assertEquals(1, threadManager.events.size());
@@ -205,7 +207,9 @@ public class ThreadManagerTest {
     // Calling an async method on auth should not re-initialize threading resources.
     try {
       auth.verifyIdTokenAsync("foo").get();
-    } catch (InterruptedException | ExecutionException ignored) {
+    } catch (InterruptedException ignored) {
+      // ignored
+    } catch (ExecutionException ignored) {
       // ignored
     }
     assertEquals(1, threadManager.events.size());
@@ -216,7 +220,9 @@ public class ThreadManagerTest {
     // Calling a method again should not re-initialize threading resources.
     try {
       auth.verifyIdTokenAsync("foo").get();
-    } catch (InterruptedException | ExecutionException ignored) {
+    } catch (InterruptedException ignored) {
+      // ignored
+    } catch (ExecutionException ignored) {
       // ignored
     }
     assertEquals(1, threadManager.events.size());
@@ -244,7 +250,7 @@ public class ThreadManagerTest {
 
   private static class MockThreadManager extends ThreadManager {
 
-    private final List<Event> events = new ArrayList<>();
+    private final List<Event> events = new ArrayList<Event>();
     private final ExecutorService executor;
 
     MockThreadManager(ExecutorService executor) {

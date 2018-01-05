@@ -101,9 +101,9 @@ public class RandomOperationGenerator {
     this.random = new Random(seed);
     this.seed = seed;
     this.currentServerState = getRandomNode(0, MAX_DEPTH);
-    this.outstandingWrites = new LinkedList<>();
-    this.outstandingListens = new LinkedList<>();
-    this.outstandingUnlistens = new LinkedList<>();
+    this.outstandingWrites = new LinkedList<WriteOp>();
+    this.outstandingListens = new LinkedList<QuerySpec>();
+    this.outstandingUnlistens = new LinkedList<QuerySpec>();
     this.writeTree = new WriteTree();
   }
 
@@ -277,7 +277,7 @@ public class RandomOperationGenerator {
       // special case when data has not been sent, maybe have incomplete user writes
       Node node = EmptyNode.Empty();
       // first: gather any complete children
-      Set<ChildKey> completeChildren = new HashSet<>();
+      Set<ChildKey> completeChildren = new HashSet<ChildKey>();
       for (WriteOp op : outstandingWrites) {
         if (op.operation.getType() == Operation.OperationType.Overwrite) {
           Overwrite overwrite = (Overwrite) op.operation;
@@ -346,7 +346,7 @@ public class RandomOperationGenerator {
   private Operation getAckForWrite(Operation writeOp, boolean revert) {
     if (writeOp.getType() == Operation.OperationType.Overwrite) {
       Overwrite overwrite = (Overwrite) writeOp;
-      return new AckUserWrite(overwrite.getPath(), new ImmutableTree<>(true), revert);
+      return new AckUserWrite(overwrite.getPath(), new ImmutableTree<Boolean>(true), revert);
     } else {
       assert (writeOp.getType() == Operation.OperationType.Merge);
       Merge merge = (Merge) writeOp;
@@ -502,7 +502,7 @@ public class RandomOperationGenerator {
   }
 
   private Map<ChildKey, Node> getMergeMap(Merge merge) {
-    Map<ChildKey, Node> map = new HashMap<>();
+    Map<ChildKey, Node> map = new HashMap<ChildKey, Node>();
     for (Map.Entry<ChildKey, CompoundWrite> entry :
         merge.getChildren().childCompoundWrites().entrySet()) {
       ChildKey key = entry.getKey();

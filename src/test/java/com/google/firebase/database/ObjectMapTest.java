@@ -135,7 +135,7 @@ public class ObjectMapTest {
 
   @Test
   public void basicGenerics() {
-    List<Author> authors = new ArrayList<>();
+    List<Author> authors = new ArrayList<Author>();
     authors.addAll(
         Arrays.asList(new Author("Greg", 3), new Author("Vikrum", 4), new Author("Michael", 5)));
 
@@ -151,7 +151,7 @@ public class ObjectMapTest {
   public void nestedGenerics() throws IOException {
     MutableData data = emptyData();
     Author author = new Author("Greg", 3);
-    List<Message> messages = new ArrayList<>();
+    List<Message> messages = new ArrayList<Message>();
     messages.add(new Message("hello world", author));
     messages.add(new Message("foo bar", author));
     AuthorMessages am = new AuthorMessages(author, messages);

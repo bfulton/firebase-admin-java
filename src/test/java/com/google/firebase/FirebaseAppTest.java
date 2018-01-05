@@ -77,7 +77,7 @@ public class FirebaseAppTest {
 
   private static void invokePublicInstanceMethodWithDefaultValues(Object instance, Method method)
       throws InvocationTargetException, IllegalAccessException {
-    List<Object> parameters = new ArrayList<>(method.getParameterTypes().length);
+    List<Object> parameters = new ArrayList<Object>(method.getParameterTypes().length);
     for (Class<?> parameterType : method.getParameterTypes()) {
       parameters.add(Defaults.defaultValue(parameterType));
     }

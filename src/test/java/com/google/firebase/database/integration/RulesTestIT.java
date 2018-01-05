@@ -147,7 +147,7 @@ public class RulesTestIT {
     DatabaseReference ref = writer.child("read_only");
 
     final Semaphore semaphore = new Semaphore(0);
-    final AtomicReference<DatabaseError> result = new AtomicReference<>();
+    final AtomicReference<DatabaseError> result = new AtomicReference<DatabaseError>();
     ref.setValue("value", new DatabaseReference.CompletionListener() {
       @Override
       public void onComplete(DatabaseError error, DatabaseReference ref) {

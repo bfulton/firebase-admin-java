@@ -125,7 +125,7 @@ public class FirebaseInstanceId {
    *     or unsuccessfully with the failure Exception..
    */
   public ApiFuture<Void> deleteInstanceIdAsync(@NonNull String instanceId) {
-    return new TaskToApiFuture<>(deleteInstanceId(instanceId));
+    return new TaskToApiFuture<Void>(deleteInstanceId(instanceId));
   }
 
   private Task<Void> deleteInstanceId(final String instanceId) {

@@ -157,7 +157,7 @@ public class OnDisconnect {
    * @return The ApiFuture for this operation.
    */
   public ApiFuture<Void> setValueAsync(Object value) {
-    return new TaskToApiFuture<>(setValue(value));
+    return new TaskToApiFuture<Void>(setValue(value));
   }
 
   /**
@@ -172,7 +172,7 @@ public class OnDisconnect {
    * @return The ApiFuture for this operation.
    */
   public ApiFuture<Void> setValueAsync(Object value, String priority) {
-    return new TaskToApiFuture<>(setValue(value, priority));
+    return new TaskToApiFuture<Void>(setValue(value, priority));
   }
 
   /**
@@ -187,7 +187,7 @@ public class OnDisconnect {
    * @return The ApiFuture for this operation.
    */
   public ApiFuture<Void> setValueAsync(Object value, double priority) {
-    return new TaskToApiFuture<>(setValue(value, priority));
+    return new TaskToApiFuture<Void>(setValue(value, priority));
   }
 
   private Task<Void> onDisconnectSetInternal(
@@ -238,7 +238,7 @@ public class OnDisconnect {
    * @return The ApiFuture for this operation.
    */
   public ApiFuture<Void> updateChildrenAsync(Map<String, Object> update) {
-    return new TaskToApiFuture<>(updateChildren(update));
+    return new TaskToApiFuture<Void>(updateChildren(update));
   }
 
   private Task<Void> updateChildrenInternal(
@@ -282,7 +282,7 @@ public class OnDisconnect {
    * @return The ApiFuture for this operation.
    */
   public ApiFuture<Void> removeValueAsync() {
-    return new TaskToApiFuture<>(removeValue());
+    return new TaskToApiFuture<Void>(removeValue());
   }
 
   // Cancel the operation
@@ -312,7 +312,7 @@ public class OnDisconnect {
    * @return The ApiFuture for this operation.
    */
   public ApiFuture<Void> cancelAsync() {
-    return new TaskToApiFuture<>(cancel());
+    return new TaskToApiFuture<Void>(cancel());
   }
 
   private Task<Void> cancelInternal(final CompletionListener optListener) {

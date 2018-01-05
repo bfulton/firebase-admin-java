@@ -133,7 +133,7 @@ public class FirebaseThreadManagersTest {
         .setCredentials(new MockGoogleCredentials())
         .build();
     FirebaseApp defaultApp = FirebaseApp.initializeApp(options);
-    final Map<String, Object> threadInfo = new HashMap<>();
+    final Map<String, Object> threadInfo = new HashMap<String, Object>();
     Callable<Void> command = new Callable<Void>() {
       @Override
       public Void call() throws Exception {

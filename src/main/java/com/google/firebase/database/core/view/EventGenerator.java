@@ -43,7 +43,7 @@ public class EventGenerator {
       List<Change> changes,
       List<EventRegistration> eventRegistrations,
       IndexedNode eventCache) {
-    List<Change> filteredChanges = new ArrayList<>();
+    List<Change> filteredChanges = new ArrayList<Change>();
     for (Change change : changes) {
       if (change.getEventType().equals(type)) {
         filteredChanges.add(change);
@@ -76,9 +76,9 @@ public class EventGenerator {
 
   public List<DataEvent> generateEventsForChanges(
       List<Change> changes, IndexedNode eventCache, List<EventRegistration> eventRegistrations) {
-    List<DataEvent> events = new ArrayList<>();
+    List<DataEvent> events = new ArrayList<DataEvent>();
 
-    List<Change> moves = new ArrayList<>();
+    List<Change> moves = new ArrayList<Change>();
     for (Change change : changes) {
       if (change.getEventType().equals(Event.EventType.CHILD_CHANGED)
           && index.indexedValueChanged(

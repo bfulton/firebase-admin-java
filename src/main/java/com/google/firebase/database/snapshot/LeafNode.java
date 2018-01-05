@@ -112,7 +112,7 @@ public abstract class LeafNode<T extends LeafNode> implements Node {
     if (!useExportFormat || priority.isEmpty()) {
       return getValue();
     } else {
-      Map<String, Object> result = new HashMap<>();
+      Map<String, Object> result = new HashMap<String, Object>();
       result.put(".value", getValue());
       result.put(".priority", priority.getValue());
       return result;

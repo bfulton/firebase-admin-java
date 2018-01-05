@@ -41,14 +41,14 @@ public final class Tasks {
 
   /** Returns a completed Task with the specified result. */
   public static <T> Task<T> forResult(T result) {
-    TaskImpl<T> task = new TaskImpl<>();
+    TaskImpl<T> task = new TaskImpl<T>();
     task.setResult(result);
     return task;
   }
 
   /** Returns a completed Task with the specified exception. */
   public static <T> Task<T> forException(@NonNull Exception exception) {
-    TaskImpl<T> task = new TaskImpl<>();
+    TaskImpl<T> task = new TaskImpl<T>();
     task.setException(exception);
     return task;
   }
@@ -73,7 +73,7 @@ public final class Tasks {
     checkNotNull(executor, "Executor must not be null");
     checkNotNull(callable, "Callback must not be null");
 
-    final TaskImpl<T> task = new TaskImpl<>();
+    final TaskImpl<T> task = new TaskImpl<T>();
     executor.execute(
         new Runnable() {
           @Override
@@ -151,7 +151,7 @@ public final class Tasks {
         throw new NullPointerException("null tasks are not accepted");
       }
     }
-    TaskImpl<Void> whenAllTask = new TaskImpl<>();
+    TaskImpl<Void> whenAllTask = new TaskImpl<Void>();
     WhenAllListener listener = new WhenAllListener(tasks.size(), whenAllTask);
     for (Task<?> task : tasks) {
       addListener(task, listener);

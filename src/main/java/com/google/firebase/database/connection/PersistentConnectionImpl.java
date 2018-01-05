@@ -103,7 +103,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
   private final RetryHelper retryHelper;
 
   private String cachedHost;
-  private HashSet<String> interruptReasons = new HashSet<>();
+  private HashSet<String> interruptReasons = new HashSet<String>();
   private boolean firstConnection = true;
   private long lastConnectionEstablishedTime;
   private Connection realtime;
@@ -138,10 +138,10 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
     this.connFactory = connFactory;
     this.executorService = context.getExecutorService();
     this.authTokenProvider = context.getAuthTokenProvider();
-    this.listens = new HashMap<>();
-    this.requestCBHash = new HashMap<>();
-    this.outstandingPuts = new HashMap<>();
-    this.onDisconnectRequestQueue = new ArrayList<>();
+    this.listens = new HashMap<ListenQuerySpec, OutstandingListen>();
+    this.requestCBHash = new HashMap<Long, ConnectionRequestCallback>();
+    this.outstandingPuts = new HashMap<Long, OutstandingPut>();
+    this.onDisconnectRequestQueue = new ArrayList<OutstandingDisconnect>();
     this.retryHelper =
         new RetryHelper.Builder(this.executorService, context.getLogger(), RetryHelper.class)
             .withMinDelayAfterFailure(1000)
@@ -550,7 +550,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
 
   private void sendOnDisconnect(
       String action, List<String> path, Object data, final RequestResultCallback onComplete) {
-    Map<String, Object> request = new HashMap<>();
+    Map<String, Object> request = new HashMap<String, Object>();
     request.put(REQUEST_PATH, ConnectionUtils.pathToString(path));
     request.put(REQUEST_DATA_PAYLOAD, data);
     //
@@ -576,7 +576,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
   }
 
   private void cancelSentTransactions() {
-    List<OutstandingPut> cancelledTransactionWrites = new ArrayList<>();
+    List<OutstandingPut> cancelledTransactionWrites = new ArrayList<OutstandingPut>();
 
     Iterator<Map.Entry<Long, OutstandingPut>> iter = outstandingPuts.entrySet().iterator();
     while (iter.hasNext()) {
@@ -596,7 +596,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
   }
 
   private void sendUnlisten(OutstandingListen listen) {
-    Map<String, Object> request = new HashMap<>();
+    Map<String, Object> request = new HashMap<String, Object>();
     request.put(REQUEST_PATH, ConnectionUtils.pathToString(listen.query.path));
 
     Long tag = listen.getTag();
@@ -630,7 +630,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
     if (logger.logsDebug()) {
       logger.debug("removing all listens at path " + path);
     }
-    List<OutstandingListen> removedListens = new ArrayList<>();
+    List<OutstandingListen> removedListens = new ArrayList<OutstandingListen>();
     for (Map.Entry<ListenQuerySpec, OutstandingListen> entry : listens.entrySet()) {
       ListenQuerySpec query = entry.getKey();
       OutstandingListen listen = entry.getValue();
@@ -674,7 +674,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
       Long tag = ConnectionUtils.longFromObject(body.get(SERVER_DATA_TAG));
       @SuppressWarnings("unchecked")
       List<Map<String, Object>> ranges = (List<Map<String, Object>>) payloadData;
-      List<RangeMerge> rangeMerges = new ArrayList<>();
+      List<RangeMerge> rangeMerges = new ArrayList<RangeMerge>();
       for (Map<String, Object> range : ranges) {
         String startString = (String) range.get(SERVER_DATA_START_PATH);
         String endString = (String) range.get(SERVER_DATA_END_PATH);
@@ -789,7 +789,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
           }
         };
 
-    Map<String, Object> request = new HashMap<>();
+    Map<String, Object> request = new HashMap<String, Object>();
     GAuthToken googleAuthToken = GAuthToken.tryParseFromString(this.authToken);
     if (googleAuthToken != null) {
       request.put(REQUEST_CREDENTIAL, googleAuthToken.getToken());
@@ -859,7 +859,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
       logger.debug("Restoring writes.");
     }
     // Restore puts
-    ArrayList<Long> outstanding = new ArrayList<>(outstandingPuts.keySet());
+    ArrayList<Long> outstanding = new ArrayList<Long>(outstandingPuts.keySet());
     // Make sure puts are restored in order
     Collections.sort(outstanding);
     for (Long put : outstanding) {
@@ -882,13 +882,13 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
       logger.debug("handling timestamp");
     }
     long timestampDelta = timestamp - System.currentTimeMillis();
-    Map<String, Object> updates = new HashMap<>();
+    Map<String, Object> updates = new HashMap<String, Object>();
     updates.put(Constants.DOT_INFO_SERVERTIME_OFFSET, timestampDelta);
     delegate.onServerInfoUpdate(updates);
   }
 
   private Map<String, Object> getPutObject(List<String> path, Object data, String hash) {
-    Map<String, Object> request = new HashMap<>();
+    Map<String, Object> request = new HashMap<String, Object>();
     request.put(REQUEST_PATH, ConnectionUtils.pathToString(path));
     request.put(REQUEST_DATA_PAYLOAD, data);
     if (hash != null) {
@@ -959,7 +959,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
   }
 
   private void sendListen(final OutstandingListen listen) {
-    Map<String, Object> request = new HashMap<>();
+    Map<String, Object> request = new HashMap<String, Object>();
     request.put(REQUEST_PATH, ConnectionUtils.pathToString(listen.getQuery().path));
     Long tag = listen.getTag();
     // Only bother to send query if it's non-default
@@ -974,11 +974,11 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
     if (hashFunction.shouldIncludeCompoundHash()) {
       CompoundHash compoundHash = hashFunction.getCompoundHash();
 
-      List<String> posts = new ArrayList<>();
+      List<String> posts = new ArrayList<String>();
       for (List<String> path : compoundHash.getPosts()) {
         posts.add(ConnectionUtils.pathToString(path));
       }
-      Map<String, Object> hash = new HashMap<>();
+      Map<String, Object> hash = new HashMap<String, Object>();
       hash.put(REQUEST_COMPOUND_HASH_HASHES, compoundHash.getHashes());
       hash.put(REQUEST_COMPOUND_HASH_PATHS, posts);
       request.put(REQUEST_COMPOUND_HASH, hash);
@@ -1021,7 +1021,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
 
   private void sendStats(final Map<String, Integer> stats) {
     if (!stats.isEmpty()) {
-      Map<String, Object> request = new HashMap<>();
+      Map<String, Object> request = new HashMap<String, Object>();
       request.put(REQUEST_COUNTERS, stats);
       sendAction(
           REQUEST_ACTION_STATS,
@@ -1060,7 +1060,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
   }
 
   private void sendConnectStats() {
-    Map<String, Integer> stats = new HashMap<>();
+    Map<String, Integer> stats = new HashMap<String, Integer>();
     assert !this.context.isPersistenceEnabled()
         : "Stats for persistence on JVM missing (persistence not yet supported)";
     stats.put("sdk.admin_java." + context.getClientSdkVersion().replace('.', '-'), 1);
@@ -1081,7 +1081,7 @@ public class PersistentConnectionImpl implements Connection.Delegate, Persistent
       Map<String, Object> message,
       ConnectionRequestCallback onResponse) {
     long rn = nextRequestNumber();
-    Map<String, Object> request = new HashMap<>();
+    Map<String, Object> request = new HashMap<String, Object>();
     request.put(REQUEST_NUMBER, rn);
     request.put(REQUEST_ACTION, action);
     request.put(REQUEST_PAYLOAD, message);

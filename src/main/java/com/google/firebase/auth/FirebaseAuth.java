@@ -171,7 +171,7 @@ public class FirebaseAuth {
    *     Token, or unsuccessfully with the failure Exception.
    */
   public ApiFuture<String> createCustomTokenAsync(String uid) {
-    return new TaskToApiFuture<>(createCustomToken(uid));
+    return new TaskToApiFuture<String>(createCustomToken(uid));
   }
 
   /**
@@ -189,7 +189,7 @@ public class FirebaseAuth {
    */
   public ApiFuture<String> createCustomTokenAsync(
       final String uid, final Map<String, Object> developerClaims) {
-    return new TaskToApiFuture<>(createCustomToken(uid, developerClaims));
+    return new TaskToApiFuture<String>(createCustomToken(uid, developerClaims));
   }
 
   /**
@@ -244,7 +244,7 @@ public class FirebaseAuth {
    *     unsuccessfully with the failure Exception.
    */
   public ApiFuture<FirebaseToken> verifyIdTokenAsync(final String token) {
-    return new TaskToApiFuture<>(verifyIdToken(token));
+    return new TaskToApiFuture<FirebaseToken>(verifyIdToken(token));
   }
 
   /**
@@ -278,7 +278,7 @@ public class FirebaseAuth {
    * @throws IllegalArgumentException If the user ID string is null or empty.
    */
   public ApiFuture<UserRecord> getUserAsync(final String uid) {
-    return new TaskToApiFuture<>(getUser(uid));
+    return new TaskToApiFuture<UserRecord>(getUser(uid));
   }
 
   /**
@@ -312,7 +312,7 @@ public class FirebaseAuth {
    * @throws IllegalArgumentException If the email is null or empty.
    */
   public ApiFuture<UserRecord> getUserByEmailAsync(final String email) {
-    return new TaskToApiFuture<>(getUserByEmail(email));
+    return new TaskToApiFuture<UserRecord>(getUserByEmail(email));
   }
 
   /**
@@ -346,7 +346,7 @@ public class FirebaseAuth {
    * @throws IllegalArgumentException If the phone number is null or empty.
    */
   public ApiFuture<UserRecord> getUserByPhoneNumberAsync(final String phoneNumber) {
-    return new TaskToApiFuture<>(getUserByPhoneNumber(phoneNumber));
+    return new TaskToApiFuture<UserRecord>(getUserByPhoneNumber(phoneNumber));
   }
 
   private Task<ListUsersPage> listUsers(@Nullable String pageToken, int maxResults) {
@@ -386,7 +386,7 @@ public class FirebaseAuth {
    *     is invalid.
    */
   public ApiFuture<ListUsersPage> listUsersAsync(@Nullable String pageToken, int maxResults) {
-    return new TaskToApiFuture<>(listUsers(pageToken, maxResults));
+    return new TaskToApiFuture<ListUsersPage>(listUsers(pageToken, maxResults));
   }
 
   /**
@@ -422,7 +422,7 @@ public class FirebaseAuth {
    * @throws NullPointerException if the provided request is null.
    */
   public ApiFuture<UserRecord> createUserAsync(final CreateRequest request) {
-    return new TaskToApiFuture<>(createUser(request));
+    return new TaskToApiFuture<UserRecord>(createUser(request));
   }
 
   /**
@@ -458,7 +458,7 @@ public class FirebaseAuth {
    * @throws NullPointerException if the provided update request is null.
    */
   public ApiFuture<UserRecord> updateUserAsync(final UpdateRequest request) {
-    return new TaskToApiFuture<>(updateUser(request));
+    return new TaskToApiFuture<UserRecord>(updateUser(request));
   }
 
   private Task<Void> setCustomClaims(String uid, Map<String, Object> claims) {
@@ -487,7 +487,7 @@ public class FirebaseAuth {
    *     payload is invalid or too large.
    */
   public ApiFuture<Void> setCustomUserClaimsAsync(String uid, Map<String, Object> claims) {
-    return new TaskToApiFuture<>(setCustomClaims(uid, claims));
+    return new TaskToApiFuture<Void>(setCustomClaims(uid, claims));
   }
 
   /**
@@ -522,7 +522,7 @@ public class FirebaseAuth {
    * @throws IllegalArgumentException If the user ID string is null or empty.
    */
   public ApiFuture<Void> deleteUserAsync(final String uid) {
-    return new TaskToApiFuture<>(deleteUser(uid));
+    return new TaskToApiFuture<Void>(deleteUser(uid));
   }
 
   private <T> Task<T> call(Callable<T> command) {

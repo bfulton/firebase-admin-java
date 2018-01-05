@@ -52,7 +52,8 @@ public class CustomClassMapper {
 
   private static final Logger logger = LoggerFactory.getLogger(CustomClassMapper.class);
 
-  private static final ConcurrentMap<Class<?>, BeanMapper<?>> mappers = new ConcurrentHashMap<>();
+  private static final ConcurrentMap<Class<?>, BeanMapper<?>> mappers =
+          new ConcurrentHashMap<Class<?>, BeanMapper<?>>();
 
   /**
    * Converts a Java representation of JSON data to standard library Java data types: Map, Array,
@@ -138,7 +139,7 @@ public class CustomClassMapper {
     } else if (obj instanceof Character) {
       throw new DatabaseException("Characters are not supported, please strings");
     } else if (obj instanceof Map) {
-      Map<String, Object> result = new HashMap<>();
+      Map<String, Object> result = new HashMap<String, Object>();
       for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) obj).entrySet()) {
         Object key = entry.getKey();
         if (key instanceof String) {
@@ -152,7 +153,7 @@ public class CustomClassMapper {
     } else if (obj instanceof Collection) {
       if (obj instanceof List) {
         List<Object> list = (List<Object>) obj;
-        List<Object> result = new ArrayList<>(list.size());
+        List<Object> result = new ArrayList<Object>(list.size());
         for (Object object : list) {
           result.add(serialize(object));
         }
@@ -228,7 +229,7 @@ public class CustomClassMapper {
       Type genericType = type.getActualTypeArguments()[0];
       if (obj instanceof List) {
         List<Object> list = (List<Object>) obj;
-        List<Object> result = new ArrayList<>(list.size());
+        List<Object> result = new ArrayList<Object>(list.size());
         for (Object object : list) {
           result.add(deserializeToType(object, genericType));
         }
@@ -247,7 +248,7 @@ public class CustomClassMapper {
                 + keyType);
       }
       Map<String, Object> map = expectMap(obj);
-      HashMap<String, Object> result = new HashMap<>();
+      HashMap<String, Object> result = new HashMap<String, Object>();
       for (Map.Entry<String, Object> entry : map.entrySet()) {
         result.put(entry.getKey(), deserializeToType(entry.getValue(), valueType));
       }
@@ -257,7 +258,8 @@ public class CustomClassMapper {
     } else {
       Map<String, Object> map = expectMap(obj);
       BeanMapper<T> mapper = (BeanMapper<T>) loadOrCreateBeanMapperForClass(rawType);
-      HashMap<TypeVariable<Class<T>>, Type> typeMapping = new HashMap<>();
+      HashMap<TypeVariable<Class<T>>, Type> typeMapping =
+              new HashMap<TypeVariable<Class<T>>, Type>();
       TypeVariable<Class<T>>[] typeVariables = mapper.clazz.getTypeParameters();
       Type[] types = type.getActualTypeArguments();
       if (types.length != typeVariables.length) {
@@ -318,7 +320,7 @@ public class CustomClassMapper {
   private static <T> BeanMapper<T> loadOrCreateBeanMapperForClass(Class<T> clazz) {
     BeanMapper<T> mapper = (BeanMapper<T>) mappers.get(clazz);
     if (mapper == null) {
-      mapper = new BeanMapper<>(clazz);
+      mapper = new BeanMapper<T>(clazz);
       // Inserting without checking is fine because mappers are "pure" and it's okay
       // if we create and use multiple by different threads temporarily
       mappers.put(clazz, mapper);
@@ -448,11 +450,11 @@ public class CustomClassMapper {
       this.clazz = clazz;
       this.throwOnUnknownProperties = clazz.isAnnotationPresent(ThrowOnExtraProperties.class);
       this.warnOnUnknownProperties = !clazz.isAnnotationPresent(IgnoreExtraProperties.class);
-      this.properties = new HashMap<>();
+      this.properties = new HashMap<String, String>();
 
-      this.setters = new HashMap<>();
-      this.getters = new HashMap<>();
-      this.fields = new HashMap<>();
+      this.setters = new HashMap<String, Method>();
+      this.getters = new HashMap<String, Method>();
+      this.fields = new HashMap<String, Field>();
 
       Constructor<T> constructor = null;
       try {
@@ -707,7 +709,7 @@ public class CustomClassMapper {
       T instance;
       try {
         instance = this.constructor.newInstance();
-      } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+      } catch (Exception e) {
         throw new RuntimeException(e);
       }
       for (Map.Entry<String, Object> entry : values.entrySet()) {
@@ -722,7 +724,9 @@ public class CustomClassMapper {
           Object value = CustomClassMapper.deserializeToType(entry.getValue(), resolvedType);
           try {
             setter.invoke(instance, value);
-          } catch (IllegalAccessException | InvocationTargetException e) {
+          } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+          } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
           }
         } else if (this.fields.containsKey(propertyName)) {
@@ -775,7 +779,7 @@ public class CustomClassMapper {
                 + " with BeanMapper for class "
                 + clazz);
       }
-      Map<String, Object> result = new HashMap<>();
+      Map<String, Object> result = new HashMap<String, Object>();
       for (String property : this.properties.values()) {
         Object propertyValue;
         if (this.getters.containsKey(property)) {

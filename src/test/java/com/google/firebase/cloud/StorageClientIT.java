@@ -63,11 +63,16 @@ public class StorageClientIT {
     Bucket bucket = storage.bucket();
     Blob blob = createTextBlob(bucket, "Signed URL Test");
     URL url = blob.signUrl(3600, TimeUnit.SECONDS);
-    try (InputStream in = url.openStream()) {
+    InputStream in = null;
+    try {
+      in = url.openStream();
       String result = CharStreams.toString(new InputStreamReader(in));
       assertEquals("Signed URL Test", result);
     } finally {
       blob.delete();
+      if (in != null) {
+        in.close();
+      }
     }
   }
 

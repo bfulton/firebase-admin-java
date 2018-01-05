@@ -85,7 +85,7 @@ public class RandomPersistenceTest {
   }
 
   private static Map<Path, Node> fromCompoundWrite(CompoundWrite write) {
-    Map<Path, Node> map = new HashMap<>();
+    Map<Path, Node> map = new HashMap<Path, Node>();
     for (Map.Entry<Path, Node> entry : write) {
       map.put(entry.getKey(), entry.getValue());
     }
@@ -173,8 +173,8 @@ public class RandomPersistenceTest {
       final RandomOperationGenerator generator = new RandomOperationGenerator();
       Random random = new Random(generator.getSeed());
 
-      Set<QuerySpec> activeListens = new HashSet<>();
-      Set<QuerySpec> completeListens = new HashSet<>();
+      Set<QuerySpec> activeListens = new HashSet<QuerySpec>();
+      Set<QuerySpec> completeListens = new HashSet<QuerySpec>();
       currentWriteId = 0;
       currentUnackedWriteId = 0;
 
@@ -182,7 +182,7 @@ public class RandomPersistenceTest {
       MockPersistenceStorageEngine storageEngine = new MockPersistenceStorageEngine();
       DefaultPersistenceManager manager =
           new DefaultPersistenceManager(cfg, storageEngine, CachePolicy.NONE);
-      final HashMap<QuerySpec, Tag> tagMap = new HashMap<>();
+      final HashMap<QuerySpec, Tag> tagMap = new HashMap<QuerySpec, Tag>();
       SyncTree syncTree =
           new SyncTree(cfg, manager, new SyncTree.ListenProvider() {
               @Override

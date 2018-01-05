@@ -34,7 +34,7 @@ class ThreadPoolEventTarget implements EventTarget, UncaughtExceptionHandler {
   public ThreadPoolEventTarget(
       final ThreadFactory wrappedFactory, final ThreadInitializer threadInitializer) {
     int poolSize = 1;
-    BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+    BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
 
     executor = new ThreadPoolExecutor(poolSize, poolSize, 3, TimeUnit.SECONDS, queue,
         new ThreadFactory() {

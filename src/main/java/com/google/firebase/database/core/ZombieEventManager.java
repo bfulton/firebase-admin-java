@@ -39,7 +39,7 @@ public class ZombieEventManager implements EventRegistrationZombieListener {
   // to use as lookup keys.
   // Package private for testing purposes only
   final HashMap<EventRegistration, List<EventRegistration>> globalEventRegistrations =
-      new HashMap<>();
+      new HashMap<EventRegistration, List<EventRegistration>>();
 
   private ZombieEventManager() {}
 
@@ -52,7 +52,7 @@ public class ZombieEventManager implements EventRegistrationZombieListener {
     synchronized (globalEventRegistrations) {
       List<EventRegistration> registrationList = globalEventRegistrations.get(registration);
       if (registrationList == null) {
-        registrationList = new ArrayList<>();
+        registrationList = new ArrayList<EventRegistration>();
         globalEventRegistrations.put(registration, registrationList);
       }
       registrationList.add(registration);
@@ -64,7 +64,7 @@ public class ZombieEventManager implements EventRegistrationZombieListener {
             registration.clone(QuerySpec.defaultQueryAtPath(registration.getQuerySpec().getPath()));
         registrationList = globalEventRegistrations.get(defaultRegistration);
         if (registrationList == null) {
-          registrationList = new ArrayList<>();
+          registrationList = new ArrayList<EventRegistration>();
           globalEventRegistrations.put(defaultRegistration, registrationList);
         }
         registrationList.add(registration);
@@ -139,7 +139,7 @@ public class ZombieEventManager implements EventRegistrationZombieListener {
           // a single query, but its somewhat wasteful to enumerate the list when we
           // know we will
           // only grab 1.
-          HashSet<QuerySpec> zombiedQueries = new HashSet<>();
+          HashSet<QuerySpec> zombiedQueries = new HashSet<QuerySpec>();
           // Walk down the list so that removes do not mess up the enumeration.
           for (int i = registrationList.size() - 1; i >= 0; i--) {
             EventRegistration currentRegistration = registrationList.get(i);

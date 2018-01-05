@@ -107,7 +107,7 @@ public class JsonMapper {
 
   @SuppressWarnings("unchecked")
   private static Map<String, Object> unwrapJsonObject(JSONObject jsonObject) throws JSONException {
-    Map<String, Object> map = new HashMap<>(jsonObject.length());
+    Map<String, Object> map = new HashMap<String, Object>(jsonObject.length());
     Iterator<String> keys = jsonObject.keys();
     while (keys.hasNext()) {
       String key = keys.next();
@@ -117,7 +117,7 @@ public class JsonMapper {
   }
 
   private static List<Object> unwrapJsonArray(JSONArray jsonArray) throws JSONException {
-    List<Object> list = new ArrayList<>(jsonArray.length());
+    List<Object> list = new ArrayList<Object>(jsonArray.length());
     for (int i = 0; i < jsonArray.length(); i++) {
       list.add(unwrapJson(jsonArray.get(i)));
     }

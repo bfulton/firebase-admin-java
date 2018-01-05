@@ -51,8 +51,8 @@ public class PruneForest {
           return prune;
         }
       };
-  private static final ImmutableTree<Boolean> PRUNE_TREE = new ImmutableTree<>(true);
-  private static final ImmutableTree<Boolean> KEEP_TREE = new ImmutableTree<>(false);
+  private static final ImmutableTree<Boolean> PRUNE_TREE = new ImmutableTree<Boolean>(true);
+  private static final ImmutableTree<Boolean> KEEP_TREE = new ImmutableTree<Boolean>(false);
   private final ImmutableTree<Boolean> pruneForest;
 
   public PruneForest() {
@@ -92,7 +92,7 @@ public class PruneForest {
   public PruneForest child(ChildKey key) {
     ImmutableTree<Boolean> childPruneTree = this.pruneForest.getChild(key);
     if (childPruneTree == null) {
-      childPruneTree = new ImmutableTree<>(this.pruneForest.getValue());
+      childPruneTree = new ImmutableTree<Boolean>(this.pruneForest.getValue());
     } else {
       if (childPruneTree.getValue() == null && this.pruneForest.getValue() != null) {
         childPruneTree = childPruneTree.set(Path.getEmptyPath(), this.pruneForest.getValue());
@@ -177,7 +177,8 @@ public class PruneForest {
       childrenMap = childrenMap.insert(key, keepOrPruneTree);
     }
     return new PruneForest(
-        this.pruneForest.setTree(path, new ImmutableTree<>(subtree.getValue(), childrenMap)));
+        this.pruneForest.setTree(path,
+                new ImmutableTree<Boolean>(subtree.getValue(), childrenMap)));
   }
 
   @Override

@@ -34,9 +34,9 @@ public class ImmutableSortedSetTest {
     assertEquals(set.hashCode(), set2.hashCode());
     assertEquals(set, set2);
 
-    List<String> original = new ArrayList<>();
+    List<String> original = new ArrayList<String>();
     Collections.addAll(original, "abc", "mno", "pqr");
-    set2 = new ImmutableSortedSet<>(original, Ordering.<String>natural());
+    set2 = new ImmutableSortedSet<String>(original, Ordering.<String>natural());
     assertNotEquals(set.hashCode(), set2.hashCode());
     assertNotEquals(set, set2);
   }
@@ -74,9 +74,9 @@ public class ImmutableSortedSetTest {
   }
 
   private ImmutableSortedSet<String> newSet() {
-    List<String> original = new ArrayList<>();
+    List<String> original = new ArrayList<String>();
     Collections.addAll(original, "foo", "bar", "baz");
-    return new ImmutableSortedSet<>(original, Ordering.<String>natural());
+    return new ImmutableSortedSet<String>(original, Ordering.<String>natural());
   }
 
 }

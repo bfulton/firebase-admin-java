@@ -52,6 +52,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import java.util.concurrent.atomic.AtomicLong;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -106,7 +107,8 @@ public class QueryTestIT {
       try {
         ref.orderByChild(key);
         fail("Should throw");
-      } catch (DatabaseException | IllegalArgumentException e) { // ignore
+      } catch (DatabaseException e) { // ignore
+      } catch (IllegalArgumentException e) { // ignore
       }
     }
   }
@@ -118,174 +120,208 @@ public class QueryTestIT {
     try {
       ref.orderByKey().orderByPriority();
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByKey().orderByValue();
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByKey().orderByChild("foo");
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByValue().orderByPriority();
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByValue().orderByKey();
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByValue().orderByValue();
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByValue().orderByChild("foo");
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByChild("foo").orderByPriority();
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByChild("foo").orderByKey();
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByChild("foo").orderByValue();
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByKey().startAt(1);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByKey().startAt(null);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByKey().endAt(null);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByKey().equalTo(null);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByKey().startAt("test", "test");
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByKey().endAt(1);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByKey().endAt("test", "test");
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByKey().orderByPriority();
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByPriority().orderByKey();
       fail("Should throw");
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByPriority().orderByValue();
       fail("Should throw");
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByPriority().orderByPriority();
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.limitToLast(1).limitToLast(1);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.limitToFirst(1).limitToLast(1);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.limitToLast(1).limitToFirst(1);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.equalTo(true).endAt("test", "test");
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.equalTo(true).startAt("test", "test");
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.equalTo(true).equalTo("test", "test");
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.equalTo("test").equalTo(true);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByChild("foo").orderByKey();
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.limitToFirst(5).limitToLast(10);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.startAt(5).equalTo(10);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByPriority().startAt(false);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByPriority().endAt(true);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
     try {
       ref.orderByPriority().equalTo(true);
       fail("Should throw");
-    } catch (DatabaseException | IllegalArgumentException e) { // ignore
+    } catch (DatabaseException e) { // ignore
+    } catch (IllegalArgumentException e) { // ignore
     }
   }
 
@@ -445,8 +481,8 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> added = new ArrayList<>();
-    final List<String> removed = new ArrayList<>();
+    final List<String> added = new ArrayList<String>();
+    final List<String> removed = new ArrayList<String>();
 
     ref.limitToLast(2).addChildEventListener(new ChildEventListener() {
       @Override
@@ -491,8 +527,8 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> added = new ArrayList<>();
-    final List<String> removed = new ArrayList<>();
+    final List<String> added = new ArrayList<String>();
+    final List<String> removed = new ArrayList<String>();
 
     new WriteFuture(ref, MapBuilder.of("a", 1,"b", 2,"c", 3)).timedGet();
     final Semaphore semaphore = new Semaphore(0);
@@ -540,8 +576,8 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> added = new ArrayList<>();
-    final List<String> removed = new ArrayList<>();
+    final List<String> added = new ArrayList<String>();
+    final List<String> removed = new ArrayList<String>();
 
     ref.startAt(null, "a").limitToFirst(2).addChildEventListener(new ChildEventListener() {
       @Override
@@ -586,8 +622,8 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> added = new ArrayList<>();
-    final List<String> removed = new ArrayList<>();
+    final List<String> added = new ArrayList<String>();
+    final List<String> removed = new ArrayList<String>();
 
     new WriteFuture(ref, MapBuilder.of("a", 1,"b", 2,"c", 3)).timedGet();
     final Semaphore semaphore = new Semaphore(0);
@@ -635,8 +671,8 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> added = new ArrayList<>();
-    final List<String> removed = new ArrayList<>();
+    final List<String> added = new ArrayList<String>();
+    final List<String> removed = new ArrayList<String>();
 
     ref.startAt(null, "a").limitToFirst(2).addChildEventListener(new ChildEventListener() {
       @Override
@@ -681,8 +717,8 @@ public class QueryTestIT {
 
     new WriteFuture(ref, MapBuilder.of("c", 3)).timedGet();
 
-    final List<String> added = new ArrayList<>();
-    final List<String> removed = new ArrayList<>();
+    final List<String> added = new ArrayList<String>();
+    final List<String> removed = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     ref.startAt(null, "a").limitToFirst(2).addChildEventListener(new ChildEventListener() {
       @Override
@@ -726,8 +762,8 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> added = new ArrayList<>();
-    final List<String> removed = new ArrayList<>();
+    final List<String> added = new ArrayList<String>();
+    final List<String> removed = new ArrayList<String>();
 
     ref.limitToLast(2).addChildEventListener(new ChildEventListener() {
       @Override
@@ -771,8 +807,8 @@ public class QueryTestIT {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
     new WriteFuture(ref, MapBuilder.of("a", 1,"b", 2,"c", 3)).timedGet();
-    final List<String> added = new ArrayList<>();
-    final List<String> removed = new ArrayList<>();
+    final List<String> added = new ArrayList<String>();
+    final List<String> removed = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
 
     ref.limitToLast(2).addChildEventListener(new ChildEventListener() {
@@ -817,8 +853,8 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> added = new ArrayList<>();
-    final List<String> removed = new ArrayList<>();
+    final List<String> added = new ArrayList<String>();
+    final List<String> removed = new ArrayList<String>();
 
     ref.limitToLast(2).addChildEventListener(new ChildEventListener() {
       @Override
@@ -866,8 +902,8 @@ public class QueryTestIT {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
     new WriteFuture(ref, MapBuilder.of("b", 2,"c", 3)).timedGet();
-    final List<String> added = new ArrayList<>();
-    final List<String> removed = new ArrayList<>();
+    final List<String> added = new ArrayList<String>();
+    final List<String> removed = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
     final ChildEventListener listener = ref.limitToLast(2)
         .addChildEventListener(new ChildEventListener() {
@@ -1045,7 +1081,7 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> names = new ArrayList<>();
+    final List<String> names = new ArrayList<String>();
     ref.limitToLast(2).addChildEventListener(new ChildEventListener() {
       @Override
       public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
@@ -1088,7 +1124,7 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> names = new ArrayList<>();
+    final List<String> names = new ArrayList<String>();
     ref.limitToLast(2).addChildEventListener(new ChildEventListener() {
       @Override
       public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
@@ -1143,7 +1179,7 @@ public class QueryTestIT {
     DatabaseReference writer = refs.get(0);
     DatabaseReference reader = refs.get(1);
 
-    final List<String> events = new ArrayList<>();
+    final List<String> events = new ArrayList<String>();
     final Semaphore semaphore = new Semaphore(0);
 
     ReadFuture future = new ReadFuture(reader);
@@ -1291,7 +1327,7 @@ public class QueryTestIT {
         .put("Fred", new MapBuilder().put("score", 0.0).put("name", "Fred").build()).build();
     ref.setValueAsync(toSet);
     final Semaphore semaphore = new Semaphore(0);
-    final List<String> names = new ArrayList<>();
+    final List<String> names = new ArrayList<String>();
     ref.limitToLast(5).addChildEventListener(new ChildEventListener() {
       @Override
       public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
@@ -1370,7 +1406,7 @@ public class QueryTestIT {
         .put("Fred", new MapBuilder().put("score", 0.0).put("name", "Fred").build()).build();
 
     final Semaphore semaphore = new Semaphore(0);
-    final List<String> names = new ArrayList<>();
+    final List<String> names = new ArrayList<String>();
     final ChildEventListener listener = ref.limitToLast(5)
         .addChildEventListener(new ChildEventListener() {
           @Override
@@ -1446,7 +1482,7 @@ public class QueryTestIT {
 
     final ReadFuture parentFuture = ReadFuture.untilCountAfterNull(ref.limitToLast(1), 2);
 
-    final List<DataSnapshot> childSnaps = new ArrayList<>();
+    final List<DataSnapshot> childSnaps = new ArrayList<DataSnapshot>();
     ref.child("a").addValueEventListener(new ValueEventListener() {
       @Override
       public void onDataChange(DataSnapshot snapshot) {
@@ -1483,7 +1519,7 @@ public class QueryTestIT {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
     final ReadFuture parentFuture = ReadFuture.untilCountAfterNull(ref.limitToLast(1), 3);
-    final List<DataSnapshot> childSnaps = new ArrayList<>();
+    final List<DataSnapshot> childSnaps = new ArrayList<DataSnapshot>();
     final ValueEventListener listener = ref.child("a").addValueEventListener(
         new ValueEventListener() {
           @Override
@@ -1527,8 +1563,8 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<DataSnapshot> cSnaps = new ArrayList<>();
-    final List<DataSnapshot> dSnaps = new ArrayList<>();
+    final List<DataSnapshot> cSnaps = new ArrayList<DataSnapshot>();
+    final List<DataSnapshot> dSnaps = new ArrayList<DataSnapshot>();
 
     ref.endAt(null, "c").limitToLast(1).addValueEventListener(new ValueEventListener() {
       @Override
@@ -1575,7 +1611,7 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<Long> values = new ArrayList<>();
+    final List<Long> values = new ArrayList<Long>();
     final Semaphore semaphore = new Semaphore(0);
     ref.limitToLast(1).addChildEventListener(new ChildEventListener() {
       @Override
@@ -1628,7 +1664,7 @@ public class QueryTestIT {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
     ref.setValueAsync(MapBuilder.of("a", 1, "b", 2));
-    final List<Long> values = new ArrayList<>();
+    final List<Long> values = new ArrayList<Long>();
     final Semaphore semaphore = new Semaphore(0);
     ref.limitToFirst(1).addChildEventListener(new ChildEventListener() {
       @Override
@@ -2346,10 +2382,10 @@ public class QueryTestIT {
       throws TestFailure, ExecutionException, TimeoutException, InterruptedException {
     DatabaseReference ref = IntegrationTestUtils.getRandomNode(masterApp);
 
-    final List<String> addedFirst = new ArrayList<>();
-    final List<String> removedFirst = new ArrayList<>();
-    final List<String> addedSecond = new ArrayList<>();
-    final List<String> removedSecond = new ArrayList<>();
+    final List<String> addedFirst = new ArrayList<String>();
+    final List<String> removedFirst = new ArrayList<String>();
+    final List<String> addedSecond = new ArrayList<String>();
+    final List<String> removedSecond = new ArrayList<String>();
 
     ref.startAt(0).endAt(10).addChildEventListener(new ChildEventListener() {
       @Override
@@ -2758,7 +2794,7 @@ public class QueryTestIT {
 
     TestHelpers.waitFor(done);
 
-    final List<String> children = new ArrayList<>();
+    final List<String> children = new ArrayList<String>();
     ref.orderByChild("foo").addChildEventListener(new ChildEventListener() {
       @Override
       public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
@@ -2820,7 +2856,7 @@ public class QueryTestIT {
 
         // Validate that snap.child() resets order to default for child
         // snaps
-        List<String> orderedKeys = new ArrayList<>();
+        List<String> orderedKeys = new ArrayList<String>();
         for (DataSnapshot childSnap : snapshot.child("b").getChildren()) {
           orderedKeys.add(childSnap.getKey());
         }
@@ -2828,7 +2864,7 @@ public class QueryTestIT {
 
         // Validate that snap.forEach() resets ordering to default for
         // child snaps
-        List<Object> orderedNames = new ArrayList<>();
+        List<Object> orderedNames = new ArrayList<Object>();
         for (DataSnapshot childSnap : snapshot.getChildren()) {
           orderedNames.add(childSnap.child("name").getValue());
           orderedKeys.clear();

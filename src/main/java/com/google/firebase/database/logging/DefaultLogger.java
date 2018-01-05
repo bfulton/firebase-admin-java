@@ -28,7 +28,7 @@ public class DefaultLogger implements Logger {
 
   public DefaultLogger(Level level, List<String> enabledComponents) {
     if (enabledComponents != null) {
-      this.enabledComponents = new HashSet<>(enabledComponents);
+      this.enabledComponents = new HashSet<String>(enabledComponents);
     } else {
       this.enabledComponents = null;
     }

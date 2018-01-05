@@ -943,7 +943,7 @@ public class EventTestIT {
             .put("h", MapBuilder.of(".value", "y", ".priority", 7))
             .build();
 
-    final List<String> events = new ArrayList<>();
+    final List<String> events = new ArrayList<String>();
     ref.addChildEventListener(
         new ChildEventListener() {
           @Override
@@ -1029,7 +1029,7 @@ public class EventTestIT {
             .put("h", MapBuilder.of(".value", "y", ".priority", 7))
             .build();
 
-    final List<String> events = new ArrayList<>();
+    final List<String> events = new ArrayList<String>();
     ref.limitToLast(10)
         .addChildEventListener(
             new ChildEventListener() {

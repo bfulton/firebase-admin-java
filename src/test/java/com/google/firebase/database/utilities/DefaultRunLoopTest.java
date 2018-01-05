@@ -114,7 +114,7 @@ public class DefaultRunLoopTest {
 
   private static class MockRunLoop extends DefaultRunLoop {
 
-    private final List<Throwable> errors = new ArrayList<>();
+    private final List<Throwable> errors = new ArrayList<Throwable>();
 
     MockRunLoop() {
       super(Executors.defaultThreadFactory());

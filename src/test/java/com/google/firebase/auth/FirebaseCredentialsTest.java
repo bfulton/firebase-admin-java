@@ -16,13 +16,12 @@
 
 package com.google.firebase.auth;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.google.api.client.googleapis.testing.auth.oauth2.MockTokenServerTransport;
 import com.google.api.client.googleapis.util.Utils;
 import com.google.api.client.json.JsonFactory;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.firebase.auth.internal.BaseCredential;
 import com.google.firebase.auth.internal.FirebaseCredentialsAdapter;
@@ -30,13 +29,15 @@ import com.google.firebase.tasks.Task;
 import com.google.firebase.tasks.Tasks;
 import com.google.firebase.testing.ServiceAccount;
 import com.google.firebase.testing.TestUtils;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,7 +77,14 @@ public class FirebaseCredentialsTest {
     transport.addServiceAccount(ServiceAccount.EDITOR.getEmail(), ACCESS_TOKEN);
 
     File credentialsFile = File.createTempFile("google-test-credentials", "json");
-    PrintWriter writer = new PrintWriter(Files.newBufferedWriter(credentialsFile.toPath(), UTF_8));
+    PrintWriter writer = new PrintWriter(
+            new BufferedWriter(
+                    new OutputStreamWriter(
+                            new FileOutputStream(credentialsFile),
+                            Charsets.UTF_8
+                    )
+            )
+    );
     writer.print(ServiceAccount.EDITOR.asString());
     writer.close();
     Map<String, String> environmentVariables =
@@ -202,7 +210,7 @@ public class FirebaseCredentialsTest {
     transport.addClient(CLIENT_ID, CLIENT_SECRET);
     transport.addRefreshToken(REFRESH_TOKEN, ACCESS_TOKEN);
 
-    Map<String, Object> secretJson = new HashMap<>();
+    Map<String, Object> secretJson = new HashMap<String, Object>();
     secretJson.put("client_id", CLIENT_ID);
     secretJson.put("client_secret", CLIENT_SECRET);
     secretJson.put("refresh_token", REFRESH_TOKEN);

@@ -43,7 +43,7 @@ public class CompoundHashTest {
       };
 
   private static CompoundHash.SplitStrategy splitAtPaths(String... paths) {
-    final List<Path> pathList = new ArrayList<>();
+    final List<Path> pathList = new ArrayList<Path>();
     for (String path : paths) {
       pathList.add(path(path));
     }

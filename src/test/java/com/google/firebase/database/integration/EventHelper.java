@@ -50,16 +50,18 @@ class EventHelper {
   private Semaphore semaphore;
   private Semaphore initializationSemaphore;
   private boolean waitingForInitialization = false;
-  private Map<DatabaseReference, ValueEventListener> valueListeners = new HashMap<>();
-  private Map<DatabaseReference, ChildEventListener> childListeners = new HashMap<>();
+  private Map<DatabaseReference, ValueEventListener> valueListeners =
+          new HashMap<DatabaseReference, ValueEventListener>();
+  private Map<DatabaseReference, ChildEventListener> childListeners =
+          new HashMap<DatabaseReference, ChildEventListener>();
 
   EventHelper() {
-    lookingFor = new ArrayList<>();
-    locations = new HashSet<>();
-    toListen = new HashSet<>();
-    results = new ArrayList<>();
+    lookingFor = new ArrayList<Expectation>();
+    locations = new HashSet<DatabaseReference>();
+    toListen = new HashSet<DatabaseReference>();
+    results = new ArrayList<EventRecord>();
     semaphore = new Semaphore(1);
-    uninitializedRefs = new HashSet<>();
+    uninitializedRefs = new HashSet<DatabaseReference>();
     initializationSemaphore = new Semaphore(0);
   }
 

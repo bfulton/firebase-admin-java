@@ -38,95 +38,95 @@ public class TaskImplTest {
 
   @Test
   public void testIsComplete_notComplete() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     assertFalse(task.isComplete());
   }
 
   @Test
   public void testIsComplete_failed() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setException(EXCEPTION);
     assertTrue(task.isComplete());
   }
 
   @Test
   public void testIsComplete_nullResult() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setResult(NULL_RESULT);
     assertTrue(task.isComplete());
   }
 
   @Test
   public void testIsComplete_nonNullResult() {
-    TaskImpl<String> task = new TaskImpl<>();
+    TaskImpl<String> task = new TaskImpl<String>();
     task.setResult(NON_NULL_RESULT);
     assertTrue(task.isComplete());
   }
 
   @Test
   public void testIsSuccessful_notComplete() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     assertFalse(task.isSuccessful());
   }
 
   @Test
   public void testIsSuccessful_failed() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setException(EXCEPTION);
     assertFalse(task.isSuccessful());
   }
 
   @Test
   public void testIsSuccessful_nullResult() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setResult(NULL_RESULT);
     assertTrue(task.isSuccessful());
   }
 
   @Test
   public void testIsSuccessful_nonNullResult() {
-    TaskImpl<String> task = new TaskImpl<>();
+    TaskImpl<String> task = new TaskImpl<String>();
     task.setResult(NON_NULL_RESULT);
     assertTrue(task.isSuccessful());
   }
 
   @Test(expected = IllegalStateException.class)
   public void testGetResult_notComplete() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.getResult();
   }
 
   @Test
   public void testGetResult_nullResult() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setResult(NULL_RESULT);
     assertNull(task.getResult());
   }
 
   @Test
   public void testGetResult_nonNullResult() {
-    TaskImpl<String> task = new TaskImpl<>();
+    TaskImpl<String> task = new TaskImpl<String>();
     task.setResult(NON_NULL_RESULT);
     assertEquals(NON_NULL_RESULT, task.getResult());
   }
 
   @Test
   public void testTrySetResult_nullResult() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     assertTrue(task.trySetResult(NULL_RESULT));
     assertNull(task.getResult());
   }
 
   @Test
   public void testTrySetResult_nonNullResult() {
-    TaskImpl<String> task = new TaskImpl<>();
+    TaskImpl<String> task = new TaskImpl<String>();
     assertTrue(task.trySetResult(NON_NULL_RESULT));
     assertEquals(NON_NULL_RESULT, task.getResult());
   }
 
   @Test
   public void testGetResult_failure() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setException(EXCEPTION);
 
     try {
@@ -139,7 +139,7 @@ public class TaskImplTest {
 
   @Test
   public void testGetResult_exceptionIsSpecifiedType() throws Exception {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setException(EXCEPTION);
 
     try {
@@ -152,7 +152,7 @@ public class TaskImplTest {
 
   @Test
   public void testGetResult_exceptionIsNotSpecifiedType() throws Exception {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     Exception exception = new RuntimeException();
     task.setException(exception);
 
@@ -166,42 +166,42 @@ public class TaskImplTest {
 
   @Test
   public void testGetException_notComplete() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     assertNull(task.getException());
   }
 
   @Test
   public void testGetException_failure() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setException(EXCEPTION);
     assertEquals(EXCEPTION, task.getException());
   }
 
   @Test
   public void testTrySetException() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     assertTrue(task.trySetException(EXCEPTION));
     assertEquals(EXCEPTION, task.getException());
   }
 
   @Test
   public void testGetException_nullResult() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setResult(NULL_RESULT);
     assertNull(task.getException());
   }
 
   @Test
   public void testGetException_nonNullResult() {
-    TaskImpl<String> task = new TaskImpl<>();
+    TaskImpl<String> task = new TaskImpl<String>();
     task.setResult(NON_NULL_RESULT);
     assertNull(task.getException());
   }
 
   @Test
   public void testOnSuccess_nullResult() throws Exception {
-    TaskImpl<Void> task = new TaskImpl<>();
-    TestOnSuccessListener<Void> listener = new TestOnSuccessListener<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
+    TestOnSuccessListener<Void> listener = new TestOnSuccessListener<Void>();
     task.addOnSuccessListener(listener);
 
     task.setResult(NULL_RESULT);
@@ -212,8 +212,8 @@ public class TaskImplTest {
 
   @Test
   public void testOnSuccess_nonNullResult() throws Exception {
-    TaskImpl<String> task = new TaskImpl<>();
-    TestOnSuccessListener<String> listener = new TestOnSuccessListener<>();
+    TaskImpl<String> task = new TaskImpl<String>();
+    TestOnSuccessListener<String> listener = new TestOnSuccessListener<String>();
     task.addOnSuccessListener(listener);
 
     task.setResult(NON_NULL_RESULT);
@@ -224,8 +224,8 @@ public class TaskImplTest {
 
   @Test
   public void testOnSuccess_alreadyComplete() throws Exception {
-    TaskImpl<String> task = new TaskImpl<>();
-    TestOnSuccessListener<String> listener = new TestOnSuccessListener<>();
+    TaskImpl<String> task = new TaskImpl<String>();
+    TestOnSuccessListener<String> listener = new TestOnSuccessListener<String>();
     task.setResult(NON_NULL_RESULT);
 
     task.addOnSuccessListener(listener);
@@ -236,8 +236,8 @@ public class TaskImplTest {
 
   @Test
   public void testOnSuccess_acceptsBaseResult() throws Exception {
-    TaskImpl<String> task = new TaskImpl<>();
-    TestOnSuccessListener<Object> listener = new TestOnSuccessListener<>();
+    TaskImpl<String> task = new TaskImpl<String>();
+    TestOnSuccessListener<Object> listener = new TestOnSuccessListener<Object>();
     task.setResult(NON_NULL_RESULT);
 
     task.addOnSuccessListener(listener);
@@ -248,7 +248,7 @@ public class TaskImplTest {
 
   @Test
   public void testOnFailure() throws Exception {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     TestOnFailureListener listener = new TestOnFailureListener();
     task.addOnFailureListener(listener);
 
@@ -260,7 +260,7 @@ public class TaskImplTest {
 
   @Test
   public void testOnFailure_alreadyComplete() throws Exception {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     TestOnFailureListener listener = new TestOnFailureListener();
     task.setException(EXCEPTION);
 
@@ -272,8 +272,8 @@ public class TaskImplTest {
 
   @Test
   public void testOnComplete_nullResult() throws Exception {
-    TaskImpl<Void> task = new TaskImpl<>();
-    TestOnCompleteListener<Void> listener = new TestOnCompleteListener<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
+    TestOnCompleteListener<Void> listener = new TestOnCompleteListener<Void>();
     task.addOnCompleteListener(listener);
 
     task.setResult(NULL_RESULT);
@@ -284,8 +284,8 @@ public class TaskImplTest {
 
   @Test
   public void testOnComplete_nonNullResult() throws Exception {
-    TaskImpl<String> task = new TaskImpl<>();
-    TestOnCompleteListener<String> listener = new TestOnCompleteListener<>();
+    TaskImpl<String> task = new TaskImpl<String>();
+    TestOnCompleteListener<String> listener = new TestOnCompleteListener<String>();
     task.addOnCompleteListener(listener);
 
     task.setResult(NON_NULL_RESULT);
@@ -296,8 +296,8 @@ public class TaskImplTest {
 
   @Test
   public void testOnComplete_failure() throws Exception {
-    TaskImpl<String> task = new TaskImpl<>();
-    TestOnCompleteListener<String> listener = new TestOnCompleteListener<>();
+    TaskImpl<String> task = new TaskImpl<String>();
+    TestOnCompleteListener<String> listener = new TestOnCompleteListener<String>();
     task.addOnCompleteListener(listener);
 
     task.setException(EXCEPTION);
@@ -308,10 +308,10 @@ public class TaskImplTest {
 
   @Test
   public void testOnComplete_alreadySucceeded() throws Exception {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setResult(NULL_RESULT);
 
-    TestOnCompleteListener<Void> listener = new TestOnCompleteListener<>();
+    TestOnCompleteListener<Void> listener = new TestOnCompleteListener<Void>();
     task.addOnCompleteListener(listener);
 
     assertTrue(listener.await());
@@ -320,10 +320,10 @@ public class TaskImplTest {
 
   @Test
   public void testOnComplete_alreadyFailed() throws Exception {
-    TaskImpl<String> task = new TaskImpl<>();
+    TaskImpl<String> task = new TaskImpl<String>();
     task.setException(EXCEPTION);
 
-    TestOnCompleteListener<String> listener = new TestOnCompleteListener<>();
+    TestOnCompleteListener<String> listener = new TestOnCompleteListener<String>();
     task.addOnCompleteListener(listener);
 
     assertTrue(listener.await());
@@ -332,7 +332,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWith() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     Task<String> task2 =
         task.continueWith(
             TaskExecutors.DIRECT,
@@ -349,7 +349,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWith_alreadyComplete() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setResult(null);
     Task<Object> task2 =
         task.continueWith(
@@ -366,7 +366,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWith_propagatesException() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     Task<Void> task2 =
         task.continueWith(
             TaskExecutors.DIRECT,
@@ -383,7 +383,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWith_continuationThrows() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     Task<Void> task2 =
         task.continueWith(
             TaskExecutors.DIRECT,
@@ -399,7 +399,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWith_continuationThrowsWrapperWithoutCause() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     Task<Void> task2 =
         task.continueWith(
             TaskExecutors.DIRECT,
@@ -415,7 +415,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWith_continuationReturnsNull() {
-    TaskImpl<String> task = new TaskImpl<>();
+    TaskImpl<String> task = new TaskImpl<String>();
     Task<Void> task2 =
         task.continueWith(
             TaskExecutors.DIRECT,
@@ -432,7 +432,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWithTask() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     Task<String> task2 =
         task.continueWithTask(
             TaskExecutors.DIRECT,
@@ -449,7 +449,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWithTask_alreadyComplete() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setResult(null);
     Task<String> task2 =
         task.continueWithTask(
@@ -466,7 +466,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWithTask_propagatesException() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     Task<Void> task2 =
         task.continueWithTask(
             TaskExecutors.DIRECT,
@@ -483,7 +483,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWithTask_continuationThrows() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     Task<Void> task2 =
         task.continueWithTask(
             TaskExecutors.DIRECT,
@@ -499,7 +499,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWithTask_continuationThrowsWrapperWithoutCause() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     Task<Void> task2 =
         task.continueWithTask(
             TaskExecutors.DIRECT,
@@ -515,8 +515,8 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWithTask_continuationReturnsIncompleteTask() {
-    TaskImpl<Void> task = new TaskImpl<>();
-    final TaskImpl<String> task2 = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
+    final TaskImpl<String> task2 = new TaskImpl<String>();
     Task<String> task3 =
         task.continueWithTask(
             TaskExecutors.DIRECT,
@@ -535,7 +535,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWithTask_continuationReturnsOriginalTask() {
-    TaskImpl<String> task = new TaskImpl<>();
+    TaskImpl<String> task = new TaskImpl<String>();
     Task<String> task2 =
         task.continueWithTask(
             TaskExecutors.DIRECT,
@@ -551,7 +551,7 @@ public class TaskImplTest {
 
   @Test
   public void testContinueWithTask_continuationReturnsNull() {
-    TaskImpl<String> task = new TaskImpl<>();
+    TaskImpl<String> task = new TaskImpl<String>();
     Task<Void> task2 =
         task.continueWithTask(
             TaskExecutors.DIRECT,
@@ -568,14 +568,14 @@ public class TaskImplTest {
 
   @Test(expected = IllegalStateException.class)
   public void testSetResult_alreadyComplete() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setException(EXCEPTION);
     task.setResult(NULL_RESULT);
   }
 
   @Test
   public void testTrySetResult_alreadyComplete() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setException(EXCEPTION);
     // Expect no exception to be thrown.
     assertFalse(task.trySetResult(NULL_RESULT));
@@ -584,14 +584,14 @@ public class TaskImplTest {
 
   @Test(expected = IllegalStateException.class)
   public void testSetException_alreadyComplete() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setResult(NULL_RESULT);
     task.setException(EXCEPTION);
   }
 
   @Test
   public void testTrySetException_alreadyComplete() {
-    TaskImpl<Void> task = new TaskImpl<>();
+    TaskImpl<Void> task = new TaskImpl<Void>();
     task.setResult(NULL_RESULT);
     // Expect no exception to be thrown.
     assertFalse(task.trySetException(EXCEPTION));

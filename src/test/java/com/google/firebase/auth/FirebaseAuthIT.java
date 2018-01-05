@@ -152,7 +152,7 @@ public class FirebaseAuthIT {
       assertFalse(userRecord.isDisabled());
 
       assertEquals(2, userRecord.getProviderData().length);
-      List<String> providers = new ArrayList<>();
+      List<String> providers = new ArrayList<String>();
       for (UserInfo provider : userRecord.getProviderData()) {
         providers.add(provider.getProviderId());
       }
@@ -243,7 +243,7 @@ public class FirebaseAuthIT {
 
   @Test
   public void testListUsers() throws Exception {
-    final List<String> uids = new ArrayList<>();
+    final List<String> uids = new ArrayList<String>();
 
     try {
       uids.add(auth.createUserAsync(new CreateRequest().setPassword("password")).get().getUid());
@@ -280,7 +280,7 @@ public class FirebaseAuthIT {
       // Test iterate async
       collected.set(0);
       final Semaphore semaphore = new Semaphore(0);
-      final AtomicReference<Throwable> error = new AtomicReference<>();
+      final AtomicReference<Throwable> error = new AtomicReference<Throwable>();
       ApiFuture<ListUsersPage> pageFuture = auth.listUsersAsync(null);
       ApiFutures.addCallback(pageFuture, new ApiFutureCallback<ListUsersPage>() {
         @Override

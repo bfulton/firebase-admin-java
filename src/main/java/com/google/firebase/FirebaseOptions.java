@@ -140,7 +140,7 @@ public final class FirebaseOptions {
     private String databaseUrl;
     private String storageBucket;
     private GoogleCredentials credentials;
-    private Map<String, Object> databaseAuthVariableOverride = new HashMap<>();
+    private Map<String, Object> databaseAuthVariableOverride = new HashMap<String, Object>();
     private String projectId;
     private HttpTransport httpTransport = Utils.getDefaultTransport();
     private JsonFactory jsonFactory = Utils.getDefaultJsonFactory();

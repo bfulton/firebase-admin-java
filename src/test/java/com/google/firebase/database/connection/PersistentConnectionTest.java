@@ -254,7 +254,7 @@ public class PersistentConnectionTest {
     private final Connection conn = Mockito.mock(Connection.class);
     private final PersistentConnection.Delegate delegate = Mockito.mock(
         PersistentConnection.Delegate.class);
-    private final List<OutgoingMessage> outgoing = new ArrayList<>();
+    private final List<OutgoingMessage> outgoing = new ArrayList<OutgoingMessage>();
     private final Semaphore connected = new Semaphore(0);
 
     private final PersistentConnectionImpl persistentConn;
@@ -264,7 +264,7 @@ public class PersistentConnectionTest {
         @Override
         public Object answer(InvocationOnMock invocation) throws Throwable {
           outgoing.add(new OutgoingMessage(
-              (Map) invocation.getArgument(0), (boolean) invocation.getArgument(1)));
+              (Map) invocation.getArgument(0), (Boolean) invocation.getArgument(1)));
           return null;
         }
       }).when(conn).sendRequest(Mockito.<String, Object>anyMap(), Mockito.anyBoolean());

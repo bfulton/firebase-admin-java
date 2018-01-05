@@ -53,9 +53,9 @@ public class MockPersistenceStorageEngine implements PersistenceStorageEngine {
   }
 
   public MockPersistenceStorageEngine(List<UserWriteRecord> writes) {
-    this.writes = new HashMap<>();
-    this.trackedQueries = new HashMap<>();
-    this.trackedQueryKeys = new HashMap<>();
+    this.writes = new HashMap<Long, UserWriteRecord>();
+    this.trackedQueries = new HashMap<Long, TrackedQuery>();
+    this.trackedQueryKeys = new HashMap<Long, Set<ChildKey>>();
     for (UserWriteRecord record : writes) {
       this.writes.put(record.getWriteId(), record);
     }
@@ -80,7 +80,7 @@ public class MockPersistenceStorageEngine implements PersistenceStorageEngine {
 
   @Override
   public List<UserWriteRecord> loadUserWrites() {
-    List<UserWriteRecord> list = new ArrayList<>(this.writes.values());
+    List<UserWriteRecord> list = new ArrayList<UserWriteRecord>(this.writes.values());
     Collections.sort(
         list,
         new Comparator<UserWriteRecord>() {
@@ -161,7 +161,7 @@ public class MockPersistenceStorageEngine implements PersistenceStorageEngine {
 
   @Override
   public List<TrackedQuery> loadTrackedQueries() {
-    ArrayList<TrackedQuery> queries = new ArrayList<>(this.trackedQueries.values());
+    ArrayList<TrackedQuery> queries = new ArrayList<TrackedQuery>(this.trackedQueries.values());
     Collections.sort(
         queries,
         new Comparator<TrackedQuery>() {
@@ -190,7 +190,7 @@ public class MockPersistenceStorageEngine implements PersistenceStorageEngine {
     verifyInsideTransaction();
     assert (this.trackedQueries.containsKey(trackedQueryId))
         : "Can't track keys for an untracked query.";
-    this.trackedQueryKeys.put(trackedQueryId, new HashSet<>(keys));
+    this.trackedQueryKeys.put(trackedQueryId, new HashSet<ChildKey>(keys));
   }
 
   @Override
@@ -202,7 +202,7 @@ public class MockPersistenceStorageEngine implements PersistenceStorageEngine {
     Set<ChildKey> trackedKeys = this.trackedQueryKeys.get(trackedQueryId);
     assert trackedKeys != null || removed.isEmpty() : "Can't remove keys that don't exist.";
     if (trackedKeys == null) {
-      trackedKeys = new HashSet<>();
+      trackedKeys = new HashSet<ChildKey>();
       this.trackedQueryKeys.put(trackedQueryId, trackedKeys);
     }
 
@@ -217,12 +217,15 @@ public class MockPersistenceStorageEngine implements PersistenceStorageEngine {
     assert (this.trackedQueries.containsKey(trackedQueryId))
         : "Can't track keys for an untracked query.";
     Set<ChildKey> trackedKeys = this.trackedQueryKeys.get(trackedQueryId);
-    return trackedKeys != null ? new HashSet<>(trackedKeys) : Collections.<ChildKey>emptySet();
+    if (trackedKeys != null) {
+      return new HashSet<ChildKey>(trackedKeys);
+    }
+    return Collections.emptySet();
   }
 
   @Override
   public Set<ChildKey> loadTrackedQueryKeys(Set<Long> trackedQueryIds) {
-    HashSet<ChildKey> keys = new HashSet<>();
+    HashSet<ChildKey> keys = new HashSet<ChildKey>();
     for (Long id : trackedQueryIds) {
       assert (this.trackedQueries.containsKey(id)) : "Can't track keys for an untracked query.";
       keys.addAll(loadTrackedQueryKeys(id));

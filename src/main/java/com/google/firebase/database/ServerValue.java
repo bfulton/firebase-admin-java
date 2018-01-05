@@ -34,7 +34,7 @@ public class ServerValue {
   public static final Map<String, String> TIMESTAMP = createServerValuePlaceholder("timestamp");
 
   private static Map<String, String> createServerValuePlaceholder(String key) {
-    Map<String, String> result = new HashMap<>();
+    Map<String, String> result = new HashMap<String, String>();
     result.put(ServerValues.NAME_SUBKEY_SERVERVALUE, key);
     return Collections.unmodifiableMap(result);
   }

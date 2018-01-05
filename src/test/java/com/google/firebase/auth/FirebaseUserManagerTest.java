@@ -744,7 +744,7 @@ public class FirebaseUserManagerTest {
 
     Map<String, Object> claims = userRecord.getCustomClaims();
     assertEquals(2, claims.size());
-    assertTrue((boolean) claims.get("admin"));
+    assertTrue((Boolean) claims.get("admin"));
     assertEquals("gold", claims.get("package"));
   }
 
