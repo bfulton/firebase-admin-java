@@ -35,6 +35,8 @@ import com.google.firebase.testing.TestUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
@@ -46,6 +48,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Test;
@@ -227,13 +230,24 @@ public class JvmAuthTokenProviderTest {
   }
 
   private void assertToken(String token, String expectedToken, Map<String, Object> expectedAuth) {
-    assertTrue(token.startsWith("gauth|"));
-    String jsonString = token.substring(6);
-    JSONObject json = new JSONObject(jsonString);
-    assertEquals(expectedToken, json.getString("token"));
+    try {
+      assertTrue(token.startsWith("gauth|"));
+      String jsonString = token.substring(6);
+      JSONObject json = new JSONObject(jsonString);
+      assertEquals(expectedToken, json.getString("token"));
 
-    Map<String, Object> auth = json.getJSONObject("auth").toMap();
-    DeepEquals.deepEquals(expectedAuth, auth);
+      Map<String, Object> auth = new HashMap<String, Object>();
+      JSONObject authJsonObj = json.getJSONObject("auth");
+      Iterator authIter = authJsonObj.keys();
+      while (authIter.hasNext()) {
+        String key = (String) authIter.next();
+        Object val = authJsonObj.get(key);
+        auth.put(key, val);
+      }
+      DeepEquals.deepEquals(expectedAuth, auth);
+    } catch (JSONException e) {
+      throw new RuntimeException("trouble checking token", e);
+    }
   }
 
   private static class TestGetTokenListener
