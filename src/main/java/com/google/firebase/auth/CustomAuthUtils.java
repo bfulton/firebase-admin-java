@@ -41,6 +41,7 @@ public class CustomAuthUtils {
     FirebaseOptions options = new FirebaseOptions.Builder()
         .setCredentials(creds)
         .setDatabaseUrl(databaseUrl)
+        .setThreadManager(AndroidThreadManager.instance())
         .build();
 
     FirebaseApp app = FirebaseApp.initializeApp(options);
