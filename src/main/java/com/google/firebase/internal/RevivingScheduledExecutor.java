@@ -19,7 +19,6 @@ package com.google.firebase.internal;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.firebase.auth.AndroidThreadManager;
 
 import java.security.AccessControlException;
 import java.util.concurrent.Callable;
@@ -121,7 +120,7 @@ public class RevivingScheduledExecutor extends ScheduledThreadPoolExecutor {
   public void execute(Runnable runnable) {
     // This gets called when the execute() method from Executor is directly invoked.
     ensureRunning();
-    AndroidThreadManager.instance().execute(runnable);
+    super.execute(runnable);
   }
 
   @Override

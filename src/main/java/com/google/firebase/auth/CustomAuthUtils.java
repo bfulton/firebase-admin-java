@@ -16,19 +16,14 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.core.AuthTokenProvider;
-import com.google.firebase.database.core.Context;
 import com.google.firebase.database.core.CustomAuthTokenProvider;
 import com.google.firebase.database.core.DatabaseConfig;
-import com.google.firebase.database.core.Platform;
-import com.google.firebase.database.core.RunLoop;
-import com.google.firebase.database.utilities.DefaultRunLoop;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 public class CustomAuthUtils {
   private static final String SECURE_TOKEN_ENDPOINT = "https://securetoken.googleapis.com/v1/token";
@@ -76,7 +71,7 @@ public class CustomAuthUtils {
     }
   }
 
-  private static void setCustomAuthTokenProvider(FirebaseApp app, String apiKey,
+  private static void setCustomAuthTokenProvider(final FirebaseApp app, String apiKey,
                                                  String refreshToken) {
     try {
       FirebaseDatabase db = FirebaseDatabase.getInstance(app);
@@ -84,14 +79,11 @@ public class CustomAuthUtils {
       configField.setAccessible(true);
       DatabaseConfig dbcfg = (DatabaseConfig) configField.get(db);
       dbcfg.getPlatformVersion(); // has useful side-effect
-      Field platformField = Context.class.getDeclaredField("platform");
-      platformField.setAccessible(true);
-      Platform platform = (Platform) platformField.get(dbcfg);
-      RunLoop runLoop = platform.newRunLoop(dbcfg);
-      dbcfg.setRunLoop(runLoop);
-      Executor executor = ((DefaultRunLoop) runLoop).getExecutorService();
-      AuthTokenProvider authTokenProvider = new CustomAuthTokenProvider(app, executor, apiKey,
-          refreshToken);
+      AuthTokenProvider authTokenProvider = new CustomAuthTokenProvider(
+          app,
+          AndroidThreadManager.instance(), apiKey,
+          refreshToken
+      );
       dbcfg.setAuthTokenProvider(authTokenProvider);
     } catch (Exception e) {
       throw new IllegalStateException("trouble with reflection on firebase classes", e);

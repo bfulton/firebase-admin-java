@@ -78,7 +78,7 @@ public final class AndroidThreadManager extends ThreadManager implements Executo
   }
 
   @Override
-  protected ThreadFactory getThreadFactory() {
+  public ThreadFactory getThreadFactory() {
     return THREAD_FACTORY;
   }
 
