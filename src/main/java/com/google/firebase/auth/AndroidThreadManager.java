@@ -1,34 +1,30 @@
 package com.google.firebase.auth;
 
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
+import android.os.Process;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.ThreadManager;
+import com.google.firebase.database.core.AndroidPlatform;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.AbstractExecutorService;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class AndroidThreadManager extends ThreadManager implements Executor {
-  private static final int DEFAULT_QUEUE_CAPACITY = 20;
-
   private static final AtomicInteger THREAD_NUM = new AtomicInteger(0);
 
   private static final String THREAD_PREFIX = "com.google.firebase.auth.AndroidThreadManager";
 
   private static final ThreadFactory THREAD_FACTORY = new ThreadFactory() {
     @Override
-    public Thread newThread(Runnable r) {
-      Thread t = new Thread(r);
-      t.setPriority(Thread.MIN_PRIORITY);
+    public Thread newThread(final Runnable r) {
+      Thread t = new Thread(new Runnable() {
+        @Override
+        public void run() {
+          Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+          r.run();
+        }
+      });
       setName(t);
       return t;
     }
@@ -45,17 +41,7 @@ public final class AndroidThreadManager extends ThreadManager implements Executo
     }
   };
 
-  private final HandlerThread handlerThread;
-  private final Handler handler;
-  private final HandlerExecutorService executorService;
-
   private AndroidThreadManager() {
-    handlerThread = new HandlerThread("com.google.firebase.auth.AndroidThreadManager",
-        Thread.MIN_PRIORITY);
-    handlerThread.start();
-    Looper looper = handlerThread.getLooper();
-    handler = new Handler(looper);
-    executorService = new HandlerExecutorService(DEFAULT_QUEUE_CAPACITY);
   }
 
   private static AndroidThreadManager instance = null;
@@ -69,12 +55,11 @@ public final class AndroidThreadManager extends ThreadManager implements Executo
 
   @Override
   protected ExecutorService getExecutor(FirebaseApp app) {
-    return executorService;
+    return AndroidPlatform.ANDROID_EXEC_SVC;
   }
 
   @Override
   protected void releaseExecutor(FirebaseApp app, ExecutorService executor) {
-    handlerThread.quit();
   }
 
   @Override
@@ -84,51 +69,6 @@ public final class AndroidThreadManager extends ThreadManager implements Executo
 
   @Override
   public void execute(Runnable command) {
-    handler.post(command);
-  }
-
-  private class HandlerExecutorService extends AbstractExecutorService {
-    private final BlockingQueue<Runnable> queue;
-    private boolean isShutdown = false;
-
-    HandlerExecutorService(int queueCapacity) {
-      queue = new ArrayBlockingQueue<Runnable>(queueCapacity);
-    }
-
-    @Override
-    public void shutdown() {
-      isShutdown = true;
-    }
-
-    @Override
-    public List<Runnable> shutdownNow() {
-      isShutdown = true;
-      List<Runnable> unexecuted = new ArrayList<Runnable>();
-      queue.drainTo(unexecuted);
-      return unexecuted;
-    }
-
-    @Override
-    public boolean isShutdown() {
-      return isShutdown;
-    }
-
-    @Override
-    public boolean isTerminated() {
-      return isShutdown && queue.isEmpty();
-    }
-
-    @Override
-    public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
-      while (!queue.isEmpty()) {
-        Thread.sleep(100);
-      }
-      return isTerminated();
-    }
-
-    @Override
-    public void execute(Runnable command) {
-      handler.post(command);
-    }
+    AndroidPlatform.ANDROID_EXEC_SVC.execute(command);
   }
 }

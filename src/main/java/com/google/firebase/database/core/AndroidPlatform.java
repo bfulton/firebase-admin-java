@@ -7,7 +7,6 @@ import com.google.firebase.database.utilities.DefaultRunLoop;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
 
 public class AndroidPlatform extends JvmPlatform {
   public AndroidPlatform(FirebaseApp firebaseApp) {
@@ -36,19 +35,8 @@ public class AndroidPlatform extends JvmPlatform {
   public RunLoop newRunLoop(Context context) {
     final LogWrapper logger = context.getLogger(RunLoop.class);
 
-    final ThreadFactory threadFactory = new ThreadFactory() {
-      @Override
-      public Thread newThread(final Runnable r) {
-        return new Thread() {
-          @Override
-          public void run() {
-            AndroidThreadManager.instance().execute(r);
-          }
-        };
-      }
-    };
 
-    final ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor(threadFactory);
+    final ScheduledExecutorService exec = ANDROID_EXEC_SVC;
 
     return new DefaultRunLoop(AndroidThreadManager.instance().getThreadFactory()) {
       @Override
@@ -62,4 +50,10 @@ public class AndroidPlatform extends JvmPlatform {
       }
     };
   }
+
+  public static ScheduledExecutorService ANDROID_EXEC_SVC
+      = Executors.newScheduledThreadPool(
+          3,
+          AndroidThreadManager.instance().getThreadFactory()
+  );
 }
