@@ -50,7 +50,8 @@ public final class AndroidThreadManager extends ThreadManager implements Executo
   private final HandlerExecutorService executorService;
 
   private AndroidThreadManager() {
-    handlerThread = new HandlerThread("com.google.firebase.auth.AndroidThreadManager", Thread.MIN_PRIORITY);
+    handlerThread = new HandlerThread("com.google.firebase.auth.AndroidThreadManager",
+        Thread.MIN_PRIORITY);
     handlerThread.start();
     Looper looper = handlerThread.getLooper();
     handler = new Handler(looper);
