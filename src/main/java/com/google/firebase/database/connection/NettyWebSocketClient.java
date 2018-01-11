@@ -5,8 +5,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
-import com.google.firebase.internal.GaeThreadFactory;
-import com.google.firebase.internal.RevivingScheduledExecutor;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -36,7 +34,6 @@ import io.netty.handler.ssl.SslContextBuilder;
 import java.net.URI;
 import java.security.KeyStore;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 /**
@@ -61,13 +58,12 @@ class NettyWebSocketClient implements WebsocketConnection.WSClient {
   private Channel channel;
 
   NettyWebSocketClient(
-      URI uri, String userAgent, ThreadFactory threadFactory,
+      URI uri, String userAgent, ExecutorService executorService,
       WebsocketConnection.WSClientEventHandler eventHandler) {
     this.uri = checkNotNull(uri, "uri must not be null");
     this.eventHandler = checkNotNull(eventHandler, "event handler must not be null");
     this.channelHandler = new WebSocketClientHandler(uri, userAgent, eventHandler);
-    this.executorService = new RevivingScheduledExecutor(
-        threadFactory, "firebase-websocket-worker", GaeThreadFactory.isAvailable());
+    this.executorService = executorService;
     this.group = new NioEventLoopGroup(1, this.executorService);
   }
 
