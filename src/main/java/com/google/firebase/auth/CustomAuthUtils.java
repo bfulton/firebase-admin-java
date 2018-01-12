@@ -16,12 +16,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.core.AuthTokenProvider;
-import com.google.firebase.database.core.Context;
 import com.google.firebase.database.core.CustomAuthTokenProvider;
 import com.google.firebase.database.core.DatabaseConfig;
-import com.google.firebase.database.core.Platform;
-import com.google.firebase.database.core.RunLoop;
-import com.google.firebase.database.utilities.DefaultRunLoop;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -80,16 +76,13 @@ public class CustomAuthUtils {
                                                  String refreshToken) {
     try {
       FirebaseDatabase db = FirebaseDatabase.getInstance(app);
+
       Field configField = FirebaseDatabase.class.getDeclaredField("config");
       configField.setAccessible(true);
       DatabaseConfig dbcfg = (DatabaseConfig) configField.get(db);
       dbcfg.getPlatformVersion(); // has useful side-effect
-      Field platformField = Context.class.getDeclaredField("platform");
-      platformField.setAccessible(true);
-      Platform platform = (Platform) platformField.get(dbcfg);
-      RunLoop runLoop = platform.newRunLoop(dbcfg);
-      dbcfg.setRunLoop(runLoop);
-      Executor executor = ((DefaultRunLoop) runLoop).getExecutorService();
+
+      Executor executor = AndroidThreadManager.instance().getExecutor(app);
       AuthTokenProvider authTokenProvider = new CustomAuthTokenProvider(app, executor, apiKey,
           refreshToken);
       dbcfg.setAuthTokenProvider(authTokenProvider);

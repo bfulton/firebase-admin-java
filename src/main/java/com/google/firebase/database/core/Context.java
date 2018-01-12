@@ -81,7 +81,7 @@ public class Context {
       if (GaePlatform.isActive()) {
         platform = new GaePlatform(firebaseApp);
       } else {
-        platform = new JvmPlatform(firebaseApp);
+        platform = new AndroidPlatform(firebaseApp);
       }
     }
     return platform;
